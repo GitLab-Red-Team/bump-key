@@ -7,7 +7,7 @@
     "bumpkey": "bin/index.js"
   },
   "scripts": {
-    "build": "./node_modules/.bin/babel ./src --out-dir ./bin",
+    "build": "npm run test && ./node_modules/.bin/babel ./src --out-dir ./bin",
     "test": "jest"
   },
   "repository": {
