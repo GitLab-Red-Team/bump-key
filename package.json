@@ -1,0 +1,24 @@
+{
+  "name": "bump-key",
+  "version": "0.0.1",
+  "description": "An offensive tool for tampering lock files",
+  "main": "./bin/index.js",
+  "bin": {
+    "bumpkey": "./bin/index.js"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "Lock",
+    "file",
+    "tamper",
+    "tampering"
+  ],
+  "author": "gitlab.com/codeEmitter",
+  "license": "GPL-3.0-or-later"
+}
