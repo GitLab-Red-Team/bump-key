@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/babel ./src --out-dir ./bin",
-    "test": "test"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
