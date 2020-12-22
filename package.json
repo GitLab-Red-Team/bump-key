@@ -7,8 +7,9 @@
     "bumpkey": "bin/index.js"
   },
   "scripts": {
-    "build": "npm run test && ./node_modules/.bin/babel ./src --out-dir ./bin",
-    "test": "jest"
+    "build": "npm run clean && npm run test && ./node_modules/.bin/babel ./src --out-dir ./bin",
+    "test": "jest --config jest.config.js",
+    "clean": "rm -rf ./bin"
   },
   "repository": {
     "type": "git",
