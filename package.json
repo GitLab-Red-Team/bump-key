@@ -7,6 +7,7 @@
     "bumpkey": "bin/index.js"
   },
   "scripts": {
+    "build": "./node_modules/.bin/babel ./src --out-dir ./bin",
     "test": "test"
   },
   "repository": {
@@ -22,6 +23,10 @@
   "author": "gitlab.com/codeEmitter",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "jest": "^26.6.3"
   }
 }
