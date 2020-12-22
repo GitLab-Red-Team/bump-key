@@ -1,5 +1,5 @@
 {
-  "name": "bump-key",
+  "name": "bumpkey",
   "version": "0.0.1",
   "description": "An offensive tool for tampering lock files",
   "main": "bin/index.js",
