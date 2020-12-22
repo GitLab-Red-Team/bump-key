@@ -1,0 +1,33 @@
+{
+  "name": "bumpkey",
+  "version": "0.0.1",
+  "description": "An offensive tool for tampering lock files",
+  "main": "bin/index.js",
+  "bin": {
+    "bumpkey": "bin/index.js"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run test && ./node_modules/.bin/babel ./src --out-dir ./bin",
+    "test": "jest --config jest.config.js",
+    "clean": "rm -rf ./bin"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "lock",
+    "file",
+    "tamper",
+    "tampering"
+  ],
+  "author": "gitlab.com/codeEmitter",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "jest": "^26.6.3"
+  }
+}

@@ -1,0 +1,9 @@
+{
+    "presets": [
+        "@babel/preset-env"
+    ],
+    "ignore": [
+        "**/*spec.js", // ignore spec files
+        "test-data/**.*"
+      ]
+}
