@@ -158,8 +158,9 @@ testMatch: [
   //   "/node_modules/"
   // ],
 testPathIgnorePatterns: [
-  "/node_modules/",
-  "/bin/"
+  "node_modules/",
+  "bin/",
+  "testData/"
 ]
 
 
