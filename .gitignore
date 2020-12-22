@@ -1,2 +1,5 @@
 # Node directories and files
 node_modules/
+
+# Build output
+bin/
