@@ -3,6 +3,6 @@ import * as init from './initialization/init';
 
 import yargs from 'yargs';
 
-init.setOptions(yargs);
+let options = init.setOptions(yargs);
 
-console.log('hello from bumpkey!');
+console.log(`hello from bumpkey! path = ${options.path}`);
