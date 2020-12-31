@@ -7,5 +7,6 @@ export const setOptions = (argParser) => {
                 describe: "Path to the lock file",
                 type: "string",
                 demandOption: true
-            });
+            })
+        .argv;
 };
