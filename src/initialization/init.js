@@ -1,9 +1,9 @@
 
 export const setOptions = (argParser) => {
     return argParser()
-        .option("p",
+        .option("l",
             {
-                alias: "path",
+                alias: "lockfile",
                 describe: "Path to the lock file",
                 type: "string",
                 demandOption: true
