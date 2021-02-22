@@ -5,4 +5,4 @@ import yargs from 'yargs';
 
 let options = init.setOptions(yargs);
 
-console.log(`hello from bumpkey! path = ${options.path}`);
+console.log(`hello from bumpkey! path = ${options.root}`);
