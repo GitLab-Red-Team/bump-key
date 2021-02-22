@@ -1,5 +1,3 @@
-const { testEnvironment } = require("../../jest.config");
-
 import { readJSON } from './reader'
 
 describe('reader', () => {
