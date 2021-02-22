@@ -6,7 +6,9 @@ Example:
 
 ```bash
 # clone the repository
-git clone <repo_uri> 
+git clone <repo_uri>
+# build the tooling
+npm run build
 # install the tool globally
 npm i -g . 
 # output help information
