@@ -25,7 +25,7 @@ describe('init', () => {
                 alias: "lockfile",
                 describe: "Path to the lock file",
                 type: "string",
-                demandOption: true
+                demandOption: false,
             }
         );
     });
