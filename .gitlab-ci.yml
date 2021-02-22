@@ -1,0 +1,14 @@
+default:
+  tags:
+    - redteam-runner
+
+stages:
+  - build
+
+build:
+  stage: build
+  image: node:latest
+  before_script:
+    - npm install
+  script:
+    - npm run build
