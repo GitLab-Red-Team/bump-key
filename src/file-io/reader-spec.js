@@ -14,7 +14,7 @@ describe('reader', () => {
             expect(json.name).toEqual('bumpkey');
         });
         describe('throws an error if', () => {
-            const noPath = 'No path was given!'
+            const noPath = 'No path given!';
             test('undefined path is given', () => {
                 expect(async () => await readPackageJSON()).rejects.toEqual(noPath);
             });
