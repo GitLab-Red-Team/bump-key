@@ -1,7 +1,7 @@
 import { readPackageJSON } from './reader'
 
 describe('reader', () => {
-    describe('readJSON', () => {
+    describe('readPackageJSON', () => {
         let json;
         beforeEach(async () => {
             await readPackageJSON(process.cwd() + '/test-data/test.json')
