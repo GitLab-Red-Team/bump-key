@@ -1,15 +1,16 @@
 import { readPackageJSON } from './reader'
+import path from 'path';
 
 describe('reader', () => {
     describe('readPackageJSON', () => {
         let json;
         beforeEach(async () => {
-            await readPackageJSON(process.cwd() + '/test-data/test.json')
+            let root = path.join(process.cwd(), '/test-data/');
+            await readPackageJSON(root)
                 .then((data) => json = data)
                 .catch(err => console.log(err));
         });
         test('returns a proper json structure', () => {
-            expect(json).not.toEqual(undefined);
             expect(json.name).toEqual('bumpkey');
         });
         describe('throws an error if', () => {
@@ -18,7 +19,7 @@ describe('reader', () => {
                 expect(async () => await readPackageJSON()).rejects.toEqual(noPath);
             });
             test('empty string path is given', () => {
-                expect(async () => await readPackageJSON("")).rejects.toEqual(noPath);
+                expect(async () => await readPackageJSON('')).rejects.toEqual(noPath);
             });
         });
     });

@@ -1,10 +1,15 @@
 import readJson from 'read-package-json';
+import { FILES } from '../constants';
 
-export const readPackageJSON = (path) => {
+import * as path from 'path';
+
+
+export const readPackageJSON = (rootDir) => {
     return new Promise((resolve, reject) => {
-        if (path === undefined || path === '')
+        if (rootDir === undefined || rootDir === '')
             reject('No path was given!');
-        readJson(path, null, true, (err, data) => {
+        let packageJson = path.join(rootDir, FILES.PACKAGE);
+        readJson(packageJson, null, true, (err, data) => {
             if (err) return reject(err);
             resolve(data);
         });
