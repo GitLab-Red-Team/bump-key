@@ -21,12 +21,18 @@ describe('init', () => {
     });
     it('should construct the correct path option', () => {
         expect(optionSpy).toBeCalledWith({
-            "root": {
-                "alias": "r",
-                "description": "The root directory of the targeted project",
-                "required": true,
-                "requiresArg": true
-            }
+            help: {
+                alias: 'h'
+            },
+            version: {
+                alias: 'v'
+            },
+            root: {
+                alias: 'r',
+                description: 'The root directory of the targeted project',
+                requiresArg: true,
+                required: true
+            },
         });
     });
     it('should not have undefined options', () => {
