@@ -160,7 +160,7 @@ testMatch: [
 testPathIgnorePatterns: [
   "node_modules/",
   "bin/",
-  "testData/"
+  "test-data/"
 ]
 
 
