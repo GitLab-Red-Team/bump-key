@@ -12,5 +12,13 @@ describe('pathing', () => {
         test('builds a package.json path', () => {
             expect(packageJsonPath).toEqual(path.resolve(root, FILES.PACKAGE));
         });
+        test('errors when an invalid path is given', () => {
+            expect(() => pathing.buildPath(root, undefined))
+                .toThrow('The \"path\" argument must be of type string. Received undefined');
+        });
+        test('errors when no root path is given', () => {
+            expect(() => pathing.buildPath(undefined, FILES.PACKAGE))
+                .toThrow('The \"path\" argument must be of type string. Received undefined');
+        });
     });
 });
