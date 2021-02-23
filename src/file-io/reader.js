@@ -1,7 +1,12 @@
-import * as fs from 'fs';
+import readJson from 'read-package-json';
 
 export const readJSON = (path) => {
-    if (path === undefined || path === "") throw "No path was given!";
-    let raw = fs.readFileSync(path);
-    return JSON.parse(raw);
+    return new Promise((resolve, reject) => {
+        if (path === undefined || path === "")
+            reject("No path was given!");
+        readJson(path, null, true, (err, data) => {
+            if (err) return reject(err);
+            resolve(data);
+        });
+    });
 }

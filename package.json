@@ -27,10 +27,12 @@
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
     "@babel/node": "^7.12.10",
+    "@babel/plugin-transform-runtime": "^7.13.4",
     "@babel/preset-env": "^7.12.11",
     "jest": "^26.6.3"
   },
   "dependencies": {
+    "read-package-json": "^3.0.1",
     "yargs": "^16.2.0"
   }
 }
