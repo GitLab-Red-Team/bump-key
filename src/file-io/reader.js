@@ -1,6 +1,6 @@
 import readJson from 'read-package-json';
 
-export const readJSON = (path) => {
+export const readPackageJSON = (path) => {
     return new Promise((resolve, reject) => {
         if (path === undefined || path === "")
             reject("No path was given!");

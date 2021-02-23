@@ -1,10 +1,10 @@
-import { readJSON } from './reader'
+import { readPackageJSON } from './reader'
 
 describe('reader', () => {
     describe('readJSON', () => {
         let json;
         beforeEach(async () => {
-            await readJSON(process.cwd() + '/test-data/test.json')
+            await readPackageJSON(process.cwd() + '/test-data/test.json')
                 .then((data) => json = data)
                 .catch(err => console.log(err));
         });
@@ -15,10 +15,10 @@ describe('reader', () => {
         describe('throws an error if', () => {
             const noPath = 'No path was given!'
             test('undefined path is given', () => {
-                expect(async () => await readJSON()).rejects.toEqual(noPath);
+                expect(async () => await readPackageJSON()).rejects.toEqual(noPath);
             });
             test('empty string path is given', () => {
-                expect(async () => await readJSON("")).rejects.toEqual(noPath);
+                expect(async () => await readPackageJSON("")).rejects.toEqual(noPath);
             });
         });
     });
