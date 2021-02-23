@@ -1,16 +1,12 @@
 #!/usr/bin/env node
 import * as init from './initialization/init';
-import reader from './file-io/';
-import pathing from './file-io';
-import { FILES } from './constants/index';
+import * as reader from './file-io/reader';
 
 import yargs from 'yargs';
 
 let options = init.setOptions(yargs);
 
-let path = pathing.buildPath(options.root, FILES.PACKAGE)
-
-reader.readPackageJSON(path)
+reader.readPackageJSON(options.root)
     .then((data) => {
         console.log(data);
     }).catch((err) => {
