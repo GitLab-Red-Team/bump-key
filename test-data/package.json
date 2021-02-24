@@ -1,5 +1,5 @@
 {
-    "name": "bumpkey",
+    "name": "bumpkey-test-data",
     "version": "0.0.1",
-    "description": "An offensive tool for tampering lock files"
+    "description": "Test data for bumpkey development"
 }
