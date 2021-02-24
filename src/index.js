@@ -5,11 +5,15 @@ import * as out from './out';
 
 import yargs from 'yargs';
 
+process.on('unhandledRejection', (reason) => {
+    out.error(`Unhandled promise rejection: ${reason}`);
+});
+
 let options = init.setOptions(yargs);
 
 reader.readPackageJSON(options.root)
     .then((packageJson) => {
-        out.info(packageJson.name);
+        out.info(`Target: ${packageJson.name} v${packageJson.version}`);
     }).catch((err) => {
         throw err;
     });
