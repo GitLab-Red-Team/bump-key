@@ -24,7 +24,7 @@ describe('reader', () => {
             });
             test('an invalid path is given', () => {
                 expect(async () => await readPackageJSON(path.join(process.cwd(), 'invalid-dir')))
-                    .rejects.toEqual('No package.json found!')
+                    .rejects.toContain('No package.json found at');
             });
         });
     });
