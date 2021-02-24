@@ -5,9 +5,9 @@ export const info = (txt) => {
 };
 
 export const warn = (txt) => {
-    console.log(chalk`[-] {orange ${txt}%`);
+    console.log(chalk`[-] {orange ${txt}}`);
 };
 
 export const error = (txt) => {
-    console.log(chalk`[!] {red ${txt}%`);
+    console.log(chalk`[!] {red ${txt}}`);
 };
