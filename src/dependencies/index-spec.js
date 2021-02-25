@@ -1,20 +1,30 @@
 import * as dependencies from './index';
+import * as constants from '../constants';
 
-describe('dependencies', () => {
-    let outdated;
+describe('dependencies recon', () => {
+    let deps;
     let options = {
         cwd: process.cwd() + '/test-data/'
-    }
+    };
     beforeEach(async () => {
-        outdated = await dependencies.recon(options)
-            .then((result) => outdated = result)
+        deps = await dependencies.recon(options)
+            .then((result) => result)
             .catch((e) => {throw e});
     });
     test('returns the proper production dependencies', () => {
         expect.assertions(2);
-        outdated.forEach((x) => {
-            console.log(x);
-            expect(x).not.toEqual(undefined);
+        deps.forEach((dep) => {
+            expect(dep).not.toEqual(undefined);
         });
+    });
+    test('returns valid cowsay dependency object', () => {
+        expect(Object.entries(deps[0]).length).toBe(7);
+        expect(deps[0].moduleName).toBe('cowsay');
+        expect(deps[0].homepage).toBe('https://github.com/piuccio/cowsay');
+        expect(deps[0].latest).not.toBe(undefined);
+        expect(deps[0].installed).toBe('1.4.0');
+        expect(deps[0].packageWanted).toBe('1.4.0');
+        expect(constants.BUMP).toContain(deps[0].bump);
+        expect(deps[0].usedInScripts).toBe(undefined);
     });
 });
