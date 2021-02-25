@@ -8,8 +8,9 @@
   },
   "scripts": {
     "build": "npm run clean && npm run test && ./node_modules/.bin/babel ./src --out-dir ./bin",
-    "test": "[ ! -d './test-data/node_modules/' ] && npm i ./test-data/ && jest --config jest.config.js",
     "clean": "rm -rf ./bin ./test-data/node_modules",
+    "configure-tests": "npm i --prefix ./test-data/ ./test-data/",
+    "test": "npm run configure-tests && jest --config jest.config.js",
     "install-global": "npm run clean && npm run build && npm i -g ."
   },
   "repository": {
