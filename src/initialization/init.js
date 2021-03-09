@@ -1,12 +1,19 @@
 
 export const setOptions = (argParser) => {
-    return argParser()
-        .option("l",
-            {
-                alias: "lockfile",
-                describe: "Path to the lock file",
-                type: "string",
-                demandOption: false
-            })
+    return argParser(process.argv.slice(2))
+        .options({
+            help: {
+                alias: 'h'
+            },
+            version: {
+                alias: 'v'
+            },
+            root: {
+                alias: 'r',
+                description: 'The root directory of the targeted project',
+                requiresArg: true,
+                required: true
+            },
+        })
         .argv;
 };

@@ -3,7 +3,10 @@
         "@babel/preset-env"
     ],
     "ignore": [
-        "**/*spec.js", // ignore spec files
+        "**/*spec.js",
         "test-data/**.*"
-      ]
+      ],
+    "plugins": [
+        "@babel/plugin-transform-runtime"
+    ]
 }
