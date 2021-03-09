@@ -1,6 +1,6 @@
 import npmCheck from 'npm-check';
 
-export const recon = async (options) => {
+const recon = async (options) => {
     return npmCheck(options).then(deps => {
         return deps.get('packages')
             .map((pkg) => {
@@ -16,3 +16,7 @@ export const recon = async (options) => {
         });
     });
 };
+
+export default {
+    recon,
+}

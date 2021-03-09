@@ -1,5 +1,6 @@
-import * as dependencies from './index';
-import * as constants from '../constants';
+import dependencies from './index.js';
+
+import { expect } from 'chai';
 
 describe('dependencies recon', () => {
     let deps;
@@ -11,14 +12,14 @@ describe('dependencies recon', () => {
             .then((result) => result)
             .catch((e) => {throw e});
     });
-    test('returns the proper production dependencies', () => {
+    it('returns the proper production dependencies', () => {
         deps.forEach((dep) => {
-            expect(dep).not.toEqual(undefined);
+            expect(dep).not.to.eql(undefined);
         });
     });
-    test('returns valid dependency object', () => {
-        expect(Object.entries(deps[0]).length).toBe(7);
-        expect(deps[0].moduleName).toBe('chalk');
-        expect(deps[0].homepage).toBe('https://github.com/chalk/chalk#readme');
+    it('returns valid dependency object', () => {
+        expect(Object.entries(deps[0]).length).to.eql(7);
+        expect(deps[0].moduleName).to.eql('chalk');
+        expect(deps[0].homepage).to.eql('https://github.com/chalk/chalk#readme');
     });
 });

@@ -1,5 +1,5 @@
 
-export const setOptions = (argParser) => {
+const setOptions = (argParser) => {
     return argParser(process.argv.slice(2))
         .options({
             help: {
@@ -16,4 +16,8 @@ export const setOptions = (argParser) => {
             },
         })
         .argv;
+};
+
+export default {
+    setOptions,
 };
