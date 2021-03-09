@@ -33,7 +33,7 @@ describe('dependencies recon', () => {
         expect(deps[1].homepage).toBe('https://mochajs.org/');
         expect(deps[1].latest).not.toBe(undefined);
         expect(deps[1].installed).toBe('8.1.2');
-        expect(deps[1].packageWanted).toBe('8.3.0');
+        expect(deps[1].packageWanted).toBe('8.3.1');
         expect(constants.BUMP).toContain(deps[1].bump);
         expect(deps[1].usedInScripts).toBe('test');
     });

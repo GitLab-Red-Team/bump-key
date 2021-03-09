@@ -3,15 +3,15 @@ import npmCheck from 'npm-check';
 export const recon = async (options) => {
     return npmCheck(options).then(deps => {
         return deps.get('packages')
-            .map(dep => {
+            .map((pkg) => {
                 return {
-                    'moduleName': dep.moduleName,
-                    'homepage': dep.homepage,
-                    'latest': dep.latest,
-                    'installed': dep.installed,
-                    'packageWanted': dep.packageWanted,
-                    'bump': dep.bump,
-                    'usedInScripts': dep.usedInScripts
+                    'moduleName': pkg.moduleName,
+                    'homepage': pkg.homepage,
+                    'latest': pkg.latest,
+                    'installed': pkg.installed,
+                    'packageWanted': pkg.packageWanted,
+                    'bump': pkg.bump,
+                    'usedInScripts': pkg.usedInScripts
                 };
         });
     });
