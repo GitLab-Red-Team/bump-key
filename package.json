@@ -10,7 +10,7 @@
   "scripts": {
     "build": "npm install && npm run test",
     "clean": "rm -rf ./node_modules",
-    "test": "./node_modules/.bin/mocha **/*spec.js",
+    "test": "./node_modules/.bin/mocha --recursive **/*spec.js",
     "install-global": "npm run clean && npm run build && npm i -g ."
   },
   "repository": {
