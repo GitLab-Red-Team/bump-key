@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import init from './initialization/init.js';
+import init from './initialization/index.js';
 import out from './out/index.js';
 import dependencies from './dependencies/index.js';
 
@@ -17,5 +17,5 @@ let depOptions = {
 
 dependencies.recon(depOptions)
     .then((deps) => {
-        console.log(deps);
+        out.info(deps[0].moduleName);
     });

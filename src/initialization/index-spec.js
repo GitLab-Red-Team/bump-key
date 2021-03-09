@@ -1,4 +1,4 @@
-import init from './init.js';
+import init from './index.js';
 
 import { expect } from 'chai';
 import sinon from 'sinon';
