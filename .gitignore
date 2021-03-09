@@ -1,7 +1,5 @@
 # Node directories and files
 node_modules/
-test-data/package-lock.json
-test-data/node-modules/
 
 # Build output
 bin/

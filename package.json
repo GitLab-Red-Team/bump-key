@@ -8,9 +8,8 @@
   },
   "scripts": {
     "build": "npm run clean && npm run test && ./node_modules/.bin/babel ./src --out-dir ./bin",
-    "clean": "rm -rf ./bin ./test-data/node_modules",
-    "configure-tests": "npm i --prefix ./test-data/ ./test-data/",
-    "test": "npm run configure-tests && jest --config jest.config.js",
+    "clean": "rm -rf ./bin",
+    "test": "jest --config jest.config.js",
     "install-global": "npm run clean && npm run build && npm i -g ."
   },
   "repository": {
@@ -31,7 +30,6 @@
     "@babel/node": "^7.12.10",
     "@babel/plugin-transform-runtime": "^7.13.4",
     "@babel/preset-env": "^7.12.11",
-    "bumpkey-test-data": "file:test-data",
     "jest": "^26.6.3"
   },
   "dependencies": {
