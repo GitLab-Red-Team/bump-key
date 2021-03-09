@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import * as init from './initialization/init';
-import * as out from './out';
-import * as dependencies from './dependencies';
+import init from './initialization/init.js';
+import out from './out/index.js';
+import dependencies from './dependencies/index.js';
 
 import yargs from 'yargs';
 
