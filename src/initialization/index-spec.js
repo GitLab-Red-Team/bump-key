@@ -20,7 +20,7 @@ describe('initialization', () => {
         options = undefined;
     });
     it('should call the argParser function once', () => {
-        sinon.assert.calledOnce(argParserSpy);
+        expect(argParserSpy.calledOnce).to.eql(true);
     });
     it('should construct the correct path option', () => {
         sinon.assert.calledWith(optionSpy, {
