@@ -1,7 +1,7 @@
 import npmCheck from 'npm-check';
 
-const recon = async (options) => {
-    return npmCheck(options).then(deps => {
+const recon = async (options, checker = npmCheck) => {
+    return checker(options).then(deps => {
         return deps.get('packages')
             .map((pkg) => {
                 return {
