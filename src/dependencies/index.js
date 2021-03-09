@@ -11,9 +11,11 @@ const recon = async (options, checker = npmCheck) => {
                     'installed': pkg.installed,
                     'packageWanted': pkg.packageWanted,
                     'bump': pkg.bump,
-                    'usedInScripts': pkg.usedInScripts
+                    'usedInScripts': pkg.usedInScripts,
+                    'easyUpgrade': pkg.easyUpgrade,
                 };
-        });
+            })
+            .filter((pkg) => pkg.easyUpgrade === false);
     });
 };
 
