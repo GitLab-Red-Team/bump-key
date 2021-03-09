@@ -6,5 +6,6 @@ build:
   image: node:latest
   before_script:
     - npm ci
+    - npm run configure-tests
   script:
     - npm run build
