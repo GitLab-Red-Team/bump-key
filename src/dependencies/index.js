@@ -15,8 +15,13 @@ const recon = async (options, checker = npmCheck) => {
                     'easyUpgrade': pkg.easyUpgrade,
                 };
             })
-            .filter((pkg) => pkg.easyUpgrade === false);
+            .filter(filterDependencies);
     });
+};
+
+const filterDependencies = (dep) => {
+    return !(dep.easyUpgrade === true ||
+        dep.bump === null);
 };
 
 export default {

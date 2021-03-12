@@ -66,6 +66,42 @@ describe('dependencies recon', () => {
                 easyUpgrade: true,
                 bump: 'patch',
                 unused: false,
+            },
+            {
+                moduleName: 'patch-upgrade',
+                homepage: 'https://patch.com',
+                regError: undefined,
+                pkgError: undefined,
+                latest: '5.1.9',
+                installed: '5.1.0',
+                isInstalled: true,
+                notInstalled: false,
+                packageJson: '^5.1.0',
+                devDependency: false,
+                usedInScripts: true,
+                mismatch: false,
+                semverValid: '5.1.0',
+                easyUpgrade: false,
+                bump: 'patch',
+                unused: false,
+            },
+            {
+                moduleName: 'null-upgrade',
+                homepage: 'https://patch.com',
+                regError: undefined,
+                pkgError: undefined,
+                latest: '6.1.9',
+                installed: '6.1.9',
+                isInstalled: true,
+                notInstalled: false,
+                packageJson: '^6.1.9',
+                devDependency: false,
+                usedInScripts: true,
+                mismatch: false,
+                semverValid: '6.1.9',
+                easyUpgrade: false,
+                bump: null,
+                unused: false,
             }];
         const currentStateSpy = {
             get: sinon.stub().returns(fakePackages),
@@ -93,19 +129,18 @@ describe('dependencies recon', () => {
         expect(deps[0].usedInScripts).to.eql(fakePackages[0].usedInScripts);
     });
     it('filters out easy upgrade options', () => {
-        expect(deps.some((dep) => dep.moduleName === 'easy-upgrade')).eql(false);
+        expect(deps.some((dep) => dep.easyUpgrade === true)).eql(false);
     });
     it('includes packages with a minor version bump', () => {
-
+        expect(deps.some((dep) => dep.bump === 'minor')).eql(true);
     });
     it('includes packages with a major version bump', () => {
-
+        expect(deps.some((dep) => dep.bump === 'major')).eql(true);
     });
     it('includes packages with a patch version bump', () => {
-
+        expect(deps.some((dep) => dep.bump === 'patch')).eql(true);
     });
     it('filters out packages with a null version bump', () => {
-
+        expect(deps.some((dep) => dep.bump === null)).eql(false);
     });
-
 });
