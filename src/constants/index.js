@@ -1,3 +1,5 @@
+import path from 'path';
+
 export const FILES = {
     PACKAGE: "package.json",
     YARNLOCK: "yarn.lock",
@@ -10,6 +12,10 @@ export const BUMP = {
     'patch': 'patch',
     'null': 'null',
     'nonSemver': 'nonSemver'
+}
+
+export const PATHS = {
+    'bin': path.join(process.cwd(), 'node_modules/.bin')
 }
 
 export const BANNER = `
