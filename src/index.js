@@ -17,13 +17,15 @@ let depOptions = {
     cwd: cmdOptions.root
 };
 
-console.log(chalk.keyword('purple').bold(BANNER));
-console.log(chalk.keyword('purple')('v1.0.0 - GitLab Red Team'));
+console.log(chalk.keyword('orange').bold(BANNER));
+console.log(chalk.keyword('purple').bgKeyword('orange')('v1.0.0 - GitLab Red Team'));
+console.log();
+
+out.info(`Listing upgradable dependencies for ${cmdOptions.root}...`)
 
 dependencies.recon(depOptions)
     .then((deps) => {
-        out.info('Listing upgradable dependencies...')
         deps.forEach((dep) => {
-            out.info(`${dep.moduleName} - bump = ${dep.bump}`);
+            out.info(`${dep.moduleName} * bump = ${dep.bump} * `);
         });
     });
