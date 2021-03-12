@@ -4,6 +4,7 @@
   "description": "An offensive tool for tampering lock files",
   "main": "src/index.js",
   "type": "module",
+  "engine": ">=15.0.0",
   "bin": {
     "bumpkey": "src/index.js"
   },
