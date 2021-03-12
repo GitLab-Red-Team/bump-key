@@ -1,4 +1,5 @@
 import dependencies from './index.js';
+import { BUMP } from '../constants/index.js';
 
 import sinon from 'sinon'
 import {expect} from 'chai';
@@ -132,15 +133,15 @@ describe('dependencies recon', () => {
         expect(deps.some((dep) => dep.easyUpgrade === true)).eql(false);
     });
     it('includes packages with a minor version bump', () => {
-        expect(deps.some((dep) => dep.bump === 'minor')).eql(true);
+        expect(deps.some((dep) => dep.bump === BUMP.minor)).eql(true);
     });
     it('includes packages with a major version bump', () => {
-        expect(deps.some((dep) => dep.bump === 'major')).eql(true);
+        expect(deps.some((dep) => dep.bump === BUMP.major)).eql(true);
     });
     it('includes packages with a patch version bump', () => {
-        expect(deps.some((dep) => dep.bump === 'patch')).eql(true);
+        expect(deps.some((dep) => dep.bump === BUMP.patch)).eql(true);
     });
     it('filters out packages with a null version bump', () => {
-        expect(deps.some((dep) => dep.bump === null)).eql(false);
+        expect(deps.some((dep) => dep.bump === BUMP.null)).eql(false);
     });
 });

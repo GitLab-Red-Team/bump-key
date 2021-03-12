@@ -4,9 +4,9 @@ export const FILES = {
     PACKAGELOCK: "package-lock.json"
 }
 
-export const BUMP = [
-    'major',
-    'minor',
-    'patch',
-    null
-]
+export const BUMP = {
+    'major': 'major',
+    'minor': 'minor',
+    'patch': 'patch',
+    'null': 'null'
+}
