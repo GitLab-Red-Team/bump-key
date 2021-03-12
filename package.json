@@ -34,7 +34,6 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "npm-check": "^5.9.2",
-    "read-package-json": "^3.0.1",
     "yargs": "^16.2.0"
   }
 }
