@@ -8,7 +8,8 @@ export const BUMP = {
     'major': 'major',
     'minor': 'minor',
     'patch': 'patch',
-    'null': 'null'
+    'null': 'null',
+    'nonSemver': 'nonSemver'
 }
 
 export const BANNER = `

@@ -1,3 +1,5 @@
+import { BUMP } from '../constants/index.js';
+
 import npmCheck from 'npm-check';
 
 const recon = async (options, checker = npmCheck) => {
@@ -21,7 +23,8 @@ const recon = async (options, checker = npmCheck) => {
 
 const filterDependencies = (dep) => {
     return !(dep.easyUpgrade === true ||
-        dep.bump === null);
+        dep.bump === BUMP.null ||
+        dep.bump === BUMP.nonSemver);
 };
 
 export default {

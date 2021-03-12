@@ -103,6 +103,24 @@ describe('dependencies recon', () => {
                 easyUpgrade: false,
                 bump: null,
                 unused: false,
+            },
+            {
+                moduleName: 'invalid-semver',
+                homepage: 'https://semver-none.com',
+                regError: undefined,
+                pkgError: undefined,
+                latest: '0.0.62',
+                installed: '0.0.62',
+                isInstalled: true,
+                notInstalled: false,
+                packageJson: '^0.0.62',
+                devDependency: false,
+                usedInScripts: true,
+                mismatch: false,
+                semverValid: '6.1.9',
+                easyUpgrade: false,
+                bump: 'nonSemver',
+                unused: false,
             }];
         const currentStateSpy = {
             get: sinon.stub().returns(fakePackages),
@@ -143,5 +161,8 @@ describe('dependencies recon', () => {
     });
     it('filters out packages with a null version bump', () => {
         expect(deps.some((dep) => dep.bump === BUMP.null)).eql(false);
+    });
+    it('filters out non-semantically versioned packages', () => {
+        expect(deps.some((dep) => dep.bump === BUMP.nonSemver)).eql(false);
     });
 });
