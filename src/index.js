@@ -17,5 +17,8 @@ let depOptions = {
 
 dependencies.recon(depOptions)
     .then((deps) => {
-        out.info(deps[0].moduleName);
+        out.info('Listing upgradable dependencies...')
+        deps.forEach((dep) => {
+            out.info(`${dep.moduleName} - bump = ${dep.bump}`);
+        });
     });
