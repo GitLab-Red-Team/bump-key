@@ -23,20 +23,18 @@ const printBanner = () => {
     console.log();
 };
 
-printBanner();
-out.info(`Listing upgradable dependencies for ${cmdOptions.root}`)
-await dependencies.recon(depOptions)
-    .then((deps) => {
-        deps.forEach((dep) => {
-            let installed = `${dep.moduleName}@${dep.installed}`;
-            commands.npmView(installed).then((view) => {
-                out.info(
-                    `${installed} 
+const processDependency = async (dep) => {
+    let installed = `${dep.moduleName}@${dep.installed}`;
+    let view = await commands.npmView(installed);
+    out.info(`${installed} 
     * bump to latest: ${dep.bump}
     * top-level dev dependencies: ${view.devDependencies ? Object.entries(view.devDependencies).length : 0}
     * top-level prod dependencies:  ${view.dependencies ? Object.entries(view.dependencies).length : 0}`
-                );
-            });
-        });
-    });
+    );
+};
+
+printBanner();
+out.info(`Listing upgradable dependencies for ${cmdOptions.root}`);
+let deps = await dependencies.recon(depOptions);
+deps.forEach(processDependency);
 
