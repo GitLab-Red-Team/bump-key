@@ -4,8 +4,6 @@ import { BUMP } from '../constants/index.js';
 import sinon from 'sinon'
 import {expect} from 'chai';
 
-import npmCheck from 'npm-check';
-
 describe('dependencies recon', () => {
     let deps, checkerStub, fakePackages;
     let options = {
