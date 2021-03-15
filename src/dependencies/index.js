@@ -23,7 +23,7 @@ const recon = async (options, checker = npmCheck) => {
             .filter(filterDependencies);
     });
     return {
-        dependencies: deps,
+        upgradable: deps,
         filtered: filtered,
     };
 };

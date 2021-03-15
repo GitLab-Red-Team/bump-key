@@ -28,6 +28,7 @@ const processDependency = async (dep) => {
     let view = await commands.npmView(installed);
     out.info(`${installed} 
     * bump to latest: ${dep.bump}
+    * dev dependency: ${dep.devDependency}
     * top-level dev dependencies: ${view.devDependencies ? Object.entries(view.devDependencies).length : 0}
     * top-level prod dependencies:  ${view.dependencies ? Object.entries(view.dependencies).length : 0}`
     );
@@ -35,6 +36,8 @@ const processDependency = async (dep) => {
 
 printBanner();
 out.info(`Listing upgradable dependencies for ${cmdOptions.root}`);
-let deps = await dependencies.recon(depOptions);
-deps.forEach(processDependency);
-
+let allDeps = await dependencies.recon(depOptions);
+if (allDeps.filtered.length > 0) {
+    out.warn(`Filtered ${allDeps.filtered.length} ignorable dependencies...`)
+}
+allDeps.upgradable.forEach(processDependency);
