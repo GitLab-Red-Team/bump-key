@@ -16,12 +16,14 @@ let cmdOptions = init.setOptions(yargs);
 let depOptions = {
     cwd: cmdOptions.root
 };
+const printBanner = () => {
+    console.log(chalk.keyword('orange').bold(BANNER));
+    console.log(chalk.keyword('purple').bgKeyword('orange')('~~~ bump-key v0.0.1 - GitLab Red Team ~~~'));
+    console.log();
+};
 
-console.log(chalk.keyword('orange').bold(BANNER));
-console.log(chalk.keyword('purple').bgKeyword('orange')('v1.0.0 - GitLab Red Team'));
-console.log();
-
-out.info(`Listing upgradable dependencies for ${cmdOptions.root}...`)
+printBanner();
+out.info(`Listing upgradable dependencies for ${cmdOptions.root}`)
 
 dependencies.recon(depOptions)
     .then((deps) => {
