@@ -1,3 +1,4 @@
+import out from '../out/index.js';
 import { BUMP } from '../constants/index.js';
 
 import npmCheck from 'npm-check';
@@ -22,9 +23,13 @@ const recon = async (options, checker = npmCheck) => {
 };
 
 const filterDependencies = (dep) => {
-    return !(dep.easyUpgrade === true ||
+    let filtered = !(dep.easyUpgrade === true ||
         dep.bump === BUMP.null ||
         dep.bump === BUMP.nonSemver);
+    if (filtered) {
+        out.warn(`Filtered non-viable dependency ${dep.moduleName}...`)
+    }
+    return filtered
 };
 
 export default {
