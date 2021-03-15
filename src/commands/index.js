@@ -3,9 +3,8 @@ import child_process from 'child_process';
 import { PATHS } from '../constants/index.js';
 
 const execShellCommand = (cmd) => {
-    const exec = child_process.exec;
     return new Promise((resolve, reject) => {
-        exec(`${PATHS.bin}/${cmd}`, (error, stdout, stderr) => {
+        child_process.exec(`${PATHS.bin}/${cmd}`, (error, stdout, stderr) => {
             if (error) {
                 reject(error);
             }
@@ -15,9 +14,9 @@ const execShellCommand = (cmd) => {
 }
 
 const commands = {
-    'npmView': (pkg) => {
-        return execShellCommand(`npm view --json ${pkg}`);
-    }
+    'npmView': async (pkg) => {
+        return await execShellCommand(`npm view --json ${pkg}`);
+    },
 };
 
 export default commands;

@@ -10,7 +10,10 @@ describe('commands - npm view', () => {
     afterEach(() => {
         commandResults = null;
     });
-    it('executes an arbitrary command async', () => {
+    it('executes an npm view command returning dev dependencies', () => {
         expect(commandResults.devDependencies.length).not.to.eql(0);
+    });
+    it('executes an npm view command returning prod dependencies', () => {
+        expect(commandResults.dependencies.length).not.to.eql(0);
     });
 });
