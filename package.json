@@ -1,12 +1,12 @@
 {
-  "name": "bumpkey",
+  "name": "bump-key",
   "version": "0.0.1",
   "description": "An offensive tool for tampering lock files",
   "main": "src/index.js",
   "type": "module",
   "engine": ">=15.0.0",
   "bin": {
-    "bumpkey": "src/index.js"
+    "bump-key": "src/index.js"
   },
   "scripts": {
     "build": "npm install && npm run test",
