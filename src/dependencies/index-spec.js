@@ -136,31 +136,31 @@ describe('dependencies recon', () => {
         fakePackages = null;
     });
     it('returns valid dependency object', () => {
-        expect(Object.entries(deps[0]).length).to.eql(8);
-        expect(deps[0].moduleName).to.eql(fakePackages[0].moduleName);
-        expect(deps[0].homepage).to.eql(fakePackages[0].homepage);
-        expect(deps[0].latest).to.eql(fakePackages[0].latest);
-        expect(deps[0].installed).to.eql(fakePackages[0].installed);
-        expect(deps[0].packageWanted).to.eql(fakePackages[0].packageWanted);
-        expect(deps[0].bump).to.eql(fakePackages[0].bump);
-        expect(deps[0].usedInScripts).to.eql(fakePackages[0].usedInScripts);
+        expect(Object.entries(deps.dependencies[0]).length).to.eql(8);
+        expect(deps.dependencies[0].moduleName).to.eql(fakePackages[0].moduleName);
+        expect(deps.dependencies[0].homepage).to.eql(fakePackages[0].homepage);
+        expect(deps.dependencies[0].latest).to.eql(fakePackages[0].latest);
+        expect(deps.dependencies[0].installed).to.eql(fakePackages[0].installed);
+        expect(deps.dependencies[0].packageWanted).to.eql(fakePackages[0].packageWanted);
+        expect(deps.dependencies[0].bump).to.eql(fakePackages[0].bump);
+        expect(deps.dependencies[0].usedInScripts).to.eql(fakePackages[0].usedInScripts);
     });
     it('filters out easy upgrade options', () => {
-        expect(deps.some((dep) => dep.easyUpgrade === true)).eql(false);
+        expect(deps.dependencies.some((dep) => dep.easyUpgrade === true)).eql(false);
     });
     it('includes packages with a minor version bump', () => {
-        expect(deps.some((dep) => dep.bump === BUMP.minor)).eql(true);
+        expect(deps.dependencies.some((dep) => dep.bump === BUMP.minor)).eql(true);
     });
     it('includes packages with a major version bump', () => {
-        expect(deps.some((dep) => dep.bump === BUMP.major)).eql(true);
+        expect(deps.dependencies.some((dep) => dep.bump === BUMP.major)).eql(true);
     });
     it('includes packages with a patch version bump', () => {
-        expect(deps.some((dep) => dep.bump === BUMP.patch)).eql(true);
+        expect(deps.dependencies.some((dep) => dep.bump === BUMP.patch)).eql(true);
     });
     it('filters out packages with a null version bump', () => {
-        expect(deps.some((dep) => dep.bump === BUMP.null)).eql(false);
+        expect(deps.dependencies.some((dep) => dep.bump === BUMP.null)).eql(false);
     });
     it('filters out non-semantically versioned packages', () => {
-        expect(deps.some((dep) => dep.bump === BUMP.nonSemver)).eql(false);
+        expect(deps.dependencies.some((dep) => dep.bump === BUMP.nonSemver)).eql(false);
     });
 });

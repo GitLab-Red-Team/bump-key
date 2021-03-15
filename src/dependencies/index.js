@@ -3,8 +3,10 @@ import { BUMP } from '../constants/index.js';
 
 import npmCheck from 'npm-check';
 
+let filtered = [];
+
 const recon = async (options, checker = npmCheck) => {
-    return checker(options).then(deps => {
+    let deps = await checker(options).then(deps => {
         return deps.get('packages')
             .map((pkg) => {
                 return {
@@ -20,16 +22,20 @@ const recon = async (options, checker = npmCheck) => {
             })
             .filter(filterDependencies);
     });
+    return {
+        dependencies: deps,
+        filtered: filtered,
+    };
 };
 
 const filterDependencies = (dep) => {
-    let filtered = !(dep.easyUpgrade === true ||
+    let isFiltered = !(dep.easyUpgrade === true ||
         dep.bump === BUMP.null ||
         dep.bump === BUMP.nonSemver);
-    if (filtered) {
-        out.warn(`Filtered non-viable dependency ${dep.moduleName}...`)
+    if (isFiltered) {
+        filtered.push(dep);
     }
-    return filtered
+    return isFiltered;
 };
 
 export default {
