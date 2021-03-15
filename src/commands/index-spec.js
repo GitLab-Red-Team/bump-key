@@ -7,7 +7,9 @@ describe('commands - npm view', () => {
     beforeEach(async () => {
         commandResults = await commands.npmView('chalk@latest');
     });
-    afterEach(() => {});
+    afterEach(() => {
+        commandResults = null;
+    });
     it('executes an arbitrary command async', () => {
         expect(commandResults.devDependencies.length).not.to.eql(0);
     });
