@@ -3,10 +3,9 @@ import { BUMP } from '../constants/index.js';
 
 import npmCheck from 'npm-check';
 
-let filtered = [];
-
 const recon = async (options, checker = npmCheck) => {
-    let deps = await checker(options).then(deps => {
+    let filtered = [], upgradable = [];
+    let allDeps = await checker(options).then(deps => {
         return deps.get('packages')
             .map((pkg) => {
                 return {
@@ -20,22 +19,20 @@ const recon = async (options, checker = npmCheck) => {
                     'easyUpgrade': pkg.easyUpgrade,
                 };
             })
-            .filter(filterDependencies);
+    });
+    allDeps.forEach((dep) => {
+        isFiltered(dep) ? filtered.push(dep) : upgradable.push(dep);
     });
     return {
-        upgradable: deps,
-        filtered: filtered,
+        upgradable,
+        filtered
     };
 };
 
-const filterDependencies = (dep) => {
-    let isFiltered = !(dep.easyUpgrade === true ||
+const isFiltered = (dep) => {
+    return (dep.easyUpgrade === true ||
         dep.bump === BUMP.null ||
         dep.bump === BUMP.nonSemver);
-    if (isFiltered) {
-        filtered.push(dep);
-    }
-    return isFiltered;
 };
 
 export default {

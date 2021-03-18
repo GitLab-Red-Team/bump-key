@@ -1,7 +1,7 @@
 import dependencies from './index.js';
 import { BUMP } from '../constants/index.js';
 
-import sinon from 'sinon'
+import sinon from 'sinon';
 import {expect} from 'chai';
 
 describe('dependencies recon', () => {
@@ -147,6 +147,7 @@ describe('dependencies recon', () => {
     });
     it('filters out easy upgrade options', () => {
         expect(deps.upgradable.some((dep) => dep.easyUpgrade === true)).eql(false);
+        expect(deps.filtered.some((dep) => dep.easyUpgrade === true)).eql(true);
     });
     it('includes packages with a minor version bump', () => {
         expect(deps.upgradable.some((dep) => dep.bump === BUMP.minor)).eql(true);
@@ -159,8 +160,10 @@ describe('dependencies recon', () => {
     });
     it('filters out packages with a null version bump', () => {
         expect(deps.upgradable.some((dep) => dep.bump === BUMP.null)).eql(false);
+        expect(deps.filtered.some((dep) => dep.bump === BUMP.null)).eql(true);
     });
     it('filters out non-semantically versioned packages', () => {
         expect(deps.upgradable.some((dep) => dep.bump === BUMP.nonSemver)).eql(false);
+        expect(deps.filtered.some((dep) => dep.bump === BUMP.nonSemver)).eql(true);
     });
 });
