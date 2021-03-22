@@ -28,6 +28,7 @@ const processDependency = async (dep) => {
     let view = await commands.npmView(installed);
     out.info(`${installed} 
     * bump to latest: ${dep.bump}
+    * specified: ${dep.specified}
     * wanted: ${dep.packageWanted}
     * latest version: ${dep.latest}
     * url: ${dep.homepage ? dep.homepage : 'NA'}

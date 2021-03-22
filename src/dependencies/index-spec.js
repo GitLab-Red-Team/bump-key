@@ -136,9 +136,10 @@ describe('dependencies recon', () => {
         fakePackages = null;
     });
     it('returns valid dependency object', () => {
-        expect(Object.entries(deps.upgradable[0]).length).to.eql(8);
+        expect(Object.entries(deps.upgradable[0]).length).to.eql(9);
         expect(deps.upgradable[0].moduleName).to.eql(fakePackages[0].moduleName);
         expect(deps.upgradable[0].homepage).to.eql(fakePackages[0].homepage);
+        expect(deps.upgradable[0].specified).to.eql(fakePackages[0].packageJson);
         expect(deps.upgradable[0].latest).to.eql(fakePackages[0].latest);
         expect(deps.upgradable[0].installed).to.eql(fakePackages[0].installed);
         expect(deps.upgradable[0].packageWanted).to.eql(fakePackages[0].packageWanted);

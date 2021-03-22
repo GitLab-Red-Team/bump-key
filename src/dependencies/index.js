@@ -11,6 +11,7 @@ const recon = async (options, checker = npmCheck) => {
                 return {
                     'moduleName': pkg.moduleName,
                     'homepage': pkg.homepage,
+                    'specified': pkg.packageJson,
                     'latest': pkg.latest,
                     'installed': pkg.installed,
                     'packageWanted': pkg.packageWanted,
