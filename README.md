@@ -1,3 +1,5 @@
+[![pipeline status](https://gitlab.com/gitlab-red-team/attack-tools/bump-key/badges/master/pipeline.svg)](https://gitlab.com/gitlab-red-team/attack-tools/bump-key/-/commits/master)
+
 # bump-key
 
 Tamper a lock file replacing a legitimate dependency with a malicious one
