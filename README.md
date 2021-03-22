@@ -14,7 +14,7 @@ npm run build
 # install the tool globally
 npm run install-global
 # output help information
-bumpkey -h
+bump-key -h
 ```
 
 #### Usage

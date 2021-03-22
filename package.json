@@ -1,16 +1,17 @@
 {
-  "name": "bumpkey",
+  "name": "bump-key",
   "version": "0.0.1",
   "description": "An offensive tool for tampering lock files",
   "main": "src/index.js",
   "type": "module",
+  "engine": ">=15.0.0",
   "bin": {
-    "bumpkey": "src/index.js"
+    "bump-key": "src/index.js"
   },
   "scripts": {
     "build": "npm install && npm run test",
     "clean": "rm -rf ./node_modules",
-    "test": "./node_modules/.bin/mocha --recursive **/*spec.js",
+    "test": "./node_modules/.bin/mocha --recursive ./src/**/*spec.js",
     "install-global": "npm run clean && npm run build && npm i -g ."
   },
   "repository": {
@@ -31,9 +32,9 @@
     "sinon": "^9.2.4"
   },
   "dependencies": {
-    "chalk": "^2.4.2",
+    "chalk": "^4.1.0",
+    "npm": "^7.6.3",
     "npm-check": "^5.9.2",
-    "read-package-json": "^3.0.1",
     "yargs": "^16.2.0"
   }
 }
