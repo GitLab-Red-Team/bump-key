@@ -9,10 +9,11 @@
     "bump-key": "src/index.js"
   },
   "scripts": {
-    "build": "npm install && npm run test",
+    "build": "npm install && npm run lint && npm run test",
     "clean": "rm -rf ./node_modules",
-    "test": "npx mocha --recursive ./src/**/*spec.js",
-    "install-global": "npm run clean && npm run build && npm i -g ."
+    "install-global": "npm run clean && npm run build && npm i -g .",
+    "lint": "npx eslint ./src/**/*.js",
+    "test": "npx mocha --recursive ./src/**/*spec.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   "keywords": [
     "lock",
     "file",
+    "lockfile",
     "tamper",
     "tampering"
   ],
