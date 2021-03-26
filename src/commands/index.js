@@ -11,7 +11,7 @@ const execShellCommand = (cmd) => {
             resolve(stdout? JSON.parse(stdout) : stderr);
         });
     });
-}
+};
 
 const commands = {
     'npmView': async (pkg) => {

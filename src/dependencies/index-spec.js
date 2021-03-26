@@ -129,7 +129,7 @@ describe('dependencies recon', () => {
         deps = await dependencies.recon(options, checkerStub)
             .then((result) => result)
             .catch((e) => {
-                throw e
+                throw e;
             });
     });
     afterEach(() => {

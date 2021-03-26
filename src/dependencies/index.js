@@ -18,7 +18,7 @@ const recon = async (options, checker = npmCheck) => {
                     'usedInScripts': pkg.usedInScripts,
                     'easyUpgrade': pkg.easyUpgrade,
                 };
-            })
+            });
     });
     allDeps.forEach((dep) => {
         isFiltered(dep) ? filtered.push(dep) : upgradable.push(dep);

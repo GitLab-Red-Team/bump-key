@@ -2,10 +2,10 @@ import path from 'path';
 import process from 'process';
 
 export const FILES = {
-    PACKAGE: "package.json",
-    YARNLOCK: "yarn.lock",
-    PACKAGELOCK: "package-lock.json"
-}
+    PACKAGE: 'package.json',
+    YARNLOCK: 'yarn.lock',
+    PACKAGELOCK: 'package-lock.json'
+};
 
 export const BUMP = {
     'major': 'major',
@@ -13,11 +13,11 @@ export const BUMP = {
     'patch': 'patch',
     'null': null,
     'nonSemver': 'nonSemver'
-}
+};
 
 export const PATHS = {
     'bin': path.join(process.cwd(), 'node_modules/.bin')
-}
+};
 
 export const BANNER = `
                                                ..     
@@ -29,4 +29,4 @@ export const BANNER = `
         ......                           .:l:;;lxxl'  
         '.  ..                            .....''.    
         '.  ..                                        
-`
+`;

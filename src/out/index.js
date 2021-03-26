@@ -1,6 +1,6 @@
 import console from 'console';
 
-import chalk from "chalk";
+import chalk from 'chalk';
 
 
 const log = (prefix, color, txt) => {

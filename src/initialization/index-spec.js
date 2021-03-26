@@ -14,7 +14,7 @@ describe('initialization', () => {
         obj = {
             options: optionSpy,
             argv: []
-        }
+        };
         options = init.setOptions(argParserSpy);
     });
     afterEach(() => {
