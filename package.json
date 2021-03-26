@@ -11,7 +11,7 @@
   "scripts": {
     "build": "npm install && npm run test",
     "clean": "rm -rf ./node_modules",
-    "test": "./node_modules/.bin/mocha --recursive ./src/**/*spec.js",
+    "test": "npx mocha --recursive ./src/**/*spec.js",
     "install-global": "npm run clean && npm run build && npm i -g ."
   },
   "repository": {
