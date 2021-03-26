@@ -4,19 +4,19 @@ import process from 'process';
 export const FILES = {
     PACKAGE: 'package.json',
     YARNLOCK: 'yarn.lock',
-    PACKAGELOCK: 'package-lock.json'
+    PACKAGELOCK: 'package-lock.json',
 };
 
 export const BUMP = {
-    'major': 'major',
-    'minor': 'minor',
-    'patch': 'patch',
-    'null': null,
-    'nonSemver': 'nonSemver'
+    major: 'major',
+    minor: 'minor',
+    patch: 'patch',
+    null: null,
+    nonSemver: 'nonSemver',
 };
 
 export const PATHS = {
-    'bin': path.join(process.cwd(), 'node_modules/.bin')
+    bin: path.join(process.cwd(), 'node_modules/.bin'),
 };
 
 export const BANNER = `

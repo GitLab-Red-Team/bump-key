@@ -1,16 +1,26 @@
 {
     "env": {
-        "browser": false,
+        "browser": true,
         "es2021": true
     },
     "extends": [
-        "eslint:recommended"
+        "airbnb-base"
     ],
     "parserOptions": {
         "ecmaVersion": 12,
         "sourceType": "module"
     },
     "rules": {
+        "import/no-extraneous-dependencies": [
+            "error", {
+                "devDependencies": ["**/*-spec.js"]
+            }
+        ],
+        "import/extensions": [
+            "error", {
+                "js": "always"
+            }
+        ],
         "indent": [
             "error",
             4

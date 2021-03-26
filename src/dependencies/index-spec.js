@@ -1,36 +1,39 @@
-import dependencies from './index.js';
-import { BUMP } from '../constants/index.js';
-
 import process from 'process';
 import sinon from 'sinon';
-import { describe, beforeEach, afterEach, it } from 'mocha';
+import {
+    describe, beforeEach, afterEach, it,
+} from 'mocha';
 import { expect } from 'chai';
+import { BUMP } from '../constants/index.js';
+import dependencies from './index.js';
 
 describe('dependencies recon', () => {
-    let deps, checkerStub, fakePackages;
-    let options = {
-        cwd: process.cwd()
+    let deps; let checkerStub; let
+        fakePackages;
+    const options = {
+        cwd: process.cwd(),
     };
     beforeEach(async () => {
+        /* eslint-disable max-len */
         fakePackages = [
             {
-                moduleName: 'lodash',                 // name of the module.
-                homepage: 'https://lodash.com/',      // url to the home page.
-                regError: undefined,                  // error communicating with the registry
-                pkgError: undefined,                  // error reading the package.json
-                latest: '4.7.0',                      // latest according to the registry.
-                installed: '4.5.1',                   // version installed
-                isInstalled: true,                    // Is it installed?
-                notInstalled: false,                  // Is it installed?
-                packageWanted: '4.7.0',               // Requested version from the package.json.
-                packageJson: '^4.6.1',                // Version or range requested in the parent package.json.
-                devDependency: false,                 // Is this a devDependency?
-                usedInScripts: undefined,             // Array of `scripts` in package.json that use this module.
-                mismatch: false,                      // Does the version installed not match the range in package.json?
-                semverValid: '4.6.1',                 // Is the installed version valid semver?
-                easyUpgrade: false,                   // Will running just `npm install` upgrade the module?
-                bump: 'minor',                        // What kind of bump is required to get the latest, such as patch, minor, major.
-                unused: false,                        // Is this module used in the code?
+                moduleName: 'lodash', // name of the module.
+                homepage: 'https://lodash.com/', // url to the home page.
+                regError: undefined, // error communicating with the registry
+                pkgError: undefined, // error reading the package.json
+                latest: '4.7.0', // latest according to the registry.
+                installed: '4.5.1', // version installed
+                isInstalled: true, // Is it installed?
+                notInstalled: false, // Is it installed?
+                packageWanted: '4.7.0', // Requested version from the package.json.
+                packageJson: '^4.6.1', // Version or range requested in the parent package.json.
+                devDependency: false, // Is this a devDependency?
+                usedInScripts: undefined, // Array of `scripts` in package.json that use this module.
+                mismatch: false, // Does the version installed not match the range in package.json?
+                semverValid: '4.6.1', // Is the installed version valid semver?
+                easyUpgrade: false, // Will running just `npm install` upgrade the module?
+                bump: 'minor', // What kind of bump is required to get the latest, such as patch, minor, major.
+                unused: false, // Is this module used in the code?
             },
             {
                 moduleName: 'babel',

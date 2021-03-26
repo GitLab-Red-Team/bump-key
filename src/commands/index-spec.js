@@ -1,7 +1,8 @@
-import commands from './index.js';
-
-import { describe, beforeEach, afterEach, it } from 'mocha';
+import {
+    describe, beforeEach, afterEach, it,
+} from 'mocha';
 import { expect } from 'chai';
+import commands from './index.js';
 
 describe('commands - npm view', () => {
     let commandResults;

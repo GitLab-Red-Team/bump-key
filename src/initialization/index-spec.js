@@ -1,19 +1,20 @@
-import init from './index.js';
-
-import { describe, beforeEach, afterEach, it } from 'mocha';
+import {
+    describe, beforeEach, afterEach, it,
+} from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import init from './index.js';
 
 describe('initialization', () => {
-
-    let options, optionSpy, argParserSpy, obj;
+    let options; let optionSpy; let argParserSpy; let
+        obj;
 
     beforeEach(() => {
         optionSpy = sinon.spy(() => obj);
         argParserSpy = sinon.spy(() => obj);
         obj = {
             options: optionSpy,
-            argv: []
+            argv: [],
         };
         options = init.setOptions(argParserSpy);
     });
@@ -26,16 +27,16 @@ describe('initialization', () => {
     it('should construct the correct path option', () => {
         sinon.assert.calledWith(optionSpy, {
             help: {
-                alias: 'h'
+                alias: 'h',
             },
             version: {
-                alias: 'v'
+                alias: 'v',
             },
             root: {
                 alias: 'r',
                 description: 'The root directory of the targeted project',
                 requiresArg: true,
-                required: true
+                required: true,
             },
         });
     });
