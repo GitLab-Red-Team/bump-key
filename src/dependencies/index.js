@@ -6,8 +6,8 @@ const isFiltered = (dep) => (dep.easyUpgrade === true
     || dep.bump === BUMP.nonSemver);
 
 const recon = async (options, checker = npmCheck) => {
-    const filtered = []; const
-        upgradable = [];
+    const filtered = [];
+    const upgradable = [];
     const allDeps = await checker(options).then((deps) => deps.get('packages')
         .map((pkg) => ({
             moduleName: pkg.moduleName,
