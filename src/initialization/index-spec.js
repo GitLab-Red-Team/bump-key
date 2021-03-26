@@ -1,5 +1,6 @@
 import init from './index.js';
 
+import { describe, beforeEach, afterEach, it } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
 

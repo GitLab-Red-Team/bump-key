@@ -1,3 +1,4 @@
+import process from 'process';
 
 const setOptions = (argParser) => {
     return argParser(process.argv.slice(2))
