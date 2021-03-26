@@ -1,9 +1,10 @@
-import * as cp from 'child_process';
+/* eslint-disable camelcase */
+import child_process from 'child_process';
 
 import { PATHS } from '../constants/index.js';
 
 const execShellCommand = (cmd) => new Promise((resolve, reject) => {
-    cp.child_process.exec(`${PATHS.bin}/${cmd}`, (error, stdout, stderr) => {
+    child_process.exec(`${PATHS.bin}/${cmd}`, (error, stdout, stderr) => {
         if (error) {
             reject(error);
         }
