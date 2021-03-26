@@ -15,7 +15,7 @@ const execShellCommand = (cmd) => {
 
 const commands = {
     'npmView': async (pkg) => {
-        return await execShellCommand(`npm view --json ${pkg}`);
+        return execShellCommand(`npm view --json ${pkg}`);
     },
 };
 

@@ -1,4 +1,7 @@
+import console from 'console';
+
 import chalk from "chalk";
+
 
 const log = (prefix, color, txt) => {
     txt.map((entry) => console.log(color(`${prefix} ${entry}`)));
