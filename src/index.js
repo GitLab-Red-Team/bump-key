@@ -4,11 +4,11 @@ import chalk from 'chalk';
 import process from 'process';
 import console from 'console';
 
-import init from './initialization/index';
-import out from './out/index';
-import dependencies from './dependencies/index';
-import { BANNER } from './constants/index';
-import commands from './commands/index';
+import init from './initialization/index.js';
+import out from './out/index.js';
+import dependencies from './dependencies/index.js';
+import { BANNER } from './constants/index.js';
+import commands from './commands/index.js';
 
 process.on('unhandledRejection', (reason) => {
     out.error(`Unhandled promise rejection: ${reason}`);
