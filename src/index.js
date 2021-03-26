@@ -14,15 +14,14 @@ process.on('unhandledRejection', (reason) => {
     out.error(`Unhandled promise rejection: ${reason}`);
 });
 
-let cmdOptions = init.setOptions(yargs);
-
-let depOptions = {
-    cwd: cmdOptions.root,
-};
-const printBanner = async () => {
-    console.log(chalk.keyword('orange').bold(BANNER));
-    console.log('   ' + chalk.keyword('purple').bgKeyword('orange')('   ~~~ bump-key v0.0.1 - GitLab Red Team ~~~   '));
-    console.log();
+const initialize = async () => {
+    console.log(chalk.keyword('purple').bold(BANNER));
+    console.log('   ' + chalk.keyword('purple').bgKeyword('orange')('   ~~~ bump-key v0.0.1 - GitLab Red Team ~~~   \n\n'));
+    let cmdOptions = init.setOptions(yargs);
+    out.info(`Analyzing package.json at ${cmdOptions.root}`);
+    return {
+        cwd: cmdOptions.root,
+    };
 };
 
 const processDependency = async (dep) => {
@@ -40,8 +39,9 @@ const processDependency = async (dep) => {
     );
 };
 
-const getDependencies = () => dependencies.recon(depOptions);
-const outputResults = async (allDeps) => {
+const doRecon = async (depOptions) => dependencies.recon(depOptions);
+
+const outputResults = (allDeps) => {
     if (allDeps.filtered?.length > 0) {
         out.warn(`Filtered ${allDeps.filtered.length} ignorable dependencies...`)
     } else {
@@ -54,8 +54,8 @@ const outputResults = async (allDeps) => {
     }
 };
 
-printBanner()
-    .then(getDependencies)
+initialize()
+    .then(doRecon)
     .then(outputResults);
 
 
