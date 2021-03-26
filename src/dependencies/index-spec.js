@@ -1,8 +1,10 @@
 import dependencies from './index.js';
 import { BUMP } from '../constants/index.js';
 
+import process from 'process';
 import sinon from 'sinon';
-import {expect} from 'chai';
+import { describe, beforeEach, afterEach, it } from 'mocha';
+import { expect } from 'chai';
 
 describe('dependencies recon', () => {
     let deps, checkerStub, fakePackages;

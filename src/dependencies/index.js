@@ -1,4 +1,3 @@
-import out from '../out/index.js';
 import { BUMP } from '../constants/index.js';
 
 import npmCheck from 'npm-check';
@@ -38,4 +37,4 @@ const isFiltered = (dep) => {
 
 export default {
     recon,
-}
+};

@@ -1,4 +1,5 @@
 import path from 'path';
+import process from 'process';
 
 export const FILES = {
     PACKAGE: "package.json",

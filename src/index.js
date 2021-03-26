@@ -1,12 +1,14 @@
 #!/usr/bin/env node
-import init from './initialization/index.js';
-import out from './out/index.js';
-import dependencies from './dependencies/index.js';
-import {BANNER} from './constants/index.js';
-import commands from './commands/index.js';
-
 import yargs from 'yargs';
 import chalk from 'chalk';
+import process from 'process';
+import console from 'console';
+
+import init from './initialization/index';
+import out from './out/index';
+import dependencies from './dependencies/index';
+import { BANNER } from './constants/index';
+import commands from './commands/index';
 
 process.on('unhandledRejection', (reason) => {
     out.error(`Unhandled promise rejection: ${reason}`);
@@ -15,7 +17,7 @@ process.on('unhandledRejection', (reason) => {
 let cmdOptions = init.setOptions(yargs);
 
 let depOptions = {
-    cwd: cmdOptions.root
+    cwd: cmdOptions.root,
 };
 const printBanner = () => {
     console.log(chalk.keyword('orange').bold(BANNER));
@@ -40,7 +42,7 @@ const processDependency = async (dep) => {
 
 printBanner();
 out.info(`Listing upgradable dependencies for ${cmdOptions.root}`);
-let allDeps = await dependencies.recon(depOptions);
+let allDeps = dependencies.recon(depOptions);
 if (allDeps.filtered.length > 0) {
     out.warn(`Filtered ${allDeps.filtered.length} ignorable dependencies...`)
 }
