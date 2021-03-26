@@ -19,7 +19,7 @@ let cmdOptions = init.setOptions(yargs);
 let depOptions = {
     cwd: cmdOptions.root,
 };
-const printBanner = () => {
+const printBanner = async () => {
     console.log(chalk.keyword('orange').bold(BANNER));
     console.log('   ' + chalk.keyword('purple').bgKeyword('orange')('   ~~~ bump-key v0.0.1 - GitLab Red Team ~~~   '));
     console.log();
@@ -40,10 +40,22 @@ const processDependency = async (dep) => {
     );
 };
 
-printBanner();
-out.info(`Listing upgradable dependencies for ${cmdOptions.root}`);
-let allDeps = dependencies.recon(depOptions);
-if (allDeps.filtered.length > 0) {
-    out.warn(`Filtered ${allDeps.filtered.length} ignorable dependencies...`)
-}
-allDeps.upgradable.forEach(processDependency);
+const getDependencies = () => dependencies.recon(depOptions);
+const outputResults = async (allDeps) => {
+    if (allDeps.filtered?.length > 0) {
+        out.warn(`Filtered ${allDeps.filtered.length} ignorable dependencies...`)
+    } else {
+        out.warn('No dependencies filtered...')
+    }
+    if (allDeps.upgradable?.length > 0) {
+        allDeps.upgradable.forEach(processDependency);
+    } else {
+        out.warn('No upgradable dependencies found...')
+    }
+};
+
+printBanner()
+    .then(getDependencies)
+    .then(outputResults);
+
+
