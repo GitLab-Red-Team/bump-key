@@ -11,10 +11,11 @@ const filterDependency = (filtered, dep) => {
     filtered.push(dep);
 };
 
-const recon = async (isDebugMode, options, checker = npmCheck) => {
+const recon = async (options, checker = npmCheck) => {
     const filtered = [];
     const upgradable = [];
-    const allDeps = await checker(options).then((deps) => deps.get('packages')
+    let {cwd} = options;
+    const allDeps = await checker({cwd}).then((deps) => deps.get('packages')
         .map((pkg) => {
             out.debug(`Found ${pkg.moduleName}@${pkg.installed}`)
             return ({

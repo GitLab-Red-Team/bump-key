@@ -30,20 +30,21 @@ const initialize = async () => {
 };
 
 const formatOutput = async (dep) => {
-    let view = await commands.npmView(`${dep.moduleName}@${dep.installed}`);
-    out.info(`${dep.installed} 
+    let nameVersion = `${dep.moduleName}@${dep.installed}`;
+    let view = await commands.npmView(nameVersion);
+    out.info(`${nameVersion} 
     * bump to latest: ${dep.bump}
     * specified: ${dep.specified}
     * wanted: ${dep.packageWanted}
     * latest version: ${dep.latest}
     * url: ${dep.homepage || 'NA'}
     * used in script: ${dep.usedInScripts || false}
-    * top-level dev dependencies: ${Object.entries(view.devDependencies).length}
-    * top-level prod dependencies:  ${Object.entries(view.dependencies).length}`
+    * top-level dev dependencies: ${view.devDependencies ? Object.entries(view.devDependencies).length : 0}
+    * top-level prod dependencies:  ${view.dependencies ? Object.entries(view.dependencies).length : 0}`
     );
 };
 
-const doRecon = async (depOptions) => await dependencies.recon(depOptions);
+const doRecon = async (options) => await dependencies.recon(options);
 
 initialize()
     .then(doRecon)
