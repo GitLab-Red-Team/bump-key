@@ -24,7 +24,7 @@ describe('initialization', () => {
     it('should call the argParser function once', () => {
         expect(argParserSpy.calledOnce).to.eql(true);
     });
-    it('should construct the correct path option', () => {
+    it('should construct the correct option set', () => {
         sinon.assert.calledWith(optionSpy, {
             help: {
                 alias: 'h',
@@ -38,6 +38,12 @@ describe('initialization', () => {
                 requiresArg: true,
                 required: true,
             },
+            debug: {
+                alias: 'd',
+                description: 'Enables additional output to aid in debugging',
+                requiresArg: false,
+                required: false,
+            }
         });
     });
     it('should not have undefined options', () => {
