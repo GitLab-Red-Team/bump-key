@@ -8,38 +8,46 @@ import init from './initialization/index.js';
 import out from './out/index.js';
 import dependencies from './dependencies/index.js';
 import { BANNER } from './constants/index.js';
-import commands from './commands/index.js';
 
 process.on('unhandledRejection', (reason) => {
-    out.error(`Unhandled promise rejection: ${reason}`);
+    out.error(reason.stack);
+    process.exit(1);
 });
 
 const initialize = async () => {
     console.log(chalk.keyword('purple').bold(BANNER));
-    console.log('   ' + chalk.keyword('purple').bgKeyword('orange')('   ~~~ bump-key v0.0.1 - GitLab Red Team ~~~   \n\n'));
+    console.log('   ' + chalk.keyword('purple').bgKeyword('orange')
+        ('   ~~~ bump-key v0.0.1 - GitLab Red Team ~~~   \n\n'));
     let cmdOptions = init.setOptions(yargs);
+    out.init(cmdOptions.debug);
+    if (cmdOptions.debug) out.debug('Debug mode enabled...');
     out.info(`Analyzing package.json at ${cmdOptions.root}`);
     return {
         cwd: cmdOptions.root,
+        debug: cmdOptions.debug,
     };
 };
 
-const processDependency = async (dep) => {
-    let installed = `${dep.moduleName}@${dep.installed}`;
-    let view = await commands.npmView(installed);
-    out.info(`${installed} 
+const enhanceDependencyData = async (allDeps) => {
+    allDeps.upgradable.forEach((dep) => {
+       out.info(dep.moduleName);
+    });
+};
+
+const formatOutput = async (dep) => {
+    out.info(`${dep.installed} 
     * bump to latest: ${dep.bump}
     * specified: ${dep.specified}
     * wanted: ${dep.packageWanted}
     * latest version: ${dep.latest}
-    * url: ${dep.homepage ? dep.homepage : 'NA'}
-    * used in script: ${dep.usedInScripts ? dep.usedInScripts : false}
-    * top-level dev dependencies: ${view.devDependencies ? Object.entries(view.devDependencies).length : 0}
-    * top-level prod dependencies:  ${view.dependencies ? Object.entries(view.dependencies).length : 0}`
+    * url: ${dep.homepage || 'NA'}
+    * used in script: ${dep.usedInScripts || false}
+    * top-level dev dependencies: ${dep.topLevelDevDeps}
+    * top-level prod dependencies:  ${dep.topLevelProdDeps}`
     );
 };
 
-const doRecon = async (depOptions) => dependencies.recon(depOptions);
+const doRecon = async (depOptions) => await dependencies.recon(depOptions);
 
 const outputResults = (allDeps) => {
     if (allDeps.filtered?.length > 0) {
@@ -48,14 +56,16 @@ const outputResults = (allDeps) => {
         out.warn('No dependencies filtered...')
     }
     if (allDeps.upgradable?.length > 0) {
-        allDeps.upgradable.forEach(processDependency);
+        allDeps.upgradable.forEach(formatOutput);
     } else {
-        out.warn('No upgradable dependencies found...')
+        out.warn('No upgradable dependencies found. Exiting.')
     }
 };
 
 initialize()
     .then(doRecon)
-    .then(outputResults);
+    .then(enhanceDependencyData)
+    //.then(outputResults)
+    .catch(out.error);
 
 
