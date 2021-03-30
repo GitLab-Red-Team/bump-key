@@ -8,6 +8,7 @@ import init from './initialization/index.js';
 import out from './out/index.js';
 import dependencies from './dependencies/index.js';
 import { BANNER } from './constants/index.js';
+import commands from './commands/index.js';
 
 process.on('unhandledRejection', (reason) => {
     out.error(reason.stack);
@@ -28,13 +29,8 @@ const initialize = async () => {
     };
 };
 
-const enhanceDependencyData = async (allDeps) => {
-    allDeps.upgradable.forEach((dep) => {
-       out.info(dep.moduleName);
-    });
-};
-
 const formatOutput = async (dep) => {
+    let view = await commands.npmView(`${dep.moduleName}@${dep.installed}`);
     out.info(`${dep.installed} 
     * bump to latest: ${dep.bump}
     * specified: ${dep.specified}
@@ -42,30 +38,15 @@ const formatOutput = async (dep) => {
     * latest version: ${dep.latest}
     * url: ${dep.homepage || 'NA'}
     * used in script: ${dep.usedInScripts || false}
-    * top-level dev dependencies: ${dep.topLevelDevDeps}
-    * top-level prod dependencies:  ${dep.topLevelProdDeps}`
+    * top-level dev dependencies: ${Object.entries(view.devDependencies).length}
+    * top-level prod dependencies:  ${Object.entries(view.dependencies).length}`
     );
 };
 
 const doRecon = async (depOptions) => await dependencies.recon(depOptions);
 
-const outputResults = (allDeps) => {
-    if (allDeps.filtered?.length > 0) {
-        out.warn(`Filtered ${allDeps.filtered.length} ignorable dependencies...`)
-    } else {
-        out.warn('No dependencies filtered...')
-    }
-    if (allDeps.upgradable?.length > 0) {
-        allDeps.upgradable.forEach(formatOutput);
-    } else {
-        out.warn('No upgradable dependencies found. Exiting.')
-    }
-};
-
 initialize()
     .then(doRecon)
-    .then(enhanceDependencyData)
-    //.then(outputResults)
-    .catch(out.error);
+    .then((allDeps) => allDeps.upgradable.forEach(formatOutput))
 
 
