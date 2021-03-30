@@ -1,26 +1,35 @@
 import npmCheck from 'npm-check';
 import { BUMP } from '../constants/index.js';
+import out from '../out/index.js';
 
 const isFiltered = (dep) => (dep.easyUpgrade === true
     || dep.bump === BUMP.null
     || dep.bump === BUMP.nonSemver);
 
-const recon = async (options, checker = npmCheck) => {
+const filterDependency = (filtered, dep) => {
+    out.debug(`Filtered dependency ${dep.moduleName}.`);
+    filtered.push(dep);
+};
+
+const recon = async (isDebugMode, options, checker = npmCheck) => {
     const filtered = [];
     const upgradable = [];
     const allDeps = await checker(options).then((deps) => deps.get('packages')
-        .map((pkg) => ({
-            moduleName: pkg.moduleName,
-            homepage: pkg.homepage,
-            specified: pkg.packageJson,
-            latest: pkg.latest,
-            installed: pkg.installed,
-            packageWanted: pkg.packageWanted,
-            bump: pkg.bump,
-            usedInScripts: pkg.usedInScripts,
-            easyUpgrade: pkg.easyUpgrade,
-        })));
-    allDeps.forEach((dep) => (isFiltered(dep) ? filtered.push(dep) : upgradable.push(dep)));
+        .map((pkg) => {
+            out.debug(`Found ${pkg.moduleName}@${pkg.installed}`)
+            return ({
+                moduleName: pkg.moduleName,
+                homepage: pkg.homepage,
+                specified: pkg.packageJson,
+                latest: pkg.latest,
+                installed: pkg.installed,
+                packageWanted: pkg.packageWanted,
+                bump: pkg.bump,
+                usedInScripts: pkg.usedInScripts,
+                easyUpgrade: pkg.easyUpgrade,
+            });
+        }));
+    allDeps.forEach((dep) => (isFiltered(dep) ? filterDependency(filtered, dep) : upgradable.push(dep)));
     return {
         upgradable,
         filtered,
