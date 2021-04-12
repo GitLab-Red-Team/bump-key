@@ -53,8 +53,8 @@ const showOutput = (allDeps) => {
 const rankUpgradableDeps = (allDeps) => {
     return allDeps;
 };
-const showFilteredDeps = (filtered) =>
-    out.warn(`Filtered ${Object.entries(filtered).length} up-to-date dependencies`);
+const showFilteredDeps = (allDeps) =>
+    out.warn(`Filtered ${Object.entries(allDeps.filtered).length} up-to-date dependencies`);
 
 initialize()
     .then(doRecon)
