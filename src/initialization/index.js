@@ -19,7 +19,7 @@ const setOptions = (argParser) => argParser(process.argv.slice(2))
             description: 'Enables additional output to aid in debugging',
             requiresArg: false,
             required: false,
-        }
+        },
     })
     .argv;
 

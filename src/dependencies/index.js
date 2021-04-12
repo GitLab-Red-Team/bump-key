@@ -14,10 +14,10 @@ const filterDependency = (filtered, dep) => {
 const recon = async (options, checker = npmCheck) => {
     const filtered = [];
     const upgradable = [];
-    let {cwd} = options;
-    const allDeps = await checker({cwd}).then((deps) => deps.get('packages')
+    const { cwd } = options;
+    const allDeps = await checker({ cwd }).then((deps) => deps.get('packages')
         .map((pkg) => {
-            out.debug(`Found ${pkg.moduleName}@${pkg.installed}`)
+            out.debug(`Found ${pkg.moduleName}@${pkg.installed}`);
             return ({
                 moduleName: pkg.moduleName,
                 homepage: pkg.homepage,
@@ -30,7 +30,9 @@ const recon = async (options, checker = npmCheck) => {
                 easyUpgrade: pkg.easyUpgrade,
             });
         }));
-    allDeps.forEach((dep) => (isFiltered(dep) ? filterDependency(filtered, dep) : upgradable.push(dep)));
+    allDeps.forEach((dep) => (isFiltered(dep)
+        ? filterDependency(filtered, dep)
+        : upgradable.push(dep)));
     return {
         upgradable,
         filtered,

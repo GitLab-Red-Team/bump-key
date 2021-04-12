@@ -43,7 +43,7 @@ describe('initialization', () => {
                 description: 'Enables additional output to aid in debugging',
                 requiresArg: false,
                 required: false,
-            }
+            },
         });
     });
     it('should not have undefined options', () => {
