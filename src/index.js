@@ -7,7 +7,7 @@ import console from 'console';
 import init from './initialization/index.js';
 import out from './out/index.js';
 import dependencies from './dependencies/index.js';
-import { BANNER } from './constants/index.js';
+import {BANNER} from './constants/index.js';
 import commands from './commands/index.js';
 
 process.on('unhandledRejection', (reason) => {
@@ -18,7 +18,7 @@ process.on('unhandledRejection', (reason) => {
 const initialize = async () => {
     console.log(chalk.keyword('purple').bold(BANNER));
     console.log('   ' + chalk.keyword('purple').bgKeyword('orange')
-        ('   ~~~ bump-key v0.0.1 - GitLab Red Team ~~~   \n\n'));
+    ('   ~~~ bump-key v0.0.1 - GitLab Red Team ~~~   \n\n'));
     let cmdOptions = init.setOptions(yargs);
     out.init(cmdOptions.debug);
     if (cmdOptions.debug) out.debug('Debug mode enabled...');
@@ -28,9 +28,6 @@ const initialize = async () => {
         debug: cmdOptions.debug,
     };
 };
-
-const getNpmViewCmdResults = async (dep) =>
-    await commands.npmView(`${dep.moduleName}@${dep.installed}`);
 
 const formatOutput = async (dep) => {
     let nameVersion = `${dep.moduleName}@${dep.installed}`;
@@ -49,14 +46,20 @@ const formatOutput = async (dep) => {
 };
 
 const doRecon = async (options) => await dependencies.recon(options);
-
+const showOutput = (allDeps) => {
+    allDeps.upgradable.forEach(formatOutput);
+    return allDeps;
+};
+const rankUpgradableDeps = (allDeps) => {
+    return allDeps;
+};
+const showFilteredDeps = (filtered) =>
+    out.warn(`Filtered ${Object.entries(filtered).length} up-to-date dependencies`);
 
 initialize()
     .then(doRecon)
-    .then((allDeps) => {
-        allDeps.upgradable.forEach(formatOutput);
-        return allDeps.filtered;
-    })
-    .then((filtered) => out.warn(`Filtered ${Object.entries(filtered).length} up-to-date dependencies`));
+    .then(rankUpgradableDeps)
+    .then(showOutput)
+    .then(showFilteredDeps);
 
 
