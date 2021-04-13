@@ -1,8 +1,10 @@
 import process from 'process';
 import sinon from 'sinon';
-import {afterEach, beforeEach, describe, it,} from 'mocha';
-import {expect} from 'chai';
-import {BUMP} from '../constants/index.js';
+import {
+    afterEach, beforeEach, describe, it,
+} from 'mocha';
+import { expect } from 'chai';
+import { BUMP } from '../constants/index.js';
 import dependencies from './index.js';
 
 describe('dependendencies', () => {
@@ -124,83 +126,84 @@ describe('dependendencies', () => {
         fakePackages = undefined;
     });
     describe('augmentWithNpmView', () => {
-        let augmentedDeps, someAsyncCommandFunc, someFakeNpmViewLodashData;
+        let augmentedDeps; let someAsyncCommandFunc; let
+            someFakeNpmViewLodashData;
         beforeEach(() => {
             someFakeNpmViewLodashData = {
-                "_id": "lodash@4.5.1",
-                "_rev": "2575-0d24eda2ecf36ac653aabad704a6e830",
-                "name": "lodash",
-                "description": "Lodash modular utilities.",
-                "dist-tags": {
-                    "latest": "4.17.21"
+                _id: 'lodash@4.5.1',
+                _rev: '2575-0d24eda2ecf36ac653aabad704a6e830',
+                name: 'lodash',
+                description: 'Lodash modular utilities.',
+                'dist-tags': {
+                    latest: '4.17.21',
                 },
-                "versions": [
-                    "4.17.19",
-                    "4.17.20",
-                    "4.17.21"
+                versions: [
+                    '4.17.19',
+                    '4.17.20',
+                    '4.17.21',
                 ],
-                "maintainers": [
-                    "jdalton <john.david.dalton@gmail.com>",
-                    "jridgewell <justin+npm@ridgewell.name>",
-                    "mathias <mathias@qiwi.be>",
-                    "phated <blaine.bublitz@gmail.com>"
+                maintainers: [
+                    'jdalton <john.david.dalton@gmail.com>',
+                    'jridgewell <justin+npm@ridgewell.name>',
+                    'mathias <mathias@qiwi.be>',
+                    'phated <blaine.bublitz@gmail.com>',
                 ],
-                "time": {
-                    "4.17.19": "2020-07-08T17:14:40.866Z",
-                    "4.17.20": "2020-08-13T16:53:54.152Z",
-                    "4.17.21": "2021-02-20T15:42:16.891Z"
+                time: {
+                    '4.17.19': '2020-07-08T17:14:40.866Z',
+                    '4.17.20': '2020-08-13T16:53:54.152Z',
+                    '4.17.21': '2021-02-20T15:42:16.891Z',
                 },
-                "author": "John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)",
-                "repository": {
-                    "type": "git",
-                    "url": "git+https://github.com/lodash/lodash.git"
+                author: 'John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)',
+                repository: {
+                    type: 'git',
+                    url: 'git+https://github.com/lodash/lodash.git',
                 },
-                "users": {
-                    "sjonnet": true,
-                    "fgribreau": true,
-                    "sjonnet19": true,
+                users: {
+                    sjonnet: true,
+                    fgribreau: true,
+                    sjonnet19: true,
                 },
-                "readmeFilename": "README.md",
-                "homepage": "https://lodash.com/",
-                "keywords": [
-                    "modules",
-                    "stdlib",
-                    "util"
+                readmeFilename: 'README.md',
+                homepage: 'https://lodash.com/',
+                keywords: [
+                    'modules',
+                    'stdlib',
+                    'util',
                 ],
-                "contributors": [
-                    "John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)",
-                    "Blaine Bublitz <blaine.bublitz@gmail.com> (https://github.com/phated)",
-                    "Mathias Bynens <mathias@qiwi.be> (https://mathiasbynens.be/)"
+                contributors: [
+                    'John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)',
+                    'Blaine Bublitz <blaine.bublitz@gmail.com> (https://github.com/phated)',
+                    'Mathias Bynens <mathias@qiwi.be> (https://mathiasbynens.be/)',
                 ],
-                "bugs": {
-                    "url": "https://github.com/lodash/lodash/issues"
+                bugs: {
+                    url: 'https://github.com/lodash/lodash/issues',
                 },
-                "license": "MIT",
-                "_cached": true,
-                "_contentLength": 0,
-                "version": "4.5.1",
-                "icon": "https://lodash.com/icon.svg",
-                "main": "lodash.js",
-                "scripts": {
-                    "test": "echo \"See https://travis-ci.org/lodash/lodash-cli for testing details.\""
+                license: 'MIT',
+                _cached: true,
+                _contentLength: 0,
+                version: '4.5.1',
+                icon: 'https://lodash.com/icon.svg',
+                main: 'lodash.js',
+                scripts: {
+                    test: 'echo "See https://travis-ci.org/lodash/lodash-cli for testing details."',
                 },
-                "_shasum": "80e8a074ca5f3893a6b1c10b2a636492d710c316",
-                "_from": ".",
-                "_npmVersion": "2.14.17",
-                "_nodeVersion": "5.5.0",
-                "_npmUser": "jdalton <john.david.dalton@gmail.com>",
-                "dist": {
-                    "shasum": "80e8a074ca5f3893a6b1c10b2a636492d710c316",
-                    "tarball": "https://registry.npmjs.org/lodash/-/lodash-4.5.1.tgz"
+                _shasum: '80e8a074ca5f3893a6b1c10b2a636492d710c316',
+                _from: '.',
+                _npmVersion: '2.14.17',
+                _nodeVersion: '5.5.0',
+                _npmUser: 'jdalton <john.david.dalton@gmail.com>',
+                dist: {
+                    shasum: '80e8a074ca5f3893a6b1c10b2a636492d710c316',
+                    tarball: 'https://registry.npmjs.org/lodash/-/lodash-4.5.1.tgz',
                 },
-                "_npmOperationalInternal": {
-                    "host": "packages-9-west.internal.npmjs.com",
-                    "tmp": "tmp/lodash-4.5.1.tgz_1456123341085_0.7924484650138766"
+                _npmOperationalInternal: {
+                    host: 'packages-9-west.internal.npmjs.com',
+                    tmp: 'tmp/lodash-4.5.1.tgz_1456123341085_0.7924484650138766',
                 },
-                "directories": {}
-            }
-            someAsyncCommandFunc = sinon.stub().resolves(someFakeNpmViewLodashData)
-            augmentedDeps = dependencies.augmentWithNpmView(someAsyncCommandFunc, fakePackages)
+                directories: {},
+            };
+            someAsyncCommandFunc = sinon.stub().resolves(someFakeNpmViewLodashData);
+            augmentedDeps = dependencies.augmentWithNpmView(someAsyncCommandFunc, fakePackages);
         });
         afterEach(() => {
             someFakeNpmViewLodashData = undefined;
@@ -265,6 +268,4 @@ describe('dependendencies', () => {
             expect(deps.filtered.some((dep) => dep.bump === BUMP.nonSemver)).eql(true);
         });
     });
-})
-
-
+});
