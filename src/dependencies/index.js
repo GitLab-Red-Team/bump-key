@@ -11,6 +11,24 @@ const filterDependency = (filtered, dep) => {
     filtered.push(dep);
 };
 
+const augmentWithNpmView = async (npmViewAsyncFunc, dependencies) => {
+    const promises = dependencies.map(async (dep) => {
+        const pkg = `${dep.moduleName}@${dep.installed}`;
+        const npmView = await npmViewAsyncFunc(pkg);
+        dep.bugsUrl = npmView.bugs?.url;
+        dep.devDependencies = npmView.devDependencies
+            ? Object.entries(npmView.devDependencies).length
+            : 0;
+        dep.dependencies = npmView.dependencies
+            ? Object.entries(npmView.dependencies).length
+            : 0;
+        return dep;
+    });
+    const results = await Promise.all(promises);
+    Object.assign({}, results, dependencies)
+    return dependencies;
+}
+
 const executeNpmCheck = async (options, checker = npmCheck) => {
     const filtered = [];
     const upgradable = [];
@@ -41,4 +59,5 @@ const executeNpmCheck = async (options, checker = npmCheck) => {
 
 export default {
     executeNpmCheck,
+    augmentWithNpmView,
 };
