@@ -29,14 +29,21 @@ const initialize = async () => {
     };
 };
 
-const addNpmViewDataToUpgradable = async (allDeps) => {
-    for (let i = 0; i < allDeps.upgradable.length; i++) {
-        let nameVersion = `${allDeps.upgradable[i].moduleName}@${allDeps.upgradable[i].installed}`;
-        let npmView = await commands.npmView(nameVersion);
-        allDeps.upgradable[i].bugsUrl = npmView.bugs.url;
-        allDeps.upgradable[i].dependencies = Object.entries(npmView.dependencies).length;
-        allDeps.upgradable[i].devDependencies = Object.entries(npmView.devDependencies).length;
-    }
+const addNpmViewDataToUpgradables = async (allDeps) => {
+    const promises = allDeps.upgradable.map(async (dep) => {
+        const pkg = `${dep.moduleName}@${dep.installed}`;
+        const npmView = await commands.npmView(pkg);
+        dep.bugsUrl = npmView.bugs?.url;
+        dep.devDependencies = npmView.devDependencies
+            ? Object.entries(npmView.devDependencies).length
+            : 0;
+        dep.dependencies = npmView.dependencies
+            ? Object.entries(npmView.dependencies).length
+            : 0;
+        return dep;
+    });
+    const results = await Promise.all(promises);
+    Object.assign({}, results, allDeps.upgradable)
     return allDeps;
 }
 
@@ -68,7 +75,7 @@ const showFilteredDeps = (allDeps) =>
 
 initialize()
     .then(doRecon)
-    .then(addNpmViewDataToUpgradable)
+    .then(addNpmViewDataToUpgradables)
     .then(showOutput);
     //.then(rankUpgradableDeps)
     //.then(showOutput)
