@@ -62,7 +62,7 @@ const formatOutput = (dep) => {
     );
 };
 
-const doRecon = async (options) => await dependencies.recon(options);
+const doRecon = async (options) => await dependencies.executeNpmCheck(options);
 const showOutput = (allDeps) => {
     allDeps.upgradable.forEach(formatOutput);
     return allDeps;

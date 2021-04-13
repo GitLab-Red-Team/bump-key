@@ -11,7 +11,7 @@ const filterDependency = (filtered, dep) => {
     filtered.push(dep);
 };
 
-const recon = async (options, checker = npmCheck) => {
+const executeNpmCheck = async (options, checker = npmCheck) => {
     const filtered = [];
     const upgradable = [];
     const { cwd } = options;
@@ -40,5 +40,5 @@ const recon = async (options, checker = npmCheck) => {
 };
 
 export default {
-    recon,
+    executeNpmCheck,
 };
