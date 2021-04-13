@@ -29,19 +29,29 @@ const initialize = async () => {
     };
 };
 
-const formatOutput = async (dep) => {
+const addNpmViewDataToUpgradable = async (allDeps) => {
+    for (let i = 0; i < allDeps.upgradable.length; i++) {
+        let nameVersion = `${allDeps.upgradable[i].moduleName}@${allDeps.upgradable[i].installed}`;
+        let npmView = await commands.npmView(nameVersion);
+        allDeps.upgradable[i].bugsUrl = npmView.bugs.url;
+        allDeps.upgradable[i].dependencies = Object.entries(npmView.dependencies).length;
+        allDeps.upgradable[i].devDependencies = Object.entries(npmView.devDependencies).length;
+    }
+    return allDeps;
+}
+
+const formatOutput = (dep) => {
     let nameVersion = `${dep.moduleName}@${dep.installed}`;
-    let view = await commands.npmView(nameVersion);
     out.info(`${nameVersion} 
     * bump to latest: ${dep.bump}
     * specified: ${dep.specified}
     * wanted: ${dep.packageWanted}
     * latest version: ${dep.latest}
     * url: ${dep.homepage || 'NA'}
-    * bugs: ${view.bugs?.url || 'NA'}
+    * bugs: ${dep.bugsUrl || 'NA'}
     * used in script: ${dep.usedInScripts || false}
-    * top-level dev dependencies: ${view.devDependencies ? Object.entries(view.devDependencies).length : 0}
-    * top-level prod dependencies:  ${view.dependencies ? Object.entries(view.dependencies).length : 0}`
+    * devDependencies: ${dep.devDependencies}
+    * dependencies: ${dep.dependencies}`
     );
 };
 
@@ -58,8 +68,10 @@ const showFilteredDeps = (allDeps) =>
 
 initialize()
     .then(doRecon)
-    .then(rankUpgradableDeps)
-    .then(showOutput)
-    .then(showFilteredDeps);
+    .then(addNpmViewDataToUpgradable)
+    .then(showOutput);
+    //.then(rankUpgradableDeps)
+    //.then(showOutput)
+    //.then(showFilteredDeps);
 
 
