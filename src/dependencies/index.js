@@ -40,7 +40,7 @@ const executeNpmCheck = async (options, checker = npmCheck) => {
             out.debug(`Found ${pkg.moduleName}@${pkg.installed}`);
             return ({
                 moduleName: pkg.moduleName,
-                homepage: pkg.homepage,
+                homepage: pkg.homepage || 'NA',
                 specified: pkg.packageJson,
                 latest: pkg.latest,
                 installed: pkg.installed,

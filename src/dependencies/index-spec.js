@@ -105,7 +105,6 @@ describe('dependendencies', () => {
             },
             {
                 moduleName: 'invalid-semver',
-                homepage: 'https://semver-none.com',
                 regError: undefined,
                 pkgError: undefined,
                 latest: '0.0.62',
@@ -244,6 +243,9 @@ describe('dependendencies', () => {
         it('filters out non-semantically versioned packages', () => {
             expect(deps.upgradable.some((dep) => dep.bump === BUMP.nonSemver)).eql(false);
             expect(deps.filtered.some((dep) => dep.bump === BUMP.nonSemver)).eql(true);
+        });
+        it('handles a missing homepage property', () => {
+            expect(deps.filtered.some((dep) => dep.homepage === 'NA')).eql(true);
         });
     });
 });
