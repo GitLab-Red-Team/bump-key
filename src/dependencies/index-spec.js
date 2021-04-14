@@ -4,7 +4,7 @@ import {
     afterEach, beforeEach, describe, it,
 } from 'mocha';
 import { expect } from 'chai';
-import { BUMP } from '../constants/index.js';
+import { BUMP, DEFAULT_VALUES } from '../constants/index.js';
 import dependencies from './index.js';
 
 describe('dependendencies', () => {
@@ -177,10 +177,10 @@ describe('dependendencies', () => {
             expect(augmentedLodashDeps[0].author).to.eql(fakeNpmViewLodash.author);
         });
         it('augments an existing object when a bugs url is missing', () => {
-            expect(augmentedBabelDeps[0].bugsUrl).to.eql('NA');
+            expect(augmentedBabelDeps[0].bugsUrl).to.eql(DEFAULT_VALUES.MISSING_PROP);
         });
         it('augments an existing object when a author property is missing', () => {
-            expect(augmentedBabelDeps[0].author).to.eql('NA');
+            expect(augmentedBabelDeps[0].author).to.eql(DEFAULT_VALUES.MISSING_PROP);
         });
         it('augments an existing object with dependencyCount when dependencies '
             + 'are defined on the source object', () => {
@@ -245,7 +245,7 @@ describe('dependendencies', () => {
             expect(deps.filtered.some((dep) => dep.bump === BUMP.nonSemver)).eql(true);
         });
         it('handles a missing homepage property', () => {
-            expect(deps.filtered.some((dep) => dep.homepage === 'NA')).eql(true);
+            expect(deps.filtered.some((dep) => dep.homepage === DEFAULT_VALUES.MISSING_PROP)).eql(true);
         });
     });
 });

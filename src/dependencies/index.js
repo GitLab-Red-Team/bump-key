@@ -1,5 +1,5 @@
 import npmCheck from 'npm-check';
-import { BUMP } from '../constants/index.js';
+import { BUMP, DEFAULT_VALUES } from '../constants/index.js';
 import out from '../out/index.js';
 
 const isFiltered = (dep) => (dep.easyUpgrade === true
@@ -18,14 +18,14 @@ const augmentWithNpmView = async (npmViewAsyncFunc, dependencies) => {
         const viewInfo = {};
         viewInfo.bugsUrl = npmView.bugs
             ? npmView.bugs.url
-            : 'NA';
+            : DEFAULT_VALUES.MISSING_PROP;
         viewInfo.devDependencies = npmView.devDependencies
             ? Object.entries(npmView.devDependencies).length
             : 0;
         viewInfo.dependencies = npmView.dependencies
             ? Object.entries(npmView.dependencies).length
             : 0;
-        viewInfo.author = npmView.author || 'NA';
+        viewInfo.author = npmView.author || DEFAULT_VALUES.MISSING_PROP;
         return ({ ...viewInfo, ...dep });
     });
     return Promise.all(promises);
@@ -40,7 +40,7 @@ const executeNpmCheck = async (options, checker = npmCheck) => {
             out.debug(`Found ${pkg.moduleName}@${pkg.installed}`);
             return ({
                 moduleName: pkg.moduleName,
-                homepage: pkg.homepage || 'NA',
+                homepage: pkg.homepage || DEFAULT_VALUES.MISSING_PROP,
                 specified: pkg.packageJson,
                 latest: pkg.latest,
                 installed: pkg.installed,
