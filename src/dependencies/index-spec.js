@@ -128,7 +128,7 @@ describe('dependendencies', () => {
     describe('augmentWithNpmView', () => {
         let augmentedDeps; let someAsyncCommandFunc; let
             someFakeNpmViewLodashData;
-        beforeEach(() => {
+        beforeEach(async () => {
             someFakeNpmViewLodashData = {
                 _id: 'lodash@4.5.1',
                 _rev: '2575-0d24eda2ecf36ac653aabad704a6e830',
@@ -202,8 +202,8 @@ describe('dependendencies', () => {
                 },
                 directories: {},
             };
-            someAsyncCommandFunc = sinon.stub().resolves(someFakeNpmViewLodashData);
-            augmentedDeps = dependencies.augmentWithNpmView(someAsyncCommandFunc, fakePackages);
+            someAsyncCommandFunc = async () => someFakeNpmViewLodashData;
+            augmentedDeps = await dependencies.augmentWithNpmView(someAsyncCommandFunc, [fakePackages[0]]);
         });
         afterEach(() => {
             someFakeNpmViewLodashData = undefined;
@@ -211,7 +211,11 @@ describe('dependendencies', () => {
             augmentedDeps = undefined;
         });
         it('augments an existing object with a bugs url', () => {
-            augmentedDeps.bugsUrl = someFakeNpmViewLodashData.bugs.url;
+            expect(augmentedDeps[0].bugsUrl).to.eql(someFakeNpmViewLodashData.bugs.url);
+        });
+        it('augments an existing object with devDependencyCount when the property '
+            + 'is undefined on the source object', () => {
+            expect(augmentedDeps[0].devDependencies).to.eql(0);
         });
     });
     describe('executeNpmCheck', () => {
