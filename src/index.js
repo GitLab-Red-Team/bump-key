@@ -56,6 +56,15 @@ const showOutput = (allDeps) => {
     return allDeps;
 };
 const rankUpgradableDeps = (allDeps) => {
+    allDeps.upgradable.sort((a, b) => {
+        const totalDepsA = a.devDependencies + a.dependencies;
+        const totalDepsB = b.devDependencies + a.dependencies;
+        if (totalDepsA < totalDepsB) {
+            return 1;
+        } else {
+            return -1;
+        }
+    });
     return allDeps;
 };
 const showFilteredDeps = (allDeps) =>
@@ -64,5 +73,6 @@ const showFilteredDeps = (allDeps) =>
 initialize()
     .then(doRecon)
     .then(augmentWithNpmView)
+    .then(rankUpgradableDeps)
     .then(showOutput)
     .then(showFilteredDeps);
