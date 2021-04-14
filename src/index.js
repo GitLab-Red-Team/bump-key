@@ -29,24 +29,6 @@ const initialize = async () => {
     };
 };
 
-const addNpmViewDataToUpgradables = async (allDeps) => {
-    const promises = allDeps.upgradable.map(async (dep) => {
-        const pkg = `${dep.moduleName}@${dep.installed}`;
-        const npmView = await commands.npmView(pkg);
-        dep.bugsUrl = npmView.bugs?.url;
-        dep.devDependencies = npmView.devDependencies
-            ? Object.entries(npmView.devDependencies).length
-            : 0;
-        dep.dependencies = npmView.dependencies
-            ? Object.entries(npmView.dependencies).length
-            : 0;
-        return dep;
-    });
-    const results = await Promise.all(promises);
-    Object.assign({}, results, allDeps.upgradable)
-    return allDeps;
-}
-
 const formatOutput = (dep) => {
     let nameVersion = `${dep.moduleName}@${dep.installed}`;
     out.info(`${nameVersion} 
@@ -54,15 +36,21 @@ const formatOutput = (dep) => {
     * specified: ${dep.specified}
     * wanted: ${dep.packageWanted}
     * latest version: ${dep.latest}
-    * url: ${dep.homepage || 'NA'}
-    * bugs: ${dep.bugsUrl || 'NA'}
-    * used in script: ${dep.usedInScripts || false}
+    * url: ${dep.homepage}
+    * author: ${dep.author}
+    * bugs: ${dep.bugsUrl}
+    * used in script: ${dep.usedInScripts}
     * devDependencies: ${dep.devDependencies}
     * dependencies: ${dep.dependencies}`
     );
 };
 
 const doRecon = async (options) => await dependencies.executeNpmCheck(options);
+const augmentWithNpmView = async (allDeps) => {
+    let augmented = await dependencies.augmentWithNpmView(commands.npmView, allDeps.upgradable);
+    allDeps.upgradable = augmented;
+    return allDeps;
+};
 const showOutput = (allDeps) => {
     allDeps.upgradable.forEach(formatOutput);
     return allDeps;
@@ -75,9 +63,9 @@ const showFilteredDeps = (allDeps) =>
 
 initialize()
     .then(doRecon)
-    .then(addNpmViewDataToUpgradables)
-    .then(showOutput);
-    //.then(rankUpgradableDeps)
+    .then(augmentWithNpmView)
+    .then(showOutput)
+    //.then(rankUpgradableDeps);
     //.then(showOutput)
     //.then(showFilteredDeps);
 
