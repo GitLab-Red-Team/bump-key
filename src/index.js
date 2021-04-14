@@ -7,7 +7,7 @@ import console from 'console';
 import init from './initialization/index.js';
 import out from './out/index.js';
 import dependencies from './dependencies/index.js';
-import {BANNER} from './constants/index.js';
+import {BANNER, BUMP} from './constants/index.js';
 import commands from './commands/index.js';
 
 process.on('unhandledRejection', (reason) => {
@@ -55,7 +55,7 @@ const showOutput = (allDeps) => {
     allDeps.upgradable.forEach(formatOutput);
     return allDeps;
 };
-const rankUpgradableDeps = (allDeps) => {
+const rankUpgradablePackagesByTotalDeps = (allDeps) => {
     allDeps.upgradable.sort((a, b) => {
         const totalDepsA = a.devDependencies + a.dependencies;
         const totalDepsB = b.devDependencies + a.dependencies;
@@ -67,12 +67,23 @@ const rankUpgradableDeps = (allDeps) => {
     });
     return allDeps;
 };
+const ranksUpgradablePackagesByBump = (allDeps) => {
+    allDeps.upgradable.sort((a, b) => {
+        if (a.bump === BUMP.major && b.bump !== BUMP.major) {
+            return -1;
+        } else {
+            return 1;
+        }
+    });
+    return allDeps;
+}
 const showFilteredDeps = (allDeps) =>
     out.warn(`Filtered ${Object.entries(allDeps.filtered).length} up-to-date dependencies`);
 
 initialize()
     .then(doRecon)
     .then(augmentWithNpmView)
-    .then(rankUpgradableDeps)
+    .then(rankUpgradablePackagesByTotalDeps)
+    .then(ranksUpgradablePackagesByBump)
     .then(showOutput)
     .then(showFilteredDeps);
