@@ -183,7 +183,14 @@ describe('dependendencies', () => {
         it('augments an existing object when a author property is missing', () => {
             expect(augmentedBabelDeps[0].author).to.eql('NA');
         });
-
+        it('augments an existing object with dependencyCount when dependencies '
+            + 'are defined on the source object', () => {
+            expect(augmentedBabelDeps[0].dependencies).to.eql(1);
+        });
+        it('augments an existing object with devDependencyCount when devDependencies '
+            + 'are defined on the source object', () => {
+            expect(augmentedBabelDeps[0].devDependencies).to.eql(2);
+        });
     });
     describe('executeNpmCheck', () => {
         let deps;
