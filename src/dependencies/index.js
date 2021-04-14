@@ -16,7 +16,9 @@ const augmentWithNpmView = async (npmViewAsyncFunc, dependencies) => {
         const pkg = `${dep.moduleName}@${dep.installed}`;
         const npmView = await npmViewAsyncFunc(pkg);
         const viewInfo = {};
-        viewInfo.bugsUrl = npmView.bugs?.url;
+        viewInfo.bugsUrl = npmView.bugs
+            ? npmView.bugs.url
+            : 'NA';
         viewInfo.devDependencies = npmView.devDependencies
             ? Object.entries(npmView.devDependencies).length
             : 0;

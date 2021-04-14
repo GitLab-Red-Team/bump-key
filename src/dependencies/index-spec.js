@@ -127,8 +127,11 @@ describe('dependendencies', () => {
     });
     describe('augmentWithNpmView', () => {
         let augmentedLodashDeps;
+        let augmentedBabelDeps;
         let fakeNpmViewCommandLodash;
+        let fakeNpmViewCommandBabel;
         let fakeNpmViewLodash;
+        let fakeNpmViewBabel;
         beforeEach(async () => {
             fakeNpmViewLodash = {
                 name: "lodash",
@@ -137,19 +140,34 @@ describe('dependendencies', () => {
                     url: 'https://github.com/lodash/lodash/issues',
                 },
             };
+            fakeNpmViewBabel = {
+                name: "babel",
+                devDependencies: {
+                    chai: "^4.3.3",
+                    mocha: "^8.3.1",
+                },
+                dependencies: {
+                    chalk: "^4.1.0",
+                },
+            }
             fakeNpmViewCommandLodash = async () => fakeNpmViewLodash;
+            fakeNpmViewCommandBabel = async () => fakeNpmViewBabel;
             augmentedLodashDeps = await dependencies.augmentWithNpmView(fakeNpmViewCommandLodash, [fakePackages[0]]);
+            augmentedBabelDeps = await dependencies.augmentWithNpmView(fakeNpmViewCommandBabel, [fakePackages[1]]);
         });
         afterEach(() => {
             fakeNpmViewLodash = undefined;
             fakeNpmViewCommandLodash = undefined;
             augmentedLodashDeps = undefined;
+            fakeNpmViewBabel = undefined;
+            fakeNpmViewCommandBabel = undefined;
+            augmentedBabelDeps = undefined;
         });
         it('augments an existing object with a bugs url', () => {
             expect(augmentedLodashDeps[0].bugsUrl).to.eql(fakeNpmViewLodash.bugs.url);
         });
         it('augments an existing object when a bugs url is missing', () => {
-
+            expect(augmentedBabelDeps[0].bugsUrl).to.eql('NA');
         });
         it('augments an existing object with devDependencyCount when the property '
             + 'is undefined on the source object', () => {
