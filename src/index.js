@@ -7,43 +7,83 @@ import console from 'console';
 import init from './initialization/index.js';
 import out from './out/index.js';
 import dependencies from './dependencies/index.js';
-import { BANNER } from './constants/index.js';
+import {BANNER, BUMP} from './constants/index.js';
 import commands from './commands/index.js';
 
 process.on('unhandledRejection', (reason) => {
-    out.error(`Unhandled promise rejection: ${reason}`);
+    out.error(reason.stack);
+    process.exit(1);
 });
 
-let cmdOptions = init.setOptions(yargs);
-
-let depOptions = {
-    cwd: cmdOptions.root,
+const initialize = async () => {
+    console.log(chalk.keyword('purple').bold(BANNER));
+    console.log('   ' + chalk.keyword('purple').bgKeyword('orange')
+    ('   ~~~ bump-key v0.0.1 - GitLab Red Team ~~~   \n\n'));
+    let cmdOptions = init.setOptions(yargs);
+    out.init(cmdOptions.debug);
+    if (cmdOptions.debug) out.debug('Debug mode enabled...');
+    out.info(`Analyzing package.json at ${cmdOptions.root}`);
+    return {
+        cwd: cmdOptions.root,
+        debug: cmdOptions.debug,
+    };
 };
-const printBanner = () => {
-    console.log(chalk.keyword('orange').bold(BANNER));
-    console.log('   ' + chalk.keyword('purple').bgKeyword('orange')('   ~~~ bump-key v0.0.1 - GitLab Red Team ~~~   '));
-    console.log();
-};
 
-const processDependency = async (dep) => {
-    let installed = `${dep.moduleName}@${dep.installed}`;
-    let view = await commands.npmView(installed);
-    out.info(`${installed} 
+const formatOutput = (dep) => {
+    let nameVersion = `${dep.moduleName}@${dep.installed}`;
+    out.info(`${nameVersion} 
     * bump to latest: ${dep.bump}
     * specified: ${dep.specified}
     * wanted: ${dep.packageWanted}
     * latest version: ${dep.latest}
-    * url: ${dep.homepage ? dep.homepage : 'NA'}
-    * used in script: ${dep.usedInScripts ? dep.usedInScripts : false}
-    * top-level dev dependencies: ${view.devDependencies ? Object.entries(view.devDependencies).length : 0}
-    * top-level prod dependencies:  ${view.dependencies ? Object.entries(view.dependencies).length : 0}`
+    * url: ${dep.homepage}
+    * author: ${dep.author}
+    * bugs: ${dep.bugsUrl}
+    * used in script: ${dep.usedInScripts}
+    * devDependencies: ${dep.devDependencies}
+    * dependencies: ${dep.dependencies}`
     );
 };
 
-printBanner();
-out.info(`Listing upgradable dependencies for ${cmdOptions.root}`);
-let allDeps = dependencies.recon(depOptions);
-if (allDeps.filtered.length > 0) {
-    out.warn(`Filtered ${allDeps.filtered.length} ignorable dependencies...`)
+const doRecon = async (options) => await dependencies.executeNpmCheck(options);
+const augmentWithNpmView = async (allDeps) => {
+    let augmented = await dependencies.augmentWithNpmView(commands.npmView, allDeps.upgradable);
+    allDeps.upgradable = augmented;
+    return allDeps;
+};
+const showOutput = (allDeps) => {
+    allDeps.upgradable.forEach(formatOutput);
+    return allDeps;
+};
+const rankUpgradablePackagesByTotalDeps = (allDeps) => {
+    allDeps.upgradable.sort((a, b) => {
+        const totalDepsA = a.devDependencies + a.dependencies;
+        const totalDepsB = b.devDependencies + a.dependencies;
+        if (totalDepsA < totalDepsB) {
+            return 1;
+        } else {
+            return -1;
+        }
+    });
+    return allDeps;
+};
+const ranksUpgradablePackagesByBump = (allDeps) => {
+    allDeps.upgradable.sort((a, b) => {
+        if (a.bump === BUMP.major && b.bump !== BUMP.major) {
+            return -1;
+        } else {
+            return 1;
+        }
+    });
+    return allDeps;
 }
-allDeps.upgradable.forEach(processDependency);
+const showFilteredDeps = (allDeps) =>
+    out.warn(`Filtered ${Object.entries(allDeps.filtered).length} up-to-date dependencies`);
+
+initialize()
+    .then(doRecon)
+    .then(augmentWithNpmView)
+    .then(rankUpgradablePackagesByTotalDeps)
+    .then(ranksUpgradablePackagesByBump)
+    .then(showOutput)
+    .then(showFilteredDeps);

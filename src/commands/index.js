@@ -1,22 +1,17 @@
+/* eslint-disable camelcase */
+import util from 'util';
 import child_process from 'child_process';
 
-import { PATHS } from '../constants/index.js';
+const async_cp = util.promisify(child_process.exec);
 
-const execShellCommand = (cmd) => {
-    return new Promise((resolve, reject) => {
-        child_process.exec(`${PATHS.bin}/${cmd}`, (error, stdout, stderr) => {
-            if (error) {
-                reject(error);
-            }
-            resolve(stdout? JSON.parse(stdout) : stderr);
-        });
-    });
-}
+const execShellCommand = async (cmd) => {
+    const { stdout, stderr } = await async_cp(cmd);
+    if (stderr) throw stderr;
+    return JSON.parse(stdout);
+};
 
 const commands = {
-    'npmView': async (pkg) => {
-        return execShellCommand(`npm view --json ${pkg}`);
-    },
+    npmView: async (pkg) => execShellCommand(`npm view --json ${pkg}`),
 };
 
 export default commands;
