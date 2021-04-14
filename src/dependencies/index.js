@@ -46,7 +46,7 @@ const executeNpmCheck = async (options, checker = npmCheck) => {
                 installed: pkg.installed,
                 packageWanted: pkg.packageWanted,
                 bump: pkg.bump,
-                usedInScripts: pkg.usedInScripts,
+                usedInScripts: pkg.usedInScripts || false,
                 easyUpgrade: pkg.easyUpgrade,
             });
         }));

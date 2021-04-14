@@ -221,7 +221,7 @@ describe('dependendencies', () => {
             expect(deps.upgradable[0].installed).to.eql(fakePackages[0].installed);
             expect(deps.upgradable[0].packageWanted).to.eql(fakePackages[0].packageWanted);
             expect(deps.upgradable[0].bump).to.eql(fakePackages[0].bump);
-            expect(deps.upgradable[0].usedInScripts).to.eql(fakePackages[0].usedInScripts);
+            expect(deps.upgradable[0].usedInScripts).to.eql(false);
         });
         it('filters out easy upgrade options', () => {
             expect(deps.upgradable.some((dep) => dep.easyUpgrade === true)).eql(false);
