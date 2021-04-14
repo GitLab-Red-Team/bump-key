@@ -134,22 +134,22 @@ describe('dependendencies', () => {
         let fakeNpmViewBabel;
         beforeEach(async () => {
             fakeNpmViewLodash = {
-                name: "lodash",
+                name: 'lodash',
                 author: 'John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)',
                 bugs: {
                     url: 'https://github.com/lodash/lodash/issues',
                 },
             };
             fakeNpmViewBabel = {
-                name: "babel",
+                name: 'babel',
                 devDependencies: {
-                    chai: "^4.3.3",
-                    mocha: "^8.3.1",
+                    chai: '^4.3.3',
+                    mocha: '^8.3.1',
                 },
                 dependencies: {
-                    chalk: "^4.1.0",
+                    chalk: '^4.1.0',
                 },
-            }
+            };
             fakeNpmViewCommandLodash = async () => fakeNpmViewLodash;
             fakeNpmViewCommandBabel = async () => fakeNpmViewBabel;
             augmentedLodashDeps = await dependencies.augmentWithNpmView(fakeNpmViewCommandLodash, [fakePackages[0]]);
