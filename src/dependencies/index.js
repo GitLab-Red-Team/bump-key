@@ -25,6 +25,7 @@ const augmentWithNpmView = async (npmViewAsyncFunc, dependencies) => {
         viewInfo.dependencies = npmView.dependencies
             ? Object.entries(npmView.dependencies).length
             : 0;
+        viewInfo.author = npmView.author || 'NA';
         return ({ ...viewInfo, ...dep });
     });
     return Promise.all(promises);

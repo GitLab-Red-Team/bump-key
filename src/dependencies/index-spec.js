@@ -166,13 +166,24 @@ describe('dependendencies', () => {
         it('augments an existing object with a bugs url', () => {
             expect(augmentedLodashDeps[0].bugsUrl).to.eql(fakeNpmViewLodash.bugs.url);
         });
-        it('augments an existing object when a bugs url is missing', () => {
-            expect(augmentedBabelDeps[0].bugsUrl).to.eql('NA');
-        });
-        it('augments an existing object with devDependencyCount when the property '
+        it('augments an existing object with devDependencyCount when devDependencies '
             + 'is undefined on the source object', () => {
             expect(augmentedLodashDeps[0].devDependencies).to.eql(0);
         });
+        it('augments an existing object with dependencyCount when dependencies '
+            + 'is undefined on the source object', () => {
+            expect(augmentedLodashDeps[0].dependencies).to.eql(0);
+        });
+        it('augments an existing object when a author property is missing', () => {
+            expect(augmentedLodashDeps[0].author).to.eql(fakeNpmViewLodash.author);
+        });
+        it('augments an existing object when a bugs url is missing', () => {
+            expect(augmentedBabelDeps[0].bugsUrl).to.eql('NA');
+        });
+        it('augments an existing object when a author property is missing', () => {
+            expect(augmentedBabelDeps[0].author).to.eql('NA');
+        });
+
     });
     describe('executeNpmCheck', () => {
         let deps;
