@@ -65,8 +65,4 @@ initialize()
     .then(doRecon)
     .then(augmentWithNpmView)
     .then(showOutput)
-    //.then(rankUpgradableDeps);
-    //.then(showOutput)
-    //.then(showFilteredDeps);
-
-
+    .then(showFilteredDeps);
