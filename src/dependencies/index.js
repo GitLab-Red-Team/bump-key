@@ -17,15 +17,13 @@ const augmentWithNpmView = async (npmViewAsyncFunc, dependencies) => {
         const npmView = await npmViewAsyncFunc(pkg);
         const viewInfo = {};
         viewInfo.bugsUrl = npmView.bugs?.url;
-        viewInfo.devDependencies = 7;
         viewInfo.devDependencies = npmView.devDependencies
             ? Object.entries(npmView.devDependencies).length
             : 0;
         viewInfo.dependencies = npmView.dependencies
             ? Object.entries(npmView.dependencies).length
             : 0;
-        const x = ({ ...viewInfo, ...dep });
-        return x;
+        return ({ ...viewInfo, ...dep });
     });
     return Promise.all(promises);
 };

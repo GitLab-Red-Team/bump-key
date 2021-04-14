@@ -126,29 +126,34 @@ describe('dependendencies', () => {
         fakePackages = undefined;
     });
     describe('augmentWithNpmView', () => {
-        let augmentedDeps; let someAsyncCommandFunc; let
-            fakeNpmViewDataLodash;
+        let augmentedLodashDeps;
+        let fakeNpmViewCommandLodash;
+        let fakeNpmViewLodash;
         beforeEach(async () => {
-            fakeNpmViewDataLodash = {
+            fakeNpmViewLodash = {
+                name: "lodash",
                 author: 'John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)',
                 bugs: {
                     url: 'https://github.com/lodash/lodash/issues',
                 },
             };
-            someAsyncCommandFunc = async () => fakeNpmViewDataLodash;
-            augmentedDeps = await dependencies.augmentWithNpmView(someAsyncCommandFunc, [fakePackages[0]]);
+            fakeNpmViewCommandLodash = async () => fakeNpmViewLodash;
+            augmentedLodashDeps = await dependencies.augmentWithNpmView(fakeNpmViewCommandLodash, [fakePackages[0]]);
         });
         afterEach(() => {
-            fakeNpmViewDataLodash = undefined;
-            someAsyncCommandFunc = undefined;
-            augmentedDeps = undefined;
+            fakeNpmViewLodash = undefined;
+            fakeNpmViewCommandLodash = undefined;
+            augmentedLodashDeps = undefined;
         });
         it('augments an existing object with a bugs url', () => {
-            expect(augmentedDeps[0].bugsUrl).to.eql(fakeNpmViewDataLodash.bugs.url);
+            expect(augmentedLodashDeps[0].bugsUrl).to.eql(fakeNpmViewLodash.bugs.url);
+        });
+        it('augments an existing object when a bugs url is missing', () => {
+
         });
         it('augments an existing object with devDependencyCount when the property '
             + 'is undefined on the source object', () => {
-            expect(augmentedDeps[0].devDependencies).to.eql(0);
+            expect(augmentedLodashDeps[0].devDependencies).to.eql(0);
         });
     });
     describe('executeNpmCheck', () => {
