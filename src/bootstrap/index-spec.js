@@ -1,13 +1,15 @@
 import {
-    describe, beforeEach, afterEach, it,
+    afterEach, beforeEach, describe, it,
 } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import bootstrap from './index.js';
 
 describe('bootstrap', () => {
-    let options; let optionSpy; let argParserSpy; let
-        obj;
+    let options;
+    let optionSpy;
+    let argParserSpy;
+    let obj;
 
     beforeEach(() => {
         optionSpy = sinon.spy(() => obj);
@@ -32,11 +34,17 @@ describe('bootstrap', () => {
             version: {
                 alias: 'v',
             },
-            root: {
-                alias: 'r',
-                description: 'The root directory of the targeted project',
-                requiresArg: true,
-                required: true,
+            recon: {
+                alias: 'rc',
+                description: 'Default option if no other parameters are given',
+                required: false,
+                requiredArg: true,
+            },
+            tamper: {
+                alias: 't',
+                description: 'Specify the path to the lock file to tamper along with a SHA1',
+                required: false,
+                requiredArg: true,
             },
             debug: {
                 alias: 'd',

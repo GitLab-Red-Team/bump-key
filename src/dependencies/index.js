@@ -34,8 +34,8 @@ const augmentWithNpmView = async (npmViewAsyncFunc, dependencies) => {
 const executeNpmCheck = async (options, checker = npmCheck) => {
     const filtered = [];
     const upgradable = [];
-    const { cwd } = options;
-    const allDeps = await checker({ cwd }).then((deps) => deps.get('packages')
+    const { recon } = options;
+    const allDeps = await checker({ cwd: recon }).then((deps) => deps.get('packages')
         .map((pkg) => {
             out.debug(`Found ${pkg.moduleName}@${pkg.installed}`);
             return ({

@@ -1,9 +1,10 @@
+import { beforeEach, afterEach, describe, it } from 'mocha';
+import { expect } from 'chai';
 import format from './index.js';
-import {beforeEach, describe, it} from "mocha";
-import {expect} from "chai";
 
 describe('bootstrap', () => {
-    let exampleDependency, exampleOutput;
+    let exampleDependency; let
+        exampleOutput;
     beforeEach(() => {
         exampleDependency = {
             moduleName: 'smarfle',

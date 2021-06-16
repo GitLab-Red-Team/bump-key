@@ -1,4 +1,3 @@
-
 const dependency = (dep) => {
     const nameVersion = `${dep.moduleName}@${dep.installed}`;
     return `${nameVersion} 
@@ -11,7 +10,7 @@ const dependency = (dep) => {
     * bugs: ${dep.bugsUrl}
     * used in script: ${dep.usedInScripts}
     * devDependencies: ${dep.devDependencies}
-    * dependencies: ${dep.dependencies}`
+    * dependencies: ${dep.dependencies}`;
 };
 
 export default {

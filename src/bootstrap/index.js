@@ -12,11 +12,17 @@ const setOptions = (argParser) => argParser(process.argv.slice(2))
         version: {
             alias: 'v',
         },
-        root: {
-            alias: 'r',
-            description: 'The root directory of the targeted project',
-            requiresArg: true,
-            required: true,
+        recon: {
+            alias: 'rc',
+            description: 'Default option if no other parameters are given',
+            required: false,
+            requiredArg: true,
+        },
+        tamper: {
+            alias: 't',
+            description: 'Specify the path to the lock file to tamper along with a SHA1',
+            required: false,
+            requiredArg: true,
         },
         debug: {
             alias: 'd',
@@ -35,8 +41,9 @@ const start = async (argParser) => {
     if (cmdOptions.debug) out.debug('Debug mode enabled...');
     out.info(`Analyzing package.json at ${cmdOptions.root}`);
     return {
-        cwd: cmdOptions.root,
         debug: cmdOptions.debug,
+        recon: cmdOptions.recon,
+        tamper: cmdOptions.tamper,
     };
 };
 
