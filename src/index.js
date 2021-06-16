@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+import yargs from 'yargs';
 import process from 'process';
 import bootstrap from './bootstrap/index.js';
 import out from './out/index.js';
@@ -20,7 +20,7 @@ const augmentWithNpmView = async (allDeps) => {
     return allDeps;
 };
 const showOutput = (allDeps) => {
-    allDeps.upgradable.forEach(format.dependency);
+    allDeps.upgradable.forEach((dep) => out.info(format.dependency(dep)));
     return allDeps;
 };
 const rankUpgradablePackagesByTotalDeps = (allDeps) => {
@@ -48,7 +48,7 @@ const ranksUpgradablePackagesByBump = (allDeps) => {
 const showFilteredDeps = (allDeps) =>
     out.warn(`Filtered ${Object.entries(allDeps.filtered).length} up-to-date dependencies`);
 
-bootstrap.start()
+bootstrap.start(yargs)
     .then(doRecon)
     .then(augmentWithNpmView)
     .then(rankUpgradablePackagesByTotalDeps)
