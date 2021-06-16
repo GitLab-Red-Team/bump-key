@@ -1,32 +1,17 @@
 #!/usr/bin/env node
-import process from 'process';
 
+import process from 'process';
 import bootstrap from './bootstrap/index.js';
 import out from './out/index.js';
 import dependencies from './dependencies/index.js';
 import {BUMP} from './constants/index.js';
 import commands from './commands/index.js';
+import format from './format/index.js';
 
 process.on('unhandledRejection', (reason) => {
     out.error(reason.stack);
     process.exit(1);
 });
-
-const formatOutput = (dep) => {
-    let nameVersion = `${dep.moduleName}@${dep.installed}`;
-    out.info(`${nameVersion} 
-    * bump to latest: ${dep.bump}
-    * specified: ${dep.specified}
-    * wanted: ${dep.packageWanted}
-    * latest version: ${dep.latest}
-    * url: ${dep.homepage}
-    * author: ${dep.author}
-    * bugs: ${dep.bugsUrl}
-    * used in script: ${dep.usedInScripts}
-    * devDependencies: ${dep.devDependencies}
-    * dependencies: ${dep.dependencies}`
-    );
-};
 
 const doRecon = async (options) => await dependencies.executeNpmCheck(options);
 const augmentWithNpmView = async (allDeps) => {
@@ -35,7 +20,7 @@ const augmentWithNpmView = async (allDeps) => {
     return allDeps;
 };
 const showOutput = (allDeps) => {
-    allDeps.upgradable.forEach(formatOutput);
+    allDeps.upgradable.forEach(format.dependency);
     return allDeps;
 };
 const rankUpgradablePackagesByTotalDeps = (allDeps) => {
