@@ -1,8 +1,7 @@
-import out from '../out/index.js';
 
 const dependency = (dep) => {
     const nameVersion = `${dep.moduleName}@${dep.installed}`;
-    out.info(`${nameVersion} 
+    return `${nameVersion} 
     * bump to latest: ${dep.bump}
     * specified: ${dep.specified}
     * wanted: ${dep.packageWanted}
@@ -12,7 +11,7 @@ const dependency = (dep) => {
     * bugs: ${dep.bugsUrl}
     * used in script: ${dep.usedInScripts}
     * devDependencies: ${dep.devDependencies}
-    * dependencies: ${dep.dependencies}`);
+    * dependencies: ${dep.dependencies}`
 };
 
 export default {
