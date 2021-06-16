@@ -3,9 +3,9 @@ import {
 } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import init from './index.js';
+import bootstrap from './index.js';
 
-describe('initialization', () => {
+describe('bootstrap', () => {
     let options; let optionSpy; let argParserSpy; let
         obj;
 
@@ -16,7 +16,7 @@ describe('initialization', () => {
             options: optionSpy,
             argv: [],
         };
-        options = init.setOptions(argParserSpy);
+        options = bootstrap.start(argParserSpy);
     });
     afterEach(() => {
         options = undefined;
