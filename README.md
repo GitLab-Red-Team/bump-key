@@ -23,9 +23,11 @@ bump-key -h
 
 ```
 Options:
-      --help     Show help                                             [boolean]
-      --version  Show version number                                   [boolean]
-  -r, --root     The root directory of the targeted project           [required]
+  -h, --help                                                           [boolean]
+  -v, --version                                                        [boolean]
+  -r, --recon    Default option if no other parameters are given
+  -t, --tamper   Specify the path to the lock file to tamper along with a SHA1
+  -d, --debug    Enables additional output to aid in debugging
 ```
 
 #### Contributing
