@@ -32,6 +32,8 @@ Options:
 
 #### Contributing
 
+This project uses [AngularJS commit message formatting](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-format) to support automatic semantic versioning releases using [semantic-release](https://github.com/semantic-release/semantic-release).  For an MR to be accepted, each commit message must follow this format.
+
 To run tests:
 
 ```bash
