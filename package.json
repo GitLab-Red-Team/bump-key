@@ -16,15 +16,22 @@
     "test": "npx mocha --recursive ./src/**/*spec.js"
   },
   "release": {
-    "branches": ["master"]
+    "branches": [
+      "master",
+      "auto-versioning"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/gitlab"
+    ]
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key.git"
   },
   "keywords": [
-    "lock",
-    "file",
+    "lock file tampering",
+    "lock file",
     "lockfile",
     "tamper",
     "tampering"
@@ -37,7 +44,6 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "mocha": "^8.3.1",
-    "semantic-release": "^17.4.4",
     "sinon": "^9.2.4"
   },
   "dependencies": {
