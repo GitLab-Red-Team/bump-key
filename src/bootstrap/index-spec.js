@@ -1,13 +1,15 @@
 import {
-    describe, beforeEach, afterEach, it,
+    afterEach, beforeEach, describe, it,
 } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import init from './index.js';
+import bootstrap from './index.js';
 
-describe('initialization', () => {
-    let options; let optionSpy; let argParserSpy; let
-        obj;
+describe('bootstrap', () => {
+    let options;
+    let optionSpy;
+    let argParserSpy;
+    let obj;
 
     beforeEach(() => {
         optionSpy = sinon.spy(() => obj);
@@ -16,7 +18,7 @@ describe('initialization', () => {
             options: optionSpy,
             argv: [],
         };
-        options = init.setOptions(argParserSpy);
+        options = bootstrap.start(argParserSpy, false);
     });
     afterEach(() => {
         options = undefined;
@@ -32,11 +34,17 @@ describe('initialization', () => {
             version: {
                 alias: 'v',
             },
-            root: {
+            recon: {
                 alias: 'r',
-                description: 'The root directory of the targeted project',
-                requiresArg: true,
-                required: true,
+                description: 'Default option if no other parameters are given',
+                required: false,
+                requiredArg: true,
+            },
+            tamper: {
+                alias: 't',
+                description: 'Specify the path to the lock file to tamper along with a SHA1',
+                required: false,
+                requiredArg: true,
             },
             debug: {
                 alias: 'd',
