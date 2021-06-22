@@ -17,5 +17,6 @@ release:
   before_script:
     - npm install -g semantic-release @semantic-release/gitlab
   script:
-    - ls -la
-    - semantic-release --dry-run
+    - semantic-release
+  only:
+    - master
