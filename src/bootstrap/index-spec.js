@@ -35,7 +35,7 @@ describe('bootstrap', () => {
                 alias: 'v',
             },
             recon: {
-                alias: 'rc',
+                alias: 'r',
                 description: 'Default option if no other parameters are given',
                 required: false,
                 requiredArg: true,

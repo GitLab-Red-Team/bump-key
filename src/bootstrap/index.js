@@ -13,7 +13,7 @@ const setOptions = (argParser) => argParser(process.argv.slice(2))
             alias: 'v',
         },
         recon: {
-            alias: 'rc',
+            alias: 'r',
             description: 'Default option if no other parameters are given',
             required: false,
             requiredArg: true,
