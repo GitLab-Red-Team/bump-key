@@ -17,8 +17,7 @@
   },
   "release": {
     "branches": [
-      "master",
-      "auto-versioning"
+      "master"
     ],
     "plugins": [
       "@semantic-release/commit-analyzer",
