@@ -4,10 +4,10 @@ import out from '../out/index.js';
 import format from '../format/index.js';
 import { BUMP } from '../constants/index.js';
 
-const doRecon = async (options) => { await dependencies.executeNpmCheck(options); };
+const doRecon = async (options) => dependencies.executeNpmCheck(options);
 const augmentWithNpmView = async (allDeps) => {
     const augmented = await dependencies.augmentWithNpmView(commands.npmView, allDeps.upgradable);
-    const augmentedDeps = allDeps;
+    const augmentedDeps = Object.assign(allDeps);
     augmentedDeps.upgradable = augmented;
     return augmentedDeps;
 };
