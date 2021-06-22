@@ -1,6 +1,5 @@
 {
   "name": "bump-key",
-  "version": "0.0.1",
   "description": "An offensive tool for tampering lock files",
   "main": "src/index.js",
   "type": "module",
@@ -15,13 +14,22 @@
     "lint": "npx eslint ./src/**/*.js",
     "test": "npx mocha --recursive ./src/**/*spec.js"
   },
+  "release": {
+    "branches": [
+      "master"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/gitlab"
+    ]
+  },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key.git"
   },
   "keywords": [
-    "lock",
-    "file",
+    "lock file tampering",
+    "lock file",
     "lockfile",
     "tamper",
     "tampering"

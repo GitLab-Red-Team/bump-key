@@ -1,10 +1,22 @@
 stages:
   - build
+  - release
+
+image: node:15-buster
 
 build:
   stage: build
-  image: node:latest
   before_script:
     - npm ci
   script:
     - npm run build
+release:
+  stage: release
+  dependencies:
+    - build
+  before_script:
+    - npm install -g semantic-release @semantic-release/gitlab
+  script:
+    - semantic-release
+  only:
+    - master
