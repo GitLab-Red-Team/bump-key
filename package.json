@@ -1,6 +1,5 @@
 {
   "name": "bump-key",
-  "version": "0.0.1",
   "description": "An offensive tool for tampering lock files",
   "main": "src/index.js",
   "type": "module",
