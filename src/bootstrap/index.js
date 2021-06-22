@@ -38,8 +38,8 @@ const showBanner = () => {
     console.log(`   ${chalk.keyword('purple').bgKeyword('orange')('   ~~~ bump-key v0.0.1 - GitLab Red Team ~~~   \n\n')}`);
 };
 
-const start = async (argParser, showBanner = true) => {
-    if (showBanner) showBanner()
+const start = async (argParser, shouldShowBanner = true) => {
+    if (shouldShowBanner) showBanner();
     const cmdOptions = setOptions(argParser);
     out.init(cmdOptions.debug);
     if (cmdOptions.debug) out.debug('Debug mode enabled...');
