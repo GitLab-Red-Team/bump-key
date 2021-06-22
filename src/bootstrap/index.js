@@ -33,9 +33,13 @@ const setOptions = (argParser) => argParser(process.argv.slice(2))
     })
     .argv;
 
-const start = async (argParser) => {
+const showBanner = () => {
     console.log(chalk.keyword('purple').bold(BANNER));
     console.log(`   ${chalk.keyword('purple').bgKeyword('orange')('   ~~~ bump-key v0.0.1 - GitLab Red Team ~~~   \n\n')}`);
+};
+
+const start = async (argParser, showBanner = true) => {
+    if (showBanner) showBanner()
     const cmdOptions = setOptions(argParser);
     out.init(cmdOptions.debug);
     if (cmdOptions.debug) out.debug('Debug mode enabled...');

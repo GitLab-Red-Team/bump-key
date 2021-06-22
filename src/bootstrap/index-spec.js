@@ -18,7 +18,7 @@ describe('bootstrap', () => {
             options: optionSpy,
             argv: [],
         };
-        options = bootstrap.start(argParserSpy);
+        options = bootstrap.start(argParserSpy, false);
     });
     afterEach(() => {
         options = undefined;
