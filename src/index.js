@@ -4,6 +4,7 @@ import process from 'process';
 import bootstrap from './bootstrap/index.js';
 import out from './out/index.js';
 import recon from './recon/index.js';
+import tamper from './tamper/index.js';
 
 process.on('unhandledRejection', (reason) => {
     out.error(reason.stack);
@@ -11,7 +12,8 @@ process.on('unhandledRejection', (reason) => {
 });
 
 bootstrap.start(yargs)
-    .then(recon.start);
+    .then(recon.start)
+    .then(tamper.start);
 
 
 
