@@ -45,7 +45,7 @@ const start = async (argParser, shouldShowBanner = true) => {
     const cmdOptions = setOptions(argParser);
     out.init(cmdOptions.debug);
     if (cmdOptions.debug) out.debug('Debug mode enabled...');
-    out.info(`Analyzing package.json at ${cmdOptions.root}`);
+    out.info(`Analyzing package.json at ${cmdOptions.recon}`);
     return {
         debug: cmdOptions.debug,
         recon: cmdOptions.recon,
