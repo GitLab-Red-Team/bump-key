@@ -38,7 +38,8 @@ const ranksUpgradablePackagesByBump = (allDeps) => {
 const showFilteredDeps = (allDeps) => out.warn(`Filtered ${Object.entries(allDeps.filtered).length} up-to-date dependencies`);
 
 const start = (options) => {
-    if (options.tamper) return;
+    if (options.tamper) 
+        return options;
     doRecon(options)
         .then(augmentWithNpmView)
         .then(rankUpgradablePackagesByTotalDeps)
