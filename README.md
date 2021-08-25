@@ -40,6 +40,11 @@ To run tests:
 npm run test
 ```
 
+To watch and rerun changed tests only:
+```bash
+npm run test:watch
+```
+
 From the root directory of the cloned repository, you can run and test the tool without installing it globally.  This method of execution can be used from the command line and is also handy to plug into your development tool of choice for debugging purposes:
 
 ```

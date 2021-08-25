@@ -13,7 +13,7 @@
     "install-global": "npm run clean && npm run build && npm i -g .",
     "lint": "npx eslint ./src/**/*.js",
     "test": "npx mocha --recursive ./src/**/*spec.js",
-    "test-watch": "npx mocha --recursive ./src/**/*spec.js --watch"
+    "test:watch": "npx mocha --recursive ./src/**/*spec.js --watch --parallel"
   },
   "release": {
     "branches": [
