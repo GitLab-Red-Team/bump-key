@@ -1,16 +1,9 @@
 import dependencies from '../dependencies/index.js';
 import commands from '../commands/index.js';
+import common from '../common/index.js';
 import out from '../out/index.js';
 import format from '../format/index.js';
 import { BUMP } from '../constants/index.js';
-
-const validateOptions = async (options) => {
-    if (!options.recon) {
-        throw new Error('No recon options provided.  Skipping recon!');
-    } else {
-        return options;
-    }
-};
 
 const doRecon = async (options) => dependencies.executeNpmCheck(options);
 const augmentWithNpmView = async (allDeps) => {
@@ -46,14 +39,14 @@ const ranksUpgradablePackagesByBump = (allDeps) => {
 const showFilteredDeps = (allDeps) => out.warn(`Filtered ${Object.entries(allDeps.filtered).length} up-to-date dependencies`);
 
 const start = (options) => {
-    validateOptions(options)
+    common.validateOptions(options, 'recon')
         .then(doRecon)
         .then(augmentWithNpmView)
         .then(rankUpgradablePackagesByTotalDeps)
         .then(ranksUpgradablePackagesByBump)
         .then(showOutput)
         .then(showFilteredDeps)
-        .catch(out.debug);
+        .catch(out.warn);
 };
 
 export default {
