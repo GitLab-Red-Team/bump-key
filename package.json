@@ -12,7 +12,8 @@
     "clean": "rm -rf ./node_modules",
     "install-global": "npm run clean && npm run build && npm i -g .",
     "lint": "npx eslint ./src/**/*.js",
-    "test": "npx mocha --recursive ./src/**/*spec.js"
+    "test": "npx mocha --recursive ./src/**/*spec.js",
+    "test-watch": "npx mocha --recursive ./src/**/*spec.js --watch"
   },
   "release": {
     "branches": [
@@ -52,13 +53,13 @@
     "eslint": "^7.22.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
-    "mocha": "^8.3.1",
-    "sinon": "^9.2.4"
+    "mocha": "^9.1.0",
+    "sinon": "^11.1.2"
   },
   "dependencies": {
     "chalk": "^4.1.0",
     "npm": "^7.6.3",
     "npm-check": "^5.9.2",
-    "yargs": "^16.2.0"
+    "yargs": "^17.1.1"
   }
 }
