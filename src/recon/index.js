@@ -10,7 +10,7 @@ const validateOptions = async (options) => {
     } else {
         return options;
     }
-}
+};
 
 const doRecon = async (options) => dependencies.executeNpmCheck(options);
 const augmentWithNpmView = async (allDeps) => {

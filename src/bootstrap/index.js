@@ -4,7 +4,7 @@ import chalk from 'chalk';
 import { BANNER } from '../constants/index.js';
 import out from '../out/index.js';
 
-//ref:  https://yargs.js.org/docs/#api-reference-optionskey-opt
+// ref: https://yargs.js.org/docs/#api-reference-optionskey-opt
 const setOptions = (argParser) => argParser(process.argv.slice(2))
     .options({
         help: {

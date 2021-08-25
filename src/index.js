@@ -14,6 +14,3 @@ process.on('unhandledRejection', (reason) => {
 bootstrap.start(yargs)
     .then(recon.start)
     .then(tamper.start);
-
-
-
