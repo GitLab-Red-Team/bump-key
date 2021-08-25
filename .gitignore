@@ -6,3 +6,4 @@ bin/
 
 # Tooling
 .idea/
+.vscode/
