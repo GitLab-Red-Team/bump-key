@@ -11,6 +11,12 @@ process.on('unhandledRejection', (reason) => {
     process.exit(1);
 });
 
-bootstrap.start(yargs)
-    .then(recon.start)
-    .then(tamper.start);
+const options = bootstrap.start(yargs);
+
+if (options.recon) {
+    recon.start(options);
+}
+
+if (options.tamper) {
+    tamper.start(options);
+}
