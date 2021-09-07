@@ -1,13 +1,23 @@
 /* eslint-disable import/no-duplicates */
-// import {
-//    afterEach, beforeEach, describe, it,
-// } from 'mocha';
-import chai from 'chai';
-// import { expect } from 'chai';
-import chaiAsPromised from 'chai-as-promised';
-// import tamper from './index.js';
+import {
+    beforeEach, describe, it,
+} from 'mocha';
+import sinon from 'sinon';
+import { expect } from 'chai';
+import tamper from './index.js';
 
-chai.use(chaiAsPromised);
-
-// describe('tamper', () => {
-// });
+describe('tamper', () => {
+    describe('readPackageLock', () => {
+        let fileReaderSpy;
+        const dir = '/opt/somedir';
+        beforeEach(async () => {
+            fileReaderSpy = sinon.spy();
+            await tamper.readPackageLock(dir, fileReaderSpy);
+        });
+        it('makes proper calls to the file reader function', async () => {
+            expect(fileReaderSpy.callCount).to.equal(1);
+            expect(fileReaderSpy.args[0][0]).to.equal(`${dir}/package-lock.json`);
+            expect(fileReaderSpy.args[0][1]).to.equal('utf8');
+        });
+    });
+});
