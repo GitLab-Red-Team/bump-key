@@ -8,7 +8,7 @@ const readFile = util.promisify(fs.readFile);
 
 const readPackageLock = async (filePath, fileReader = readFile) => {
     const buffer = await fileReader(path.join(filePath, 'package-lock.json'), 'utf8');
-    return buffer ? JSON.parse(buffer.toString()) : {};
+    return buffer ? JSON.parse(buffer) : {};
 };
 
 const start = (options) => {
