@@ -57,8 +57,10 @@ describe('tamper', () => {
             options = undefined;
         });
         it('updates the resolved url of a targeted dependency', () => {
-            expect(pkgLockOut.packages[moduleName].resolved).to.be.a('string');
             expect(pkgLockOut.packages[moduleName].resolved).to.eql(expectedResolved);
+        });
+        it('errors when the target package is not found', async () => {
+            expect(() => tamper.updatePackage(['./', 'missingDep', expectedResolved], pkgLockData)).to.throw('Dependency missingDep not found...');
         });
     });
     describe('readPackageLock', () => {
