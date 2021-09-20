@@ -80,13 +80,36 @@ describe('tamper', () => {
         afterEach(() => {
             sandbox.restore();
         });
-        it('makes proper calls to the file reader function', async () => {
+        it('makes proper calls to the file reader function', () => {
             expect(fileReaderSpy.callCount).to.equal(1);
             expect(fileReaderSpy.args[0][0]).to.equal(`${dir}/package-lock.json`);
             expect(fileReaderSpy.args[0][1]).to.equal('utf8');
         });
         it('errors when the package-lock file cannot be found', () => {
             expect(tamper.readPackageLock(dir, fileReaderErrorStub)).to.be.rejectedWith('File not found...');
+        });
+    });
+    describe('writeTamperedPackageLock', () => {
+        let fileWriterSpy;
+        let fileWriterErrorStub;
+        let sandbox;
+        const dir = '/opt/somedir';
+        beforeEach(async () => {
+            sandbox = sinon.createSandbox();
+            fileWriterSpy = sandbox.spy();
+            fileWriterErrorStub = sandbox.stub().returns(Promise.reject(new Error('File not found...')));
+            await tamper.writeTamperedPackageLock(dir, {}, fileWriterSpy);
+        });
+        afterEach(() => {
+            sandbox.restore();
+        });
+        it('makes proper calls to the file writer function', async () => {
+            expect(fileWriterSpy.callCount).to.equal(1);
+            expect(fileWriterSpy.args[0][0]).to.equal(`${dir}/package-lock.json`);
+            expect(Object.entries(fileWriterSpy.args[0][1]).length).to.equal(0);
+        });
+        it('errors when the package-lock file cannot be written to', () => {
+            expect(tamper.writeTamperedPackageLock(dir, {}, fileWriterErrorStub)).to.be.rejectedWith('File not found...');
         });
     });
 });

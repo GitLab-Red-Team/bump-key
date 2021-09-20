@@ -6,10 +6,15 @@ import common from '../common/index.js';
 import { FILES } from '../constants/index.js';
 
 const readFile = util.promisify(fs.readFile);
+const writeFile = util.promisify(fs.writeFile);
 
 const readPackageLock = async (filePath, fileReader = readFile) => {
     const buffer = await fileReader(path.join(filePath, FILES.PACKAGELOCK), 'utf8');
     return buffer ? JSON.parse(buffer) : {};
+};
+
+const writeTamperedPackageLock = async (filePath, pkgLockData, fileWriter = writeFile) => {
+    await fileWriter(path.join(filePath, FILES.PACKAGELOCK), pkgLockData);
 };
 
 const tamperPackage = async (tamperOptions, data) => {
