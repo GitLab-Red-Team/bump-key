@@ -12,7 +12,7 @@ const readPackageLock = async (filePath, fileReader = readFile) => {
     return buffer ? JSON.parse(buffer) : {};
 };
 
-const tamperPackage = (tamperOptions, data) => {
+const tamperPackage = async (tamperOptions, data) => {
     const result = Object.assign(data);
     const depName = tamperOptions[1];
     const updatedResolved = tamperOptions[2];
@@ -25,7 +25,7 @@ const start = (options) => {
     common.validateOptions(options, 'tamper')
         .then(() => readPackageLock(options.tamper[0]))
         .then((pkgLock) => tamperPackage(options.tamper, pkgLock))
-        .catch(out.warn);
+        .catch(out.error);
 };
 
 export default {

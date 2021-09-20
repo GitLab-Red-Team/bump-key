@@ -3,8 +3,11 @@ import {
     beforeEach, afterEach, describe, it,
 } from 'mocha';
 import sinon from 'sinon';
-import { expect } from 'chai';
+import chai, { expect } from 'chai';
+import chaiAsPromised from 'chai-as-promised';
 import tamper from './index.js';
+
+chai.use(chaiAsPromised);
 
 describe('tamper', () => {
     describe('updateDependency', () => {
@@ -60,20 +63,30 @@ describe('tamper', () => {
             expect(pkgLockOut.packages[moduleName].resolved).to.eql(expectedResolved);
         });
         it('errors when the target package is not found', async () => {
-            expect(() => tamper.updatePackage(['./', 'missingDep', expectedResolved], pkgLockData)).to.throw('Dependency missingDep not found...');
+            expect(tamper.updatePackage(['./', 'missingDep', expectedResolved], pkgLockData)).to.be.rejectedWith('Dependency missingDep not found...');
         });
     });
     describe('readPackageLock', () => {
         let fileReaderSpy;
+        let fileReaderErrorStub;
+        let sandbox;
         const dir = '/opt/somedir';
         beforeEach(async () => {
-            fileReaderSpy = sinon.spy();
+            sandbox = sinon.createSandbox();
+            fileReaderSpy = sandbox.spy();
+            fileReaderErrorStub = sandbox.stub().returns(Promise.reject(new Error('File not found...')));
             await tamper.readPackageLock(dir, fileReaderSpy);
+        });
+        afterEach(() => {
+            sandbox.restore();
         });
         it('makes proper calls to the file reader function', async () => {
             expect(fileReaderSpy.callCount).to.equal(1);
             expect(fileReaderSpy.args[0][0]).to.equal(`${dir}/package-lock.json`);
             expect(fileReaderSpy.args[0][1]).to.equal('utf8');
+        });
+        it('errors when the package-lock file cannot be found', () => {
+            expect(tamper.readPackageLock(dir, fileReaderErrorStub)).to.be.rejectedWith('File not found...');
         });
     });
 });
