@@ -52,7 +52,7 @@ describe('tamper', () => {
                     },
                 },
             };
-            pkgLockOut = await tamper.updatePackage(options.tamper, pkgLockData);
+            pkgLockOut = await tamper.tamperPackage(options.tamper, pkgLockData);
         });
         afterEach(() => {
             pkgLockData = undefined;
@@ -63,7 +63,7 @@ describe('tamper', () => {
             expect(pkgLockOut.packages[moduleName].resolved).to.eql(expectedResolved);
         });
         it('errors when the target package is not found', async () => {
-            expect(tamper.updatePackage(['./', 'missingDep', expectedResolved], pkgLockData)).to.be.rejectedWith('Dependency missingDep not found...');
+            expect(tamper.tamperPackage(['./', 'missingDep', expectedResolved], pkgLockData)).to.be.rejectedWith('Dependency missingDep not found...');
         });
     });
     describe('readPackageLock', () => {

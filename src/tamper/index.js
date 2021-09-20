@@ -31,5 +31,6 @@ const start = (options) => {
 export default {
     start,
     readPackageLock,
-    updatePackage: tamperPackage,
+    writeTamperedPackageLock,
+    tamperPackage,
 };
