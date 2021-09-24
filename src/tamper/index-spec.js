@@ -68,14 +68,16 @@ describe('tamper', () => {
     });
     describe('readPackageLock', () => {
         let fileReaderSpy;
+        let loggerSpy;
         let fileReaderErrorStub;
         let sandbox;
         const dir = '/opt/somedir';
         beforeEach(async () => {
             sandbox = sinon.createSandbox();
             fileReaderSpy = sandbox.spy();
+            loggerSpy = sandbox.spy();
             fileReaderErrorStub = sandbox.stub().returns(Promise.reject(new Error('File not found...')));
-            await tamper.readPackageLock(dir, fileReaderSpy);
+            await tamper.readPackageLock(dir, loggerSpy, fileReaderSpy);
         });
         afterEach(() => {
             sandbox.restore();
@@ -87,6 +89,9 @@ describe('tamper', () => {
         });
         it('errors when the package-lock file cannot be found', () => {
             expect(tamper.readPackageLock(dir, fileReaderErrorStub)).to.be.rejectedWith('File not found...');
+        });
+        it('called the logger function correctly', () => {
+            expect(loggerSpy.callCount).to.equal(1);
         });
     });
     describe('writeTamperedPackageLock', () => {

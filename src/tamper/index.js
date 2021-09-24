@@ -8,15 +8,17 @@ import { FILES } from '../constants/index.js';
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
-const readPackageLock = async (filePath, fileReader = readFile) => {
-    const buffer = await fileReader(path.join(filePath, FILES.PACKAGELOCK), 'utf8');
+const readPackageLock = async (filePath, logger = out.info, fileReader = readFile) => {
+    const fileLiteralPath = path.join(filePath, FILES.PACKAGELOCK);
+    logger(`Reading existing package lock file ${fileLiteralPath}..`);
+    const buffer = await fileReader(fileLiteralPath, 'utf8');
     return buffer ? JSON.parse(buffer) : {};
 };
 
 const writeTamperedPackageLock = async (filePath, pkgLockData,
     _logger = out.info, _fileWriter = writeFile) => {
     const fileLiteralPath = path.join(filePath, FILES.PACKAGELOCK);
-    _logger(`Writing to ${fileLiteralPath}...`);
+    _logger(`Writing tampered data to ${fileLiteralPath}...`);
     await _fileWriter(fileLiteralPath, pkgLockData);
 };
 
@@ -33,6 +35,7 @@ const start = (options) => {
     common.validateOptions(options, 'tamper')
         .then(() => readPackageLock(options.tamper[0]))
         .then((pkgLock) => tamperPackage(options.tamper, pkgLock))
+        .then((tamperedPkgLock) => writeTamperedPackageLock(options.tamper[0], tamperedPkgLock))
         .catch(out.error);
 };
 
