@@ -113,6 +113,7 @@ describe('tamper', () => {
         it('makes proper calls to the file writer function', async () => {
             expect(fileWriterSpy.callCount).to.equal(1);
             expect(fileWriterSpy.args[0][0]).to.equal(`${dir}/package-lock.json`);
+            expect(typeof fileWriterSpy.args[0][1]).to.equal('string');
             expect(fileWriterSpy.args[0][1].length).to.equal(2);
         });
         it('errors when the package-lock file cannot be written to', () => {
