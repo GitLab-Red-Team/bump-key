@@ -94,15 +94,15 @@ describe('tamper', () => {
             sandbox.restore();
         });
         it('makes proper calls to the file reader function', () => {
-            expect(fileReaderSpy.callCount).to.equal(1);
-            expect(fileReaderSpy.args[0][0]).to.equal(`${dir}/package-lock.json`);
-            expect(fileReaderSpy.args[0][1]).to.equal('utf8');
+            expect(fileReaderSpy.callCount).to.eql(1);
+            expect(fileReaderSpy.args[0][0]).to.eql(`${dir}/package-lock.json`);
+            expect(fileReaderSpy.args[0][1]).to.eql('utf8');
         });
         it('errors when the package-lock file cannot be found', () => {
             expect(tamper.readPackageLock(dir, fileReaderErrorStub)).to.be.rejectedWith('File not found...');
         });
         it('called the logger function correctly', () => {
-            expect(loggerSpy.callCount).to.equal(1);
+            expect(loggerSpy.callCount).to.eql(1);
         });
     });
     describe('writeTamperedPackageLock', () => {
@@ -122,10 +122,10 @@ describe('tamper', () => {
             sandbox.restore();
         });
         it('makes proper calls to the file writer function', async () => {
-            expect(fileWriterSpy.callCount).to.equal(1);
-            expect(fileWriterSpy.args[0][0]).to.equal(`${dir}/package-lock.json`);
-            expect(typeof fileWriterSpy.args[0][1]).to.equal('string');
-            expect(fileWriterSpy.args[0][1].length).to.equal(2);
+            expect(fileWriterSpy.callCount).to.eql(1);
+            expect(fileWriterSpy.args[0][0]).to.eql(`${dir}/package-lock.json`);
+            expect(typeof fileWriterSpy.args[0][1]).to.eql('string');
+            expect(fileWriterSpy.args[0][1].length).to.eql(2);
         });
         it('errors when the package-lock file cannot be written to', () => {
             expect(tamper.writeTamperedPackageLock(dir, {}, fileWriterErrorStub)).to.be.rejectedWith('File not found...');
