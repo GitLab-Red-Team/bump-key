@@ -10,7 +10,7 @@ import tamper from './index.js';
 chai.use(chaiAsPromised);
 
 describe('tamper', () => {
-    describe('updateDependency', () => {
+    describe('tamperPackage', () => {
         let pkgLockData;
         let pkgLockOut;
         let options;
@@ -18,7 +18,7 @@ describe('tamper', () => {
         let expectedResolved;
         let moduleName;
         beforeEach(async () => {
-            moduleName = 'node_modules/@babel/code-frame';
+            moduleName = 'chalk';
             originalResolved = 'https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.12.13.tgz';
             expectedResolved = 'https://registry.npmjs.org/some/other/-/dep-7.12.13.tgz';
             options = {
@@ -51,6 +51,17 @@ describe('tamper', () => {
                         },
                     },
                 },
+                dependencies: {
+                    chalk: {
+                        version: '4.1.2',
+                        resolved: 'https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz',
+                        integrity: 'sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==',
+                        requires: {
+                            'ansi-styles': '^4.1.0',
+                            'supports-color': '^7.1.0',
+                        },
+                    },
+                },
             };
             pkgLockOut = await tamper.tamperPackage(options.tamper, pkgLockData);
         });
@@ -60,7 +71,7 @@ describe('tamper', () => {
             options = undefined;
         });
         it('updates the resolved url of a targeted dependency', () => {
-            expect(pkgLockOut.packages[moduleName].resolved).to.eql(expectedResolved);
+            expect(pkgLockOut.dependencies[moduleName].resolved).to.eql(expectedResolved);
         });
         it('errors when the target package is not found', async () => {
             expect(tamper.tamperPackage(['./', 'missingDep', expectedResolved], pkgLockData)).to.be.rejectedWith('Dependency missingDep not found...');

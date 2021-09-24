@@ -26,8 +26,8 @@ const tamperPackage = async (tamperOptions, data) => {
     const result = Object.assign(data);
     const depName = tamperOptions[1];
     const updatedResolved = tamperOptions[2];
-    if (!result.packages[depName]) throw new Error(`Dependency ${depName} not found...`);
-    result.packages[depName].resolved = updatedResolved;
+    if (!result.dependencies[depName]) throw new Error(`Dependency ${depName} not found...`);
+    result.dependencies[depName].resolved = updatedResolved;
     return result;
 };
 
