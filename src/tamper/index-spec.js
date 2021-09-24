@@ -91,14 +91,16 @@ describe('tamper', () => {
     });
     describe('writeTamperedPackageLock', () => {
         let fileWriterSpy;
+        let loggerSpy;
         let fileWriterErrorStub;
         let sandbox;
         const dir = '/opt/somedir';
         beforeEach(async () => {
             sandbox = sinon.createSandbox();
+            loggerSpy = sandbox.spy();
             fileWriterSpy = sandbox.spy();
             fileWriterErrorStub = sandbox.stub().returns(Promise.reject(new Error('File not found...')));
-            await tamper.writeTamperedPackageLock(dir, {}, fileWriterSpy);
+            await tamper.writeTamperedPackageLock(dir, {}, loggerSpy, fileWriterSpy);
         });
         afterEach(() => {
             sandbox.restore();
@@ -110,6 +112,9 @@ describe('tamper', () => {
         });
         it('errors when the package-lock file cannot be written to', () => {
             expect(tamper.writeTamperedPackageLock(dir, {}, fileWriterErrorStub)).to.be.rejectedWith('File not found...');
+        });
+        it('calls the logging function correct', () => {
+            expect(loggerSpy.callCount).to.eql(1);
         });
     });
 });

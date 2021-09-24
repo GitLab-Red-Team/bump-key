@@ -13,8 +13,11 @@ const readPackageLock = async (filePath, fileReader = readFile) => {
     return buffer ? JSON.parse(buffer) : {};
 };
 
-const writeTamperedPackageLock = async (filePath, pkgLockData, fileWriter = writeFile) => {
-    await fileWriter(path.join(filePath, FILES.PACKAGELOCK), pkgLockData);
+const writeTamperedPackageLock = async (filePath, pkgLockData,
+    _logger = out.info, _fileWriter = writeFile) => {
+    const fileLiteralPath = path.join(filePath, FILES.PACKAGELOCK);
+    _logger(`Writing to ${fileLiteralPath}...`);
+    await _fileWriter(fileLiteralPath, pkgLockData);
 };
 
 const tamperPackage = async (tamperOptions, data) => {
