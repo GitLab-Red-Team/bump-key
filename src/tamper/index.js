@@ -19,7 +19,7 @@ const writeTamperedPackageLock = async (filePath, pkgLockData,
     _logger = out.info, _fileWriter = writeFile) => {
     const fileLiteralPath = path.join(filePath, FILES.PACKAGELOCK);
     _logger(`Writing tampered data to ${fileLiteralPath}...`);
-    await _fileWriter(fileLiteralPath, pkgLockData);
+    await _fileWriter(fileLiteralPath, JSON.stringify(pkgLockData));
 };
 
 const tamperPackage = async (tamperOptions, data) => {
