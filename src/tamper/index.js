@@ -8,10 +8,10 @@ import { FILES } from '../constants/index.js';
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
-const readPackageLock = async (filePath, logger = out.info, fileReader = readFile) => {
+const readPackageLock = async (filePath, _logger = out.info, _fileReader = readFile) => {
     const fileLiteralPath = path.join(filePath, FILES.PACKAGELOCK);
-    logger(`Reading existing package lock file ${fileLiteralPath}..`);
-    const buffer = await fileReader(fileLiteralPath, 'utf8');
+    _logger(`Reading existing package lock file ${fileLiteralPath}..`);
+    const buffer = await _fileReader(fileLiteralPath, 'utf8');
     return buffer ? JSON.parse(buffer) : {};
 };
 
