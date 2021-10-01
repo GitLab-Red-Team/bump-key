@@ -7,7 +7,7 @@ import {
 import { expect } from 'chai';
 import format from './index.js';
 
-describe('bootstrap', () => {
+describe('format', () => {
     let exampleDependency;
     let
         exampleOutput;

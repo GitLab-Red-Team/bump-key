@@ -1,21 +1,23 @@
 import {
     describe, beforeEach, afterEach, it,
 } from 'mocha';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import commands from './index.js';
 
 describe('commands - npm view', () => {
-    let commandResults;
+    let sandbox;
+    let shellCommandSpy;
     beforeEach(async () => {
-        commandResults = await commands.npmView('chalk@latest');
+        sandbox = sinon.createSandbox();
+        shellCommandSpy = sandbox.spy();
+        await commands.npmView('chalk@latest', shellCommandSpy);
     });
     afterEach(() => {
-        commandResults = null;
+        sandbox.restore();
     });
-    it('executes an npm view command returning dev dependencies', () => {
-        expect(commandResults.devDependencies.length).not.to.eql(0);
-    });
-    it('executes an npm view command returning prod dependencies', () => {
-        expect(commandResults.dependencies.length).not.to.eql(0);
+    it('executes an npm view command properly', () => {
+        expect(shellCommandSpy.callCount).to.eql(1);
+        expect(shellCommandSpy.calledWith('npm view --json chalk@latest')).to.eql(true);
     });
 });

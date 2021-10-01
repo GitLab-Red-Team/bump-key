@@ -1,4 +1,5 @@
 [![pipeline status](https://gitlab.com/gitlab-red-team/attack-tools/bump-key/badges/master/pipeline.svg)](https://gitlab.com/gitlab-red-team/attack-tools/bump-key/-/commits/master)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 # bump-key
 
@@ -38,6 +39,11 @@ To run tests:
 
 ```bash
 npm run test
+```
+
+To watch and rerun changed tests only:
+```bash
+npm run test:watch
 ```
 
 From the root directory of the cloned repository, you can run and test the tool without installing it globally.  This method of execution can be used from the command line and is also handy to plug into your development tool of choice for debugging purposes:

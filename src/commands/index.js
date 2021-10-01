@@ -11,7 +11,7 @@ const execShellCommand = async (cmd) => {
 };
 
 const commands = {
-    npmView: async (pkg) => execShellCommand(`npm view --json ${pkg}`),
+    npmView: async (pkg, shellCommandFunc = execShellCommand) => shellCommandFunc(`npm view --json ${pkg}`),
 };
 
 export default commands;

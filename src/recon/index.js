@@ -1,5 +1,6 @@
 import dependencies from '../dependencies/index.js';
 import commands from '../commands/index.js';
+import common from '../common/index.js';
 import out from '../out/index.js';
 import format from '../format/index.js';
 import { BUMP } from '../constants/index.js';
@@ -38,13 +39,14 @@ const ranksUpgradablePackagesByBump = (allDeps) => {
 const showFilteredDeps = (allDeps) => out.warn(`Filtered ${Object.entries(allDeps.filtered).length} up-to-date dependencies`);
 
 const start = (options) => {
-    if (options.tamper) return;
-    doRecon(options)
+    common.validateOptions(options, 'recon')
+        .then(doRecon)
         .then(augmentWithNpmView)
         .then(rankUpgradablePackagesByTotalDeps)
         .then(ranksUpgradablePackagesByBump)
         .then(showOutput)
-        .then(showFilteredDeps);
+        .then(showFilteredDeps)
+        .catch(out.warn);
 };
 
 export default {
