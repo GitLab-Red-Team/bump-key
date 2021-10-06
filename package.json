@@ -23,6 +23,12 @@
       "@semantic-release/commit-analyzer",
       [
         "@semantic-release/release-notes-generator",
+        [
+          "@semantic-release/changelog",
+          {
+            "changelogFile": "CHANGELOG.md"
+          }
+        ],
         {
           "writerOpts": {
             "commitsSort": [
@@ -30,6 +36,12 @@
               "scope"
             ]
           }
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": ["CHANGELOG.md"]
         }
       ],
       "@semantic-release/gitlab"
