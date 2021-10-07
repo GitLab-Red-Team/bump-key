@@ -4,27 +4,42 @@ import chalk from 'chalk';
 import { BANNER } from '../constants/index.js';
 import out from '../out/index.js';
 
+const defaultRequiredStringOption = {
+    required: true,
+    requiresArg: true,
+    type: 'string',
+    nargs: 1,
+};
+
 // ref: https://yargs.js.org/docs/#api-reference-optionskey-opt
 const setOptions = (argParser) => argParser(process.argv.slice(2))
+    .command('recon', 'Perform reconnaissance to determine potential targets within a project', {
+        lockfile: {
+            alias: 'l',
+            description: 'The path to the target lockfile',
+            ...defaultRequiredStringOption,
+        },
+    })
+    .command('tamper', 'Tamper a lockfile', {
+        lockfile: {
+            alias: 'l',
+            description: 'The path to the target lockfile',
+            ...defaultRequiredStringOption,
+        },
+        dependency: {
+            alias: 'd',
+            description: 'The name of the target dependency in the lockfile',
+            ...defaultRequiredStringOption,
+        },
+        replacement: {
+            alias: 'r',
+            description: 'The name of npmjs.org dependency to replace the target',
+            ...defaultRequiredStringOption,
+        },
+    })
     .options({
         help: {
             alias: 'h',
-        },
-        recon: {
-            alias: 'r',
-            description: 'Perform recon to find viable targets for tampering',
-            required: false,
-            requiresArg: true,
-            type: 'string',
-            nargs: 1,
-        },
-        tamper: {
-            alias: 't',
-            description: 'Tampers a lock file.  Provide positional arguments for the path to the target lock file, the integrrity hash of the targeted dependency in the lock file, and the URL of the replacement tar file.',
-            required: false,
-            type: 'array',
-            requiresArg: true,
-            nargs: 3,
         },
         debug: {
             alias: 'd',
@@ -45,13 +60,8 @@ const start = (argParser, shouldShowBanner = true) => {
     const cmdOptions = setOptions(argParser);
     out.init(cmdOptions.debug);
     out.debug('Debug mode enabled...');
-    const options = {
-        debug: cmdOptions.debug,
-        recon: cmdOptions.recon,
-        tamper: cmdOptions.tamper,
-    };
-    out.debug(`Options recieved: ${JSON.stringify(options)}`);
-    return options;
+    out.debug(`Command options recieved: \n${JSON.stringify(cmdOptions, null, 2)}`);
+    return cmdOptions;
 };
 
 export default {
