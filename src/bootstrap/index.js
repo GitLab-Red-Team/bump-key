@@ -65,6 +65,19 @@ const parseRawReconOptions = (cmdOptions) => {
     };
 };
 
+const parseRawTamperOptions = (cmdOptions) => {
+    if (!cmdOptions) throw new Error('Invalid command options provided');
+    return {
+        command: SUPPORTED_COMMANDS.TAMPER,
+        options: {
+            lockfile: cmdOptions.lockfile,
+            package: cmdOptions.package,
+            replacement: cmdOptions.replacement,
+            debug: cmdOptions.debug,
+        },
+    };
+};
+
 const start = (argParser, shouldShowBanner = true) => {
     if (shouldShowBanner) showBanner();
     const cmdOptions = setOptions(argParser);
@@ -77,4 +90,5 @@ const start = (argParser, shouldShowBanner = true) => {
 export default {
     start,
     parseRawReconOptions,
+    parseRawTamperOptions,
 };

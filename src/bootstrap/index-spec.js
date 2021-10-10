@@ -115,4 +115,36 @@ describe('bootstrap', () => {
             expect(parsedReconOptions.options.lockfile).to.eql('./');
         });
     });
+    describe('parseRawTamperOptions', () => {
+        let rawTamperCommandOptionsWithDebug;
+        let parsedTamperOptions;
+        beforeEach(() => {
+            rawTamperCommandOptionsWithDebug = {
+                _: [
+                    'tamper',
+                ],
+                l: './',
+                lockfile: './',
+                p: 'one',
+                package: 'one',
+                r: 'two',
+                replacement: 'two',
+                d: true,
+                debug: true,
+                $0: 'src/index.js',
+            };
+            parsedTamperOptions = bootstrap.parseRawTamperOptions(rawTamperCommandOptionsWithDebug);
+        });
+        afterEach(() => { });
+        it('throws if no raw options are not provided', () => {
+            expect(() => bootstrap.parseRawTamperOptions(undefined)).throws();
+        });
+        it('parses tamper commands properly with debug option set', () => {
+            expect(parsedTamperOptions.command).to.eql('tamper');
+            expect(parsedTamperOptions.options.lockfile).to.eql('./');
+            expect(parsedTamperOptions.options.package).to.eql('one');
+            expect(parsedTamperOptions.options.replacement).to.eql('two');
+            expect(parsedTamperOptions.options.debug).to.eql(true);
+        });
+    });
 });
