@@ -31,10 +31,10 @@ const tamperPackage = async (tamperOptions, data) => {
     return result;
 };
 
-const getTamperedPkgDetails = async (tamperOptions, _logger = out.info) => {
+/* const getTamperedPkgDetails = async (tamperOptions, _logger = out.info) => {
     // execute npm view command to get resolved url and integrity hash
 
-};
+}; */
 
 const start = (options) => {
     common.validateOptions(options, 'tamper')
