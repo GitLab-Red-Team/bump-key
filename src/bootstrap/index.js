@@ -26,9 +26,9 @@ const setOptions = (argParser) => argParser(process.argv.slice(2))
             description: 'The path to the target lockfile',
             ...defaultRequiredStringOption,
         },
-        dependency: {
-            alias: 'd',
-            description: 'The name of the target dependency in the lockfile',
+        package: {
+            alias: 'p',
+            description: 'The name of the target package in the lockfile',
             ...defaultRequiredStringOption,
         },
         replacement: {
