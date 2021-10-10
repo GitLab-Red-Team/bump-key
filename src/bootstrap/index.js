@@ -1,7 +1,7 @@
 import process from 'process';
 import console from 'console';
 import chalk from 'chalk';
-import { BANNER } from '../constants/index.js';
+import { BANNER, SUPPORTED_COMMANDS } from '../constants/index.js';
 import out from '../out/index.js';
 
 const defaultRequiredStringOption = {
@@ -13,14 +13,14 @@ const defaultRequiredStringOption = {
 
 // ref: https://yargs.js.org/docs/#api-reference-optionskey-opt
 const setOptions = (argParser) => argParser(process.argv.slice(2))
-    .command('recon', 'Perform reconnaissance to determine potential targets within a project', {
+    .command(SUPPORTED_COMMANDS.RECON, 'Perform reconnaissance to determine potential targets within a project', {
         lockfile: {
             alias: 'l',
             description: 'The path to the target lockfile',
             ...defaultRequiredStringOption,
         },
     })
-    .command('tamper', 'Tamper a lockfile by supplying target package name and replacement name', {
+    .command(SUPPORTED_COMMANDS.TAMPER, 'Tamper a lockfile by supplying target package name and replacement name', {
         lockfile: {
             alias: 'l',
             description: 'The path to the target lockfile',

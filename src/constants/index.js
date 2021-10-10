@@ -1,3 +1,8 @@
+export const SUPPORTED_COMMANDS = {
+    RECON: 'recon',
+    TAMPER: 'tamper',
+};
+
 export const FILES = {
     YARNLOCK: 'yarn.lock',
     PACKAGELOCK: 'package-lock.json',
