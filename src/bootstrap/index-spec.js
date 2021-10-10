@@ -110,7 +110,7 @@ describe('bootstrap', () => {
         it('throws if no raw options are not provided', () => {
             expect(() => bootstrap.parseRawOptions(undefined)).throws();
         });
-        it('parses recon commands properly', () => {
+        it('parses recon commands properly with debug option set', () => {
             expect(parsedReconOptions.command).to.eql('recon');
             expect(parsedReconOptions.options.lockfile).to.eql('./');
         });
