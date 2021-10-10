@@ -20,7 +20,7 @@ const setOptions = (argParser) => argParser(process.argv.slice(2))
             ...defaultRequiredStringOption,
         },
     })
-    .command('tamper', 'Tamper a lockfile', {
+    .command('tamper', 'Tamper a lockfile by supplying target package name and replacement name', {
         lockfile: {
             alias: 'l',
             description: 'The path to the target lockfile',

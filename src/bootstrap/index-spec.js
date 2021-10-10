@@ -1,7 +1,7 @@
 import {
     afterEach, beforeEach, describe, it,
 } from 'mocha';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 import bootstrap from './index.js';
 
@@ -29,6 +29,48 @@ describe('bootstrap', () => {
     it('should call the argParser function once', () => {
         expect(argParserSpy.calledOnce).to.eql(true);
     });
+    it('should construct the correct recon command set', () => {
+        sinon.assert.calledWith(commandSpy, 'recon', 'Perform reconnaissance to determine potential targets within a project',
+            {
+                lockfile: {
+                    alias: 'l',
+                    description: 'The path to the target lockfile',
+                    required: true,
+                    requiresArg: true,
+                    type: 'string',
+                    nargs: 1,
+                },
+            });
+    });
+    it('should construct the correct tamper command set', () => {
+        sinon.assert.calledWith(commandSpy, 'tamper', 'Tamper a lockfile by supplying target package name and replacement name',
+            {
+                lockfile: {
+                    alias: 'l',
+                    description: 'The path to the target lockfile',
+                    required: true,
+                    requiresArg: true,
+                    type: 'string',
+                    nargs: 1,
+                },
+                dependency: {
+                    alias: 'd',
+                    description: 'The name of the target dependency in the lockfile',
+                    required: true,
+                    requiresArg: true,
+                    type: 'string',
+                    nargs: 1,
+                },
+                replacement: {
+                    alias: 'r',
+                    description: 'The name of npmjs.org dependency to replace the target',
+                    required: true,
+                    requiresArg: true,
+                    type: 'string',
+                    nargs: 1,
+                },
+            });
+    });
     it('should construct the correct option set', () => {
         sinon.assert.calledWith(optionSpy, {
             help: {
@@ -41,8 +83,5 @@ describe('bootstrap', () => {
                 required: false,
             },
         });
-    });
-    it('should not have undefined options', () => {
-        expect(options).not.to.eql(undefined);
     });
 });
