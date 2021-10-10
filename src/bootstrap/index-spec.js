@@ -92,8 +92,18 @@ describe('bootstrap', () => {
     });
     describe('parseRawReconOptions', () => {
         let rawReconCommandOptionsWithDebug;
-        let parsedReconOptions;
+        let parsedReconOptionsWithDebug;
+        let rawReconOptionsWithoutDebug;
+        let parsedReconOptionsWithoutDebug;
         beforeEach(() => {
+            rawReconOptionsWithoutDebug = {
+                _: [
+                    'recon',
+                ],
+                l: './',
+                lockfile: './',
+                $0: 'src/index.js',
+            };
             rawReconCommandOptionsWithDebug = {
                 _: [
                     'recon',
@@ -104,21 +114,44 @@ describe('bootstrap', () => {
                 debug: true,
                 $0: 'src/index.js',
             };
-            parsedReconOptions = bootstrap.parseRawReconOptions(rawReconCommandOptionsWithDebug);
+            parsedReconOptionsWithDebug = bootstrap
+                .parseRawReconOptions(rawReconCommandOptionsWithDebug);
+            parsedReconOptionsWithoutDebug = bootstrap
+                .parseRawReconOptions(rawReconOptionsWithoutDebug);
         });
         afterEach(() => { });
         it('throws if no raw options are not provided', () => {
             expect(() => bootstrap.parseRawOptions(undefined)).throws();
         });
         it('parses recon commands properly with debug option set', () => {
-            expect(parsedReconOptions.command).to.eql('recon');
-            expect(parsedReconOptions.options.lockfile).to.eql('./');
+            expect(parsedReconOptionsWithDebug.command).to.eql('recon');
+            expect(parsedReconOptionsWithDebug.options.lockfile).to.eql('./');
+            expect(parsedReconOptionsWithDebug.options.debug).to.eql(true);
+        });
+        it('parses recon commands properly without the debug option set', () => {
+            expect(parsedReconOptionsWithoutDebug.command).to.eql('recon');
+            expect(parsedReconOptionsWithoutDebug.options.lockfile).to.eql('./');
+            expect(parsedReconOptionsWithoutDebug.options.debug).to.eql(false);
         });
     });
     describe('parseRawTamperOptions', () => {
         let rawTamperCommandOptionsWithDebug;
-        let parsedTamperOptions;
+        let rawTamperOptionsWithoutDebug;
+        let parsedTamperOptionsWithDebug;
+        let parsedTamperOptionsWithoutDebug;
         beforeEach(() => {
+            rawTamperOptionsWithoutDebug = {
+                _: [
+                    'tamper',
+                ],
+                l: './',
+                lockfile: './',
+                p: 'one',
+                package: 'one',
+                r: 'two',
+                replacement: 'two',
+                $0: 'src/index.js',
+            };
             rawTamperCommandOptionsWithDebug = {
                 _: [
                     'tamper',
@@ -133,18 +166,28 @@ describe('bootstrap', () => {
                 debug: true,
                 $0: 'src/index.js',
             };
-            parsedTamperOptions = bootstrap.parseRawTamperOptions(rawTamperCommandOptionsWithDebug);
+            parsedTamperOptionsWithDebug = bootstrap
+                .parseRawTamperOptions(rawTamperCommandOptionsWithDebug);
+            parsedTamperOptionsWithoutDebug = bootstrap
+                .parseRawTamperOptions(rawTamperOptionsWithoutDebug);
         });
         afterEach(() => { });
         it('throws if no raw options are not provided', () => {
             expect(() => bootstrap.parseRawTamperOptions(undefined)).throws();
         });
         it('parses tamper commands properly with debug option set', () => {
-            expect(parsedTamperOptions.command).to.eql('tamper');
-            expect(parsedTamperOptions.options.lockfile).to.eql('./');
-            expect(parsedTamperOptions.options.package).to.eql('one');
-            expect(parsedTamperOptions.options.replacement).to.eql('two');
-            expect(parsedTamperOptions.options.debug).to.eql(true);
+            expect(parsedTamperOptionsWithDebug.command).to.eql('tamper');
+            expect(parsedTamperOptionsWithDebug.options.lockfile).to.eql('./');
+            expect(parsedTamperOptionsWithDebug.options.package).to.eql('one');
+            expect(parsedTamperOptionsWithDebug.options.replacement).to.eql('two');
+            expect(parsedTamperOptionsWithDebug.options.debug).to.eql(true);
+        });
+        it('parses tamper commands propertly without debug option set', () => {
+            expect(parsedTamperOptionsWithoutDebug.command).to.eql('tamper');
+            expect(parsedTamperOptionsWithoutDebug.options.lockfile).to.eql('./');
+            expect(parsedTamperOptionsWithoutDebug.options.package).to.eql('one');
+            expect(parsedTamperOptionsWithoutDebug.options.replacement).to.eql('two');
+            expect(parsedTamperOptionsWithoutDebug.options.debug).to.eql(false);
         });
     });
 });

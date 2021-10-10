@@ -61,6 +61,7 @@ const parseRawReconOptions = (cmdOptions) => {
         command: SUPPORTED_COMMANDS.RECON,
         options: {
             lockfile: cmdOptions.lockfile,
+            debug: cmdOptions.debug || false,
         },
     };
 };
@@ -73,10 +74,16 @@ const parseRawTamperOptions = (cmdOptions) => {
             lockfile: cmdOptions.lockfile,
             package: cmdOptions.package,
             replacement: cmdOptions.replacement,
-            debug: cmdOptions.debug,
+            debug: cmdOptions.debug || false,
         },
     };
 };
+
+const parseRawOptions = (rawOptions) => (
+    rawOptions._[0] === SUPPORTED_COMMANDS.RECON
+        ? parseRawReconOptions(rawOptions)
+        : parseRawTamperOptions(rawOptions)
+);
 
 const start = (argParser, shouldShowBanner = true) => {
     if (shouldShowBanner) showBanner();
@@ -91,4 +98,5 @@ export default {
     start,
     parseRawReconOptions,
     parseRawTamperOptions,
+    parseRawOptions,
 };
