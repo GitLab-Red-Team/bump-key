@@ -6,25 +6,26 @@ import sinon from 'sinon';
 import bootstrap from './index.js';
 
 describe('bootstrap', () => {
-    let options;
+    let sandbox;
     let optionSpy;
     let commandSpy;
     let argParserSpy;
     let obj;
 
     beforeEach(() => {
-        commandSpy = sinon.spy(() => obj);
-        optionSpy = sinon.spy(() => obj);
-        argParserSpy = sinon.spy(() => obj);
+        sandbox = sinon.createSandbox();
+        commandSpy = sandbox.spy(() => obj);
+        optionSpy = sandbox.spy(() => obj);
+        argParserSpy = sandbox.spy(() => obj);
         obj = {
             command: commandSpy,
             options: optionSpy,
             argv: [],
         };
-        options = bootstrap.start(argParserSpy, false);
+        bootstrap.start(argParserSpy, false);
     });
     afterEach(() => {
-        options = undefined;
+        sandbox.restore();
     });
     it('should call the argParser function once', () => {
         expect(argParserSpy.calledOnce).to.eql(true);
