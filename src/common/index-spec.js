@@ -6,6 +6,7 @@ import chai from 'chai';
 import { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import common from './index.js';
+import { SUPPORTED_COMMANDS } from '../constants/index.js';
 
 chai.use(chaiAsPromised);
 
@@ -13,11 +14,18 @@ describe('common', () => {
     describe('validateOptions', () => {
         let tamperOptions;
         let tamperOptionsResult;
-        let requiredPropName;
         beforeEach(async () => {
-            tamperOptions = { tamper: ['', '', ''] };
-            requiredPropName = 'tamper';
-            tamperOptionsResult = await common.validateOptions(tamperOptions, 'tamper');
+            tamperOptions = {
+                command: SUPPORTED_COMMANDS.TAMPER,
+                options: {
+                    lockfile: './',
+                    package: 'one',
+                    replacement: 'two',
+                    debug: true,
+                },
+            };
+            tamperOptionsResult = await common
+                .validateOptions(tamperOptions, SUPPORTED_COMMANDS.TAMPER);
         });
         afterEach(() => {
             tamperOptions = undefined;
@@ -36,8 +44,8 @@ describe('common', () => {
             expect(common.validateOptions(undefined)).to.be.rejectedWith(Error);
         });
         it('returns the passed options when expected property is present and set', () => {
-            expect(tamperOptionsResult).to.have.property(requiredPropName);
-            expect(tamperOptionsResult.tamper).to.have.length(3);
+            expect(tamperOptionsResult.command).to.eql(SUPPORTED_COMMANDS.TAMPER);
+            expect(tamperOptionsResult.options).not.to.eql(undefined);
         });
     });
 });

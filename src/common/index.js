@@ -1,6 +1,6 @@
-const validateOptions = async (options, requiredPropName) => {
-    if (!options || !(requiredPropName in options)) {
-        throw new Error(`Options missing for ${requiredPropName}.  Skipping!`);
+const validateOptions = async (options, requiredCmdName) => {
+    if (!options || !(options.command === requiredCmdName)) {
+        throw new Error(`Options missing for ${requiredCmdName}.  Skipping!`);
     } else {
         return options;
     }
