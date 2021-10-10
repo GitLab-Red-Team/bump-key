@@ -90,6 +90,29 @@ describe('bootstrap', () => {
             });
         });
     });
+    describe('parseRawReconOptions', () => {
+        let rawReconCommandOptionsWithDebug;
+        let parsedReconOptions;
+        beforeEach(() => {
+            rawReconCommandOptionsWithDebug = {
+                _: [
+                    'recon',
+                ],
+                l: './',
+                lockfile: './',
+                d: true,
+                debug: true,
+                $0: 'src/index.js',
+            };
+            parsedReconOptions = bootstrap.parseRawReconOptions(rawReconCommandOptionsWithDebug);
+        });
+        afterEach(() => { });
+        it('throws if no raw options are not provided', () => {
+            expect(() => bootstrap.parseRawOptions(undefined)).throws();
+        });
+        it('parses recon commands properly', () => {
+            expect(parsedReconOptions.command).to.eql('recon');
+            expect(parsedReconOptions.options.lockfile).to.eql('./');
         });
     });
 });

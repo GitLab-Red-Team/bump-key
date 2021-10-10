@@ -55,6 +55,16 @@ const showBanner = () => {
     console.log(`   ${chalk.keyword('purple').bgKeyword('orange')('   ~~~ bump-key v0.0.1 - GitLab Red Team ~~~   \n\n')}`);
 };
 
+const parseRawReconOptions = (cmdOptions) => {
+    if (!cmdOptions) throw new Error('Invalid command options provided');
+    return {
+        command: SUPPORTED_COMMANDS.RECON,
+        options: {
+            lockfile: cmdOptions.lockfile,
+        },
+    };
+};
+
 const start = (argParser, shouldShowBanner = true) => {
     if (shouldShowBanner) showBanner();
     const cmdOptions = setOptions(argParser);
@@ -66,4 +76,5 @@ const start = (argParser, shouldShowBanner = true) => {
 
 export default {
     start,
+    parseRawReconOptions,
 };
