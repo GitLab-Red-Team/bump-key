@@ -31,11 +31,11 @@ const augmentWithNpmView = async (npmViewAsyncFunc, dependencies) => {
     return Promise.all(promises);
 };
 
-const executeNpmCheck = async (options, checker = npmCheck) => {
+const executeNpmCheck = async (command, checker = npmCheck) => {
     const filtered = [];
     const upgradable = [];
-    const { recon } = options;
-    const allDeps = await checker({ cwd: recon }).then((deps) => deps.get('packages')
+    const { lockfile } = command.options;
+    const allDeps = await checker({ cwd: lockfile }).then((deps) => deps.get('packages')
         .map((pkg) => {
             out.debug(`Found ${pkg.moduleName}@${pkg.installed}`);
             return ({

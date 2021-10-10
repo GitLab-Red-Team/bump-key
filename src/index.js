@@ -5,18 +5,21 @@ import bootstrap from './bootstrap/index.js';
 import out from './out/index.js';
 import recon from './recon/index.js';
 import tamper from './tamper/index.js';
+import { SUPPORTED_COMMANDS } from './constants/index.js';
 
 process.on('unhandledRejection', (reason) => {
     out.error(reason.stack);
     process.exit(1);
 });
 
-const options = bootstrap.start(yargs);
+const rawOptions = bootstrap.start(yargs);
 
-if (options.recon) {
+const options = bootstrap.parseRawOptions(rawOptions);
+
+if (options.command === SUPPORTED_COMMANDS.RECON) {
     recon.start(options);
 }
 
-if (options.tamper) {
+if (options.command === SUPPORTED_COMMANDS.TAMPER) {
     tamper.start(options);
 }
