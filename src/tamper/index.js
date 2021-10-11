@@ -32,9 +32,8 @@ const getTamperedPkgView = async (tamperOptions,
 
 const tamperPackage = async (tamperOptions, data, getTamperedPackageFunc = getTamperedPkgView) => {
     const dataCopy = Object.assign(data);
-    const { replacement } = tamperOptions.options;
     const packageName = tamperOptions.options.package;
-    const replacementView = await getTamperedPackageFunc(replacement);
+    const replacementView = await getTamperedPackageFunc(tamperOptions);
     const { tarball, integrity } = replacementView.dist;
     if (!dataCopy.dependencies[packageName]) throw new Error(`Dependency ${packageName} not found...`);
     dataCopy.dependencies[packageName].resolved = tarball;
@@ -46,8 +45,9 @@ const start = (command) => {
     const { lockfile } = command.options;
     common.validateOptions(command, 'tamper')
         .then(() => readPackageLock(lockfile))
-        .then((pkgLock) => tamperPackage(command.options, pkgLock))
+        .then((pkgLock) => tamperPackage(command, pkgLock))
         .then((tamperedPkgLock) => writeTamperedPackageLock(lockfile, tamperedPkgLock))
+        .then(() => out.info('Finished tampering lock file...'))
         .catch(out.error);
 };
 
