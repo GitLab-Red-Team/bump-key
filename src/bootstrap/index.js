@@ -26,12 +26,12 @@ const setOptions = (argParser) => argParser(process.argv.slice(2))
             description: 'The path to the target lockfile',
             ...defaultRequiredStringOption,
         },
-        package: {
+        packageName: {
             alias: 'p',
             description: 'The name of the target package in the lockfile',
             ...defaultRequiredStringOption,
         },
-        replacement: {
+        replacementName: {
             alias: 'r',
             description: 'The name of npmjs.org dependency to replace the target',
             ...defaultRequiredStringOption,
@@ -72,8 +72,8 @@ const parseRawTamperOptions = (cmdOptions) => {
         command: SUPPORTED_COMMANDS.TAMPER,
         options: {
             lockfile: cmdOptions.lockfile,
-            package: cmdOptions.package,
-            replacement: cmdOptions.replacement,
+            packageName: cmdOptions.packageName,
+            replacementName: cmdOptions.replacementName,
             debug: cmdOptions.debug || false,
         },
     };

@@ -34,8 +34,8 @@ describe('tamper', () => {
                 command: SUPPORTED_COMMANDS.TAMPER,
                 options: {
                     lockfile: './',
-                    package: moduleName,
-                    replacement: 'chalkReplacement',
+                    packageName: moduleName,
+                    replacementName: 'chalkReplacement',
                 },
             };
             pkgLockData = {
@@ -86,24 +86,34 @@ describe('tamper', () => {
         let loggerSpy;
         let fileReaderErrorStub;
         let sandbox;
-        const dir = '/opt/somedir';
+        let expectedPath;
+        const tamperCmd = {
+            command: SUPPORTED_COMMANDS.TAMPER,
+            options: {
+                lockfile: '/opt/somepath',
+                packageName: 'viewjs',
+                replacementName: 'tamperedViewJs',
+                debug: false,
+            },
+        };
         beforeEach(async () => {
             sandbox = sinon.createSandbox();
             fileReaderSpy = sandbox.spy();
             loggerSpy = sandbox.spy();
             fileReaderErrorStub = sandbox.stub().returns(Promise.reject(new Error('File not found...')));
-            await tamper.readPackageLock(dir, loggerSpy, fileReaderSpy);
+            expectedPath = tamperCmd.options.lockfile;
+            await tamper.readPackageLock(tamperCmd, loggerSpy, fileReaderSpy);
         });
         afterEach(() => {
             sandbox.restore();
         });
         it('makes proper calls to the file reader function', () => {
             expect(fileReaderSpy.callCount).to.eql(1);
-            expect(fileReaderSpy.args[0][0]).to.eql(`${dir}/package-lock.json`);
+            expect(fileReaderSpy.args[0][0]).to.eql(`${expectedPath}/package-lock.json`);
             expect(fileReaderSpy.args[0][1]).to.eql('utf8');
         });
         it('errors when the package-lock file cannot be found', () => {
-            expect(tamper.readPackageLock(dir, fileReaderErrorStub)).to.be.rejectedWith('File not found...');
+            expect(tamper.readPackageLock(expectedPath, fileReaderErrorStub)).to.be.rejectedWith('File not found...');
         });
         it('called the logger function correctly', () => {
             expect(loggerSpy.callCount).to.eql(1);
@@ -115,26 +125,26 @@ describe('tamper', () => {
         let expectedTamperedPkgDetails;
         let actualTamperedPkgDetails;
         let loggerSpy;
-        let tamperOptions;
+        let tamperCmd;
         beforeEach(async () => {
             sandbox = sinon.createSandbox();
             expectedTamperedPkgDetails = {
                 _id: 'viewjs@0.0.0',
                 name: 'viewjs',
             };
-            tamperOptions = {
+            tamperCmd = {
                 command: SUPPORTED_COMMANDS.TAMPER,
                 options: {
                     lockfile: './',
-                    package: 'viewjs',
-                    replacement: 'tamperedViewJs',
+                    packageName: 'viewjs',
+                    replacementName: 'tamperedViewJs',
                     debug: false,
                 },
             };
             npmViewStub = sandbox.stub().returns(expectedTamperedPkgDetails);
             loggerSpy = sandbox.spy();
             actualTamperedPkgDetails = await tamper
-                .getTamperedPkgView(tamperOptions, npmViewStub, loggerSpy);
+                .getTamperedPkgView(tamperCmd, npmViewStub, loggerSpy);
         });
         afterEach(() => {
             sandbox.reset();
@@ -151,25 +161,35 @@ describe('tamper', () => {
         let loggerSpy;
         let fileWriterErrorStub;
         let sandbox;
-        const dir = '/opt/somedir';
+        let expectedPath;
+        const tamperCmd = {
+            command: SUPPORTED_COMMANDS.TAMPER,
+            options: {
+                lockfile: '/opt/somedir',
+                packageName: 'viewjs',
+                replacementName: 'tamperedViewJs',
+                debug: false,
+            },
+        };
         beforeEach(async () => {
             sandbox = sinon.createSandbox();
             loggerSpy = sandbox.spy();
             fileWriterSpy = sandbox.spy();
             fileWriterErrorStub = sandbox.stub().returns(Promise.reject(new Error('File not found...')));
-            await tamper.writeTamperedPackageLock(dir, {}, loggerSpy, fileWriterSpy);
+            expectedPath = tamperCmd.options.lockfile;
+            await tamper.writeTamperedPackageLock(tamperCmd, {}, loggerSpy, fileWriterSpy);
         });
         afterEach(() => {
             sandbox.restore();
         });
         it('makes proper calls to the file writer function', async () => {
             expect(fileWriterSpy.callCount).to.eql(1);
-            expect(fileWriterSpy.args[0][0]).to.eql(`${dir}/package-lock.json`);
+            expect(fileWriterSpy.args[0][0]).to.eql(`${expectedPath}/package-lock.json`);
             expect(typeof fileWriterSpy.args[0][1]).to.eql('string');
             expect(fileWriterSpy.args[0][1].length).to.eql(2);
         });
         it('errors when the package-lock file cannot be written to', () => {
-            expect(tamper.writeTamperedPackageLock(dir, {}, fileWriterErrorStub)).to.be.rejectedWith('File not found...');
+            expect(tamper.writeTamperedPackageLock(expectedPath, {}, fileWriterErrorStub)).to.be.rejectedWith('File not found...');
         });
         it('calls the logging function correct', () => {
             expect(loggerSpy.callCount).to.eql(1);

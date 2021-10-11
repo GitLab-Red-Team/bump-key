@@ -12,14 +12,13 @@ process.on('unhandledRejection', (reason) => {
     process.exit(1);
 });
 
-const rawOptions = bootstrap.start(yargs);
+const rawCommand = bootstrap.start(yargs);
+const command = bootstrap.parseRawOptions(rawCommand);
 
-const options = bootstrap.parseRawOptions(rawOptions);
-
-if (options.command === SUPPORTED_COMMANDS.RECON) {
-    recon.start(options);
+if (command.command === SUPPORTED_COMMANDS.RECON) {
+    recon.start(command);
 }
 
-if (options.command === SUPPORTED_COMMANDS.TAMPER) {
-    tamper.start(options);
+if (command.command === SUPPORTED_COMMANDS.TAMPER) {
+    tamper.start(command);
 }

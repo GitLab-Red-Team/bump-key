@@ -58,7 +58,7 @@ describe('bootstrap', () => {
                         type: 'string',
                         nargs: 1,
                     },
-                    package: {
+                    packageName: {
                         alias: 'p',
                         description: 'The name of the target package in the lockfile',
                         required: true,
@@ -66,7 +66,7 @@ describe('bootstrap', () => {
                         type: 'string',
                         nargs: 1,
                     },
-                    replacement: {
+                    replacementName: {
                         alias: 'r',
                         description: 'The name of npmjs.org dependency to replace the target',
                         required: true,
@@ -147,9 +147,9 @@ describe('bootstrap', () => {
                 l: './',
                 lockfile: './',
                 p: 'one',
-                package: 'one',
+                packageName: 'one',
                 r: 'two',
-                replacement: 'two',
+                replacementName: 'two',
                 $0: 'src/index.js',
             };
             rawTamperCommandOptionsWithDebug = {
@@ -159,9 +159,9 @@ describe('bootstrap', () => {
                 l: './',
                 lockfile: './',
                 p: 'one',
-                package: 'one',
+                packageName: 'one',
                 r: 'two',
-                replacement: 'two',
+                replacementName: 'two',
                 d: true,
                 debug: true,
                 $0: 'src/index.js',
@@ -178,15 +178,15 @@ describe('bootstrap', () => {
         it('parses tamper commands properly with debug option set', () => {
             expect(parsedTamperOptionsWithDebug.command).to.eql('tamper');
             expect(parsedTamperOptionsWithDebug.options.lockfile).to.eql('./');
-            expect(parsedTamperOptionsWithDebug.options.package).to.eql('one');
-            expect(parsedTamperOptionsWithDebug.options.replacement).to.eql('two');
+            expect(parsedTamperOptionsWithDebug.options.packageName).to.eql('one');
+            expect(parsedTamperOptionsWithDebug.options.replacementName).to.eql('two');
             expect(parsedTamperOptionsWithDebug.options.debug).to.eql(true);
         });
-        it('parses tamper commands propertly without debug option set', () => {
+        it('parses tamper commands properly without debug option set', () => {
             expect(parsedTamperOptionsWithoutDebug.command).to.eql('tamper');
             expect(parsedTamperOptionsWithoutDebug.options.lockfile).to.eql('./');
-            expect(parsedTamperOptionsWithoutDebug.options.package).to.eql('one');
-            expect(parsedTamperOptionsWithoutDebug.options.replacement).to.eql('two');
+            expect(parsedTamperOptionsWithoutDebug.options.packageName).to.eql('one');
+            expect(parsedTamperOptionsWithoutDebug.options.replacementName).to.eql('two');
             expect(parsedTamperOptionsWithoutDebug.options.debug).to.eql(false);
         });
     });
