@@ -3,6 +3,7 @@ import fs from 'fs';
 import util from 'util';
 import out from '../out/index.js';
 import common from '../common/index.js';
+import commands from '../commands/index.js';
 import { FILES } from '../constants/index.js';
 
 const readFile = util.promisify(fs.readFile);
@@ -22,25 +23,31 @@ const writeTamperedPackageLock = async (filePath, pkgLockData,
     await _fileWriter(fileLiteralPath, JSON.stringify(pkgLockData, null, 2));
 };
 
-const tamperPackage = async (tamperOptions, data) => {
-    const result = Object.assign(data);
-    const depName = tamperOptions[1];
-    const updatedResolved = tamperOptions[2];
-    if (!result.dependencies[depName]) throw new Error(`Dependency ${depName} not found...`);
-    result.dependencies[depName].resolved = updatedResolved;
-    return result;
+const getTamperedPkgView = async (tamperOptions,
+    npmViewFunc = commands.npmView, _logger = out.info) => {
+    const { replacement } = tamperOptions.options;
+    _logger(`Retrieving package info for tampered package ${replacement}`);
+    return npmViewFunc(replacement);
 };
 
-/* const getTamperedPkgDetails = async (tamperOptions, _logger = out.info) => {
-    // execute npm view command to get resolved url and integrity hash
+const tamperPackage = async (tamperOptions, data, getTamperedPackageFunc = getTamperedPkgView) => {
+    const dataCopy = Object.assign(data);
+    const { replacement } = tamperOptions.options;
+    const packageName = tamperOptions.options.package;
+    const replacementView = await getTamperedPackageFunc(replacement);
+    const { tarball, integrity } = replacementView.dist;
+    if (!dataCopy.dependencies[packageName]) throw new Error(`Dependency ${packageName} not found...`);
+    dataCopy.dependencies[packageName].resolved = tarball;
+    dataCopy.dependencies[packageName].integrity = integrity;
+    return dataCopy;
+};
 
-}; */
-
-const start = (options) => {
-    common.validateOptions(options, 'tamper')
-        .then(() => readPackageLock(options.tamper[0]))
-        .then((pkgLock) => tamperPackage(options.tamper, pkgLock))
-        .then((tamperedPkgLock) => writeTamperedPackageLock(options.tamper[0], tamperedPkgLock))
+const start = (command) => {
+    const { lockfile } = command.options;
+    common.validateOptions(command, 'tamper')
+        .then(() => readPackageLock(lockfile))
+        .then((pkgLock) => tamperPackage(command.options, pkgLock))
+        .then((tamperedPkgLock) => writeTamperedPackageLock(lockfile, tamperedPkgLock))
         .catch(out.error);
 };
 
@@ -49,4 +56,5 @@ export default {
     readPackageLock,
     writeTamperedPackageLock,
     tamperPackage,
+    getTamperedPkgView,
 };
