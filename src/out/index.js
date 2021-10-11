@@ -21,7 +21,7 @@ const warn = (...txt) => {
 };
 
 const debug = (...txt) => {
-    if (isInDebugMode) log('[d]', chalk.keyword('blue'), txt);
+    if (isInDebugMode) log('[d]', chalk.keyword('white'), txt);
 };
 
 const error = (...txt) => {

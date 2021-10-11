@@ -6,56 +6,188 @@ import sinon from 'sinon';
 import bootstrap from './index.js';
 
 describe('bootstrap', () => {
-    let options;
-    let optionSpy;
-    let argParserSpy;
-    let obj;
+    describe('start', () => {
+        let sandbox;
+        let optionSpy;
+        let commandSpy;
+        let argParserSpy;
+        let obj;
 
-    beforeEach(() => {
-        optionSpy = sinon.spy(() => obj);
-        argParserSpy = sinon.spy(() => obj);
-        obj = {
-            options: optionSpy,
-            argv: [],
-        };
-        options = bootstrap.start(argParserSpy, false);
-    });
-    afterEach(() => {
-        options = undefined;
-    });
-    it('should call the argParser function once', () => {
-        expect(argParserSpy.calledOnce).to.eql(true);
-    });
-    it('should construct the correct option set', () => {
-        sinon.assert.calledWith(optionSpy, {
-            help: {
-                alias: 'h',
-            },
-            recon: {
-                alias: 'r',
-                description: 'Perform recon to find viable targets for tampering',
-                required: false,
-                requiresArg: true,
-                type: 'string',
-                nargs: 1,
-            },
-            tamper: {
-                alias: 't',
-                description: 'Tampers a lock file.  Provide positional arguments for the path to the target lock file, the integrrity hash of the targeted dependency in the lock file, and the URL of the replacement tar file.',
-                required: false,
-                type: 'array',
-                requiresArg: true,
-                nargs: 3,
-            },
-            debug: {
-                alias: 'd',
-                description: 'Enables additional output to aid in debugging',
-                requiresArg: false,
-                required: false,
-            },
+        beforeEach(() => {
+            sandbox = sinon.createSandbox();
+            commandSpy = sandbox.spy(() => obj);
+            optionSpy = sandbox.spy(() => obj);
+            argParserSpy = sandbox.spy(() => obj);
+            obj = {
+                command: commandSpy,
+                options: optionSpy,
+                argv: [],
+            };
+            bootstrap.start(argParserSpy, false);
+        });
+        afterEach(() => {
+            sandbox.restore();
+        });
+        it('should call the argParser function once', () => {
+            expect(argParserSpy.calledOnce).to.eql(true);
+        });
+        it('should construct two commands', () => {
+            expect(commandSpy.callCount).to.eql(2);
+        });
+        it('should construct the correct recon command set', () => {
+            sinon.assert.calledWith(commandSpy, 'recon', 'Perform reconnaissance to determine potential targets within a project',
+                {
+                    lockfile: {
+                        alias: 'l',
+                        description: 'The path to the target lockfile',
+                        required: true,
+                        requiresArg: true,
+                        type: 'string',
+                        nargs: 1,
+                    },
+                });
+        });
+        it('should construct the correct tamper command set', () => {
+            sinon.assert.calledWith(commandSpy, 'tamper', 'Tamper a lockfile by supplying target package name and replacement name',
+                {
+                    lockfile: {
+                        alias: 'l',
+                        description: 'The path to the target lockfile',
+                        required: true,
+                        requiresArg: true,
+                        type: 'string',
+                        nargs: 1,
+                    },
+                    packageName: {
+                        alias: 'p',
+                        description: 'The name of the target package in the lockfile',
+                        required: true,
+                        requiresArg: true,
+                        type: 'string',
+                        nargs: 1,
+                    },
+                    replacementName: {
+                        alias: 'r',
+                        description: 'The name of npmjs.org dependency to replace the target',
+                        required: true,
+                        requiresArg: true,
+                        type: 'string',
+                        nargs: 1,
+                    },
+                });
+        });
+        it('should construct the correct option set', () => {
+            sinon.assert.calledWith(optionSpy, {
+                help: {
+                    alias: 'h',
+                },
+                debug: {
+                    alias: 'd',
+                    description: 'Enables additional output to aid in debugging',
+                    requiresArg: false,
+                    required: false,
+                },
+            });
         });
     });
-    it('should not have undefined options', () => {
-        expect(options).not.to.eql(undefined);
+    describe('parseRawReconOptions', () => {
+        let rawReconCommandOptionsWithDebug;
+        let parsedReconOptionsWithDebug;
+        let rawReconOptionsWithoutDebug;
+        let parsedReconOptionsWithoutDebug;
+        beforeEach(() => {
+            rawReconOptionsWithoutDebug = {
+                _: [
+                    'recon',
+                ],
+                l: './',
+                lockfile: './',
+                $0: 'src/index.js',
+            };
+            rawReconCommandOptionsWithDebug = {
+                _: [
+                    'recon',
+                ],
+                l: './',
+                lockfile: './',
+                d: true,
+                debug: true,
+                $0: 'src/index.js',
+            };
+            parsedReconOptionsWithDebug = bootstrap
+                .parseRawReconOptions(rawReconCommandOptionsWithDebug);
+            parsedReconOptionsWithoutDebug = bootstrap
+                .parseRawReconOptions(rawReconOptionsWithoutDebug);
+        });
+        afterEach(() => { });
+        it('throws if no raw options are not provided', () => {
+            expect(() => bootstrap.parseRawOptions(undefined)).throws();
+        });
+        it('parses recon commands properly with debug option set', () => {
+            expect(parsedReconOptionsWithDebug.command).to.eql('recon');
+            expect(parsedReconOptionsWithDebug.options.lockfile).to.eql('./');
+            expect(parsedReconOptionsWithDebug.options.debug).to.eql(true);
+        });
+        it('parses recon commands properly without the debug option set', () => {
+            expect(parsedReconOptionsWithoutDebug.command).to.eql('recon');
+            expect(parsedReconOptionsWithoutDebug.options.lockfile).to.eql('./');
+            expect(parsedReconOptionsWithoutDebug.options.debug).to.eql(false);
+        });
+    });
+    describe('parseRawTamperOptions', () => {
+        let rawTamperCommandOptionsWithDebug;
+        let rawTamperOptionsWithoutDebug;
+        let parsedTamperOptionsWithDebug;
+        let parsedTamperOptionsWithoutDebug;
+        beforeEach(() => {
+            rawTamperOptionsWithoutDebug = {
+                _: [
+                    'tamper',
+                ],
+                l: './',
+                lockfile: './',
+                p: 'one',
+                packageName: 'one',
+                r: 'two',
+                replacementName: 'two',
+                $0: 'src/index.js',
+            };
+            rawTamperCommandOptionsWithDebug = {
+                _: [
+                    'tamper',
+                ],
+                l: './',
+                lockfile: './',
+                p: 'one',
+                packageName: 'one',
+                r: 'two',
+                replacementName: 'two',
+                d: true,
+                debug: true,
+                $0: 'src/index.js',
+            };
+            parsedTamperOptionsWithDebug = bootstrap
+                .parseRawTamperOptions(rawTamperCommandOptionsWithDebug);
+            parsedTamperOptionsWithoutDebug = bootstrap
+                .parseRawTamperOptions(rawTamperOptionsWithoutDebug);
+        });
+        afterEach(() => { });
+        it('throws if no raw options are not provided', () => {
+            expect(() => bootstrap.parseRawTamperOptions(undefined)).throws();
+        });
+        it('parses tamper commands properly with debug option set', () => {
+            expect(parsedTamperOptionsWithDebug.command).to.eql('tamper');
+            expect(parsedTamperOptionsWithDebug.options.lockfile).to.eql('./');
+            expect(parsedTamperOptionsWithDebug.options.packageName).to.eql('one');
+            expect(parsedTamperOptionsWithDebug.options.replacementName).to.eql('two');
+            expect(parsedTamperOptionsWithDebug.options.debug).to.eql(true);
+        });
+        it('parses tamper commands properly without debug option set', () => {
+            expect(parsedTamperOptionsWithoutDebug.command).to.eql('tamper');
+            expect(parsedTamperOptionsWithoutDebug.options.lockfile).to.eql('./');
+            expect(parsedTamperOptionsWithoutDebug.options.packageName).to.eql('one');
+            expect(parsedTamperOptionsWithoutDebug.options.replacementName).to.eql('two');
+            expect(parsedTamperOptionsWithoutDebug.options.debug).to.eql(false);
+        });
     });
 });

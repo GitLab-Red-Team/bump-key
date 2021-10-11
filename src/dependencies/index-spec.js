@@ -195,7 +195,9 @@ describe('dependendencies', () => {
         let deps;
         let checkerStub;
         const options = {
-            cwd: process.cwd(),
+            options: {
+                lockfile: process.cwd(),
+            },
         };
         beforeEach(async () => {
             const currentStateSpy = {

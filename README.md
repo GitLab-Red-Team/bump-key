@@ -17,19 +17,56 @@ npm run build
 # install the tool globally
 npm run install-global
 # output help information
-bump-key -h
+bumpkey -h
 ```
 
 #### Usage
 
+###### General
 ```
+bumpkey [command]
+
+Commands:
+  bumpkey recon   Perform reconnaissance to determine potential targets within a
+                   project
+  bumpkey tamper  Tamper a lockfile by supplying target package name and replace
+                  ment name
+
 Options:
   -h, --help                                                           [boolean]
-  -v, --version                                                        [boolean]
-  -r, --recon    Default option if no other parameters are given
-  -t, --tamper   Specify the path to the lock file to tamper along with a SHA1
+      --version  Show version number                                   [boolean]
   -d, --debug    Enables additional output to aid in debugging
 ```
+###### Reconnaissance
+```
+bumpkey recon
+
+Perform reconnaissance to determine potential targets within a project
+
+Options:
+  -h, --help                                                           [boolean]
+      --version   Show version number                                  [boolean]
+  -d, --debug     Enables additional output to aid in debugging
+  -l, --lockfile  The path to the target lockfile            [string] [required]
+```
+
+###### Tampering
+```
+bumpkey tamper
+
+Tamper a lockfile by supplying target package name and replacement name
+
+Options:
+  -h, --help                                                           [boolean]
+      --version          Show version number                           [boolean]
+  -d, --debug            Enables additional output to aid in debugging
+  -l, --lockfile         The path to the target lockfile     [string] [required]
+  -p, --packageName      The name of the target package in the lockfile
+                                                             [string] [required]
+  -r, --replacementName  The name of npmjs.org dependency to replace the target
+                                                             [string] [required]
+```
+
 
 #### Contributing
 
