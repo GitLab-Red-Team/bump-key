@@ -142,7 +142,7 @@ describe('tamper', () => {
             expect(actualTamperedPkgDetails).to.eql(expectedTamperedPkgDetails);
         });
         it('logs the correct information', () => {
-            expect(loggerSpy.calledWith('Retrieving package info for tampered package tamperedViewJs')).to.eql(true);
+            expect(loggerSpy.calledWith('Retrieving package info for replacement package tamperedViewJs...')).to.eql(true);
         });
     });
     describe('writeTamperedPackageLock', () => {

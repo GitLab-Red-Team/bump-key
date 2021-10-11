@@ -11,7 +11,7 @@ const writeFile = util.promisify(fs.writeFile);
 
 const readPackageLock = async (filePath, _logger = out.info, _fileReader = readFile) => {
     const fileLiteralPath = path.join(filePath, FILES.PACKAGELOCK);
-    _logger(`Reading existing package lock file ${fileLiteralPath}..`);
+    _logger(`Reading existing package lock file ${fileLiteralPath} for tampering...`);
     const buffer = await _fileReader(fileLiteralPath, 'utf8');
     return buffer ? JSON.parse(buffer) : {};
 };
@@ -26,7 +26,7 @@ const writeTamperedPackageLock = async (filePath, pkgLockData,
 const getTamperedPkgView = async (tamperOptions,
     npmViewFunc = commands.npmView, _logger = out.info) => {
     const { replacement } = tamperOptions.options;
-    _logger(`Retrieving package info for tampered package ${replacement}`);
+    _logger(`Retrieving package info for replacement package ${replacement}...`);
     return npmViewFunc(replacement);
 };
 
