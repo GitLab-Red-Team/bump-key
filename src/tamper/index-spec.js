@@ -21,6 +21,8 @@ describe('tamper', () => {
         let expectedIntegrity;
         let moduleName;
         let sandbox;
+        let getTamperedPkgView;
+        let getTamperedPkgViewInvalid;
         beforeEach(async () => {
             sandbox = sinon.createSandbox();
             moduleName = 'chalk';
@@ -40,33 +42,11 @@ describe('tamper', () => {
                 version: '0.0.1',
                 lockfileVersion: 2,
                 requires: true,
-                packages: {
-                    '': {
-                        license: 'GPL-3.0-or-later',
-                        dependencies: {
-                            chalk: '^4.1.0',
-                        },
-                        bin: {
-                            'bump-key': 'src/index.js',
-                        },
-                        devDependencies: {
-                            chai: '^4.3.3',
-                        },
-                    },
-                    'node_modules/@babel/code-frame': {
-                        version: '7.12.13',
-                        resolved: originalResolved,
-                        integrity: 'sha512-HV1Cm0Q3ZrpCR93tkWOYiuYIgLxZXZFVG2VgK+MBWjUqZTundupbfx2aXarXuw5Ko5aMcjtJgbSs4vUGBS5v6g==',
-                        dependencies: {
-                            '@babel/highlight': '^7.12.13',
-                        },
-                    },
-                },
                 dependencies: {
                     chalk: {
                         version: '4.1.2',
-                        resolved: 'https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz',
-                        integrity: 'sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==',
+                        resolved: originalResolved,
+                        integrity: originalIntegrity,
                         requires: {
                             'ansi-styles': '^4.1.0',
                             'supports-color': '^7.1.0',
@@ -80,7 +60,8 @@ describe('tamper', () => {
                     tarball: expectedResolved,
                 },
             };
-            const getTamperedPkgView = sandbox.stub().returns(npmViewData);
+            getTamperedPkgView = sandbox.stub().returns(npmViewData);
+            getTamperedPkgViewInvalid = sandbox.stub().returns({});
             pkgLockOut = await tamper.tamperPackage(command, pkgLockData, getTamperedPkgView);
         });
         afterEach(() => {
@@ -96,7 +77,7 @@ describe('tamper', () => {
             expect(pkgLockOut.dependencies[moduleName].integrity).to.eql(expectedIntegrity);
         });
         it('errors when the target package is not found', async () => {
-            expect(tamper.tamperPackage(['./', 'missingDep', expectedResolved], pkgLockData)).to.be.rejectedWith('Dependency missingDep not found...');
+            expect(tamper.tamperPackage(command, pkgLockData, getTamperedPkgViewInvalid)).to.be.rejectedWith('Dependency missingDep not found...');
         });
     });
     describe('readPackageLock', () => {
