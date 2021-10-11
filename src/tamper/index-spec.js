@@ -31,6 +31,7 @@ describe('tamper', () => {
             expectedResolved = 'https://registry.npmjs.org/some/other/-/dep-7.12.13.tgz';
             expectedIntegrity = 'sha512-dqnqRkPMAjOZE0FogZ+ceJNM2dZ3V/yNOuFB7+39qpO93hHhfRpHw3heYQC7DPK9FqbQTfBKUJhiSfz4MvXYwg==';
             command = {
+                command: SUPPORTED_COMMANDS.TAMPER,
                 options: {
                     lockfile: './',
                     package: moduleName,
