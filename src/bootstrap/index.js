@@ -52,7 +52,7 @@ const setOptions = (argParser) => argParser(process.argv.slice(2))
 
 const showBanner = () => {
     console.log(chalk.keyword('purple').bold(BANNER));
-    console.log(`   ${chalk.keyword('purple').bgKeyword('orange')('   ~~~ bump-key v0.0.1 - GitLab Red Team ~~~   \n\n')}`);
+    console.log(`   ${chalk.keyword('purple').bgKeyword('orange')('   ~~~ bump-key v1.1.0 - GitLab Red Team ~~~   \n\n')}`);
 };
 
 const parseRawReconOptions = (cmdOptions) => {
