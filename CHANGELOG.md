@@ -1,3 +1,12 @@
+## [1.1.1](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/compare/v1.1.0...v1.1.1) (2021-10-25)
+
+
+### Bug Fixes
+
+* **bootstrap:** get version number from generated changelog ([9a93fa1](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/9a93fa16b0cc20ed17affe6f6f3ef21c6bba73b6))
+* **bootstrap:** rawOptionsParser is a dependency of the bootstrap.start function ([725dfaf](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/725dfafb146a1738f9b38853ba139995f2b58c9e))
+* **changelog:** add a changelog title ([ff0dd6b](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/ff0dd6bb8337d197eafd45e3b5ee975746769d87))
+
 # [1.1.0](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/compare/v1.0.0...v1.1.0) (2021-10-11)
 
 
