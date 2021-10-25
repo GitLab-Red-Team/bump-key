@@ -1,3 +1,10 @@
+## [1.1.2](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/compare/v1.1.1...v1.1.2) (2021-10-25)
+
+
+### Bug Fixes
+
+* **core:** update to latest dependency versions available ([30a0cc1](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/30a0cc1ce7a58f33241140c64e21f7551b9f4fe8))
+
 ## [1.1.1](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/compare/v1.1.0...v1.1.1) (2021-10-25)
 
 
