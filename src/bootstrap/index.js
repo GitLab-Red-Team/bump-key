@@ -102,7 +102,7 @@ const start = async (argParser, shouldShowBanner = true) => {
     out.init(cmdOptions.debug);
     out.debug('Debug mode enabled...');
     out.debug(`Command options recieved: \n${JSON.stringify(cmdOptions, null, 2)}`);
-    return cmdOptions;
+    return parseRawOptions(cmdOptions);
 };
 
 export default {
