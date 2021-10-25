@@ -2,7 +2,7 @@ stages:
   - build
   - release
 
-image: node:15-buster
+image: node:16-buster
 
 build:
   stage: build
