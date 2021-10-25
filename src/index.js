@@ -12,13 +12,15 @@ process.on('unhandledRejection', (reason) => {
     process.exit(1);
 });
 
-const rawCommand = bootstrap.start(yargs);
-const command = bootstrap.parseRawOptions(rawCommand);
+(async () => {
+    const rawCommand = await bootstrap.start(yargs);
+    const command = bootstrap.parseRawOptions(rawCommand);
 
-if (command.command === SUPPORTED_COMMANDS.RECON) {
-    recon.start(command);
-}
+    if (command.command === SUPPORTED_COMMANDS.RECON) {
+        recon.start(command);
+    }
 
-if (command.command === SUPPORTED_COMMANDS.TAMPER) {
-    tamper.start(command);
-}
+    if (command.command === SUPPORTED_COMMANDS.TAMPER) {
+        tamper.start(command);
+    }
+})();
