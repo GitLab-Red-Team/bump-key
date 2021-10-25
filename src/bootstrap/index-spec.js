@@ -1,9 +1,14 @@
 import {
     afterEach, beforeEach, describe, it,
 } from 'mocha';
-import { expect } from 'chai';
+import chai, { expect } from 'chai';
 import sinon from 'sinon';
+import chaiAsPromised from 'chai-as-promised';
+
+import { FILES } from '../constants/index.js';
 import bootstrap from './index.js';
+
+chai.use(chaiAsPromised);
 
 describe('bootstrap', () => {
     describe('start', () => {
@@ -11,22 +16,27 @@ describe('bootstrap', () => {
         let optionSpy;
         let commandSpy;
         let argParserSpy;
+        let rawOptionsParserSpy;
         let obj;
 
-        beforeEach(() => {
+        beforeEach(async () => {
             sandbox = sinon.createSandbox();
             commandSpy = sandbox.spy(() => obj);
             optionSpy = sandbox.spy(() => obj);
             argParserSpy = sandbox.spy(() => obj);
+            rawOptionsParserSpy = sandbox.spy();
             obj = {
                 command: commandSpy,
                 options: optionSpy,
                 argv: [],
             };
-            bootstrap.start(argParserSpy, false);
+            await bootstrap.start(argParserSpy, rawOptionsParserSpy, false);
         });
         afterEach(() => {
             sandbox.restore();
+        });
+        it('should call the rawOptionsParser function once', () => {
+            expect(rawOptionsParserSpy.calledOnce).to.eql(true);
         });
         it('should call the argParser function once', () => {
             expect(argParserSpy.calledOnce).to.eql(true);
@@ -188,6 +198,44 @@ describe('bootstrap', () => {
             expect(parsedTamperOptionsWithoutDebug.options.packageName).to.eql('one');
             expect(parsedTamperOptionsWithoutDebug.options.replacementName).to.eql('two');
             expect(parsedTamperOptionsWithoutDebug.options.debug).to.eql(false);
+        });
+    });
+    describe('getVersionNumber', () => {
+        let fileReader;
+        let fileReaderError;
+        let sandbox;
+        let fakeChangeLog;
+        let actualVersion;
+        let expectedVersion;
+        beforeEach(async () => {
+            fakeChangeLog = `
+Bump-Key
+# [1.1.0](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/compare/v1.0.0...v1.1.0) (2021-10-11)
+
+
+### Bug Fixes
+                
+* **commands:** add helper function to parse readable commands and options ([f46d14a](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/f46d14a57bf944311d9b80563496a96650d7341f))
+            `;
+            sandbox = sinon.createSandbox();
+            fileReader = sandbox.stub().returns(fakeChangeLog);
+            fileReaderError = sandbox.stub().returns(Promise.reject(new Error('File not found...')));
+            expectedVersion = '[1.1.0]';
+            actualVersion = await bootstrap.getVersionNumber(fileReader);
+        });
+        afterEach(() => {
+            sandbox.restore();
+        });
+        it('makes proper calls to the file reader function', () => {
+            expect(fileReader.callCount).to.eql(1);
+            expect(fileReader.args[0][0]).to.eql(`./${FILES.CHANGELOG}`);
+            expect(fileReader.args[0][1]).to.eql('utf8');
+        });
+        it('returns the latest version number', () => {
+            expect(actualVersion).to.eql(expectedVersion);
+        });
+        it('errors when the package-lock file cannot be found', () => {
+            expect(bootstrap.getVersionNumber(fileReaderError)).to.be.rejectedWith('File not found...');
         });
     });
 });

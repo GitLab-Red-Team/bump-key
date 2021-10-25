@@ -6,6 +6,7 @@ export const SUPPORTED_COMMANDS = {
 export const FILES = {
     YARNLOCK: 'yarn.lock',
     PACKAGELOCK: 'package-lock.json',
+    CHANGELOG: 'CHANGELOG.md',
 };
 
 export const DEFAULT_VALUES = {
