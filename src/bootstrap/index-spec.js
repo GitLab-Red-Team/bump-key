@@ -16,6 +16,7 @@ describe('bootstrap', () => {
         let optionSpy;
         let commandSpy;
         let argParserSpy;
+        let rawOptionsParserSpy;
         let obj;
 
         beforeEach(async () => {
@@ -23,15 +24,19 @@ describe('bootstrap', () => {
             commandSpy = sandbox.spy(() => obj);
             optionSpy = sandbox.spy(() => obj);
             argParserSpy = sandbox.spy(() => obj);
+            rawOptionsParserSpy = sandbox.spy();
             obj = {
                 command: commandSpy,
                 options: optionSpy,
                 argv: [],
             };
-            await bootstrap.start(argParserSpy, false);
+            await bootstrap.start(argParserSpy, rawOptionsParserSpy, false);
         });
         afterEach(() => {
             sandbox.restore();
+        });
+        it('should call the rawOptionsParser function once', () => {
+            expect(rawOptionsParserSpy.calledOnce).to.eql(true);
         });
         it('should call the argParser function once', () => {
             expect(argParserSpy.calledOnce).to.eql(true);

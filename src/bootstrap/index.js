@@ -94,7 +94,9 @@ const parseRawOptions = (rawOptions) => (
         : parseRawTamperOptions(rawOptions)
 );
 
-const start = async (argParser, shouldShowBanner = true) => {
+const start = async (argParser,
+    _rawOptionsParser = parseRawReconOptions,
+    shouldShowBanner = true) => {
     if (shouldShowBanner) {
         showBanner(await getVersionNumber(readFile));
     }
@@ -102,7 +104,7 @@ const start = async (argParser, shouldShowBanner = true) => {
     out.init(cmdOptions.debug);
     out.debug('Debug mode enabled...');
     out.debug(`Command options recieved: \n${JSON.stringify(cmdOptions, null, 2)}`);
-    return parseRawOptions(cmdOptions);
+    return _rawOptionsParser(cmdOptions);
 };
 
 export default {
