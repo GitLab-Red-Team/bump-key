@@ -9,8 +9,8 @@ import format from './index.js';
 
 describe('format', () => {
     let exampleDependency;
-    let
-        exampleOutput;
+    let exampleOutput;
+    let result;
     beforeEach(() => {
         exampleDependency = {
             moduleName: 'smarfle',
@@ -41,11 +41,15 @@ describe('format', () => {
     * used in script: true
     * devDependencies: undefined
     * dependencies: undefined`;
+        result = format.dependency(exampleDependency);
     });
     afterEach(() => {
         exampleDependency = null;
     });
     it('should format dependency objects into strings', () => {
-        expect(format.dependency(exampleDependency)).to.eql(exampleOutput);
+        expect(result).to.eql(exampleOutput);
+    });
+    it('should reject when invalid parameters are given', () => {
+        expect(() => format.dependency(undefined)).throws(Error);
     });
 });
