@@ -31,17 +31,17 @@ describe('common', () => {
             tamperOptions = undefined;
             tamperOptionsResult = undefined;
         });
-        it('invalidates when relavent property is missing', () => {
-            expect(common.validateOptions({ recon: ['./'] }, 'missingPropName')).to.be.rejectedWith(Error);
+        it('invalidates when relavent property is missing', async () => {
+            await expect(common.validateOptions({ recon: ['./'] }, 'missingPropName')).to.be.rejectedWith(Error);
         });
-        it('invalidated when the expected property name is not passed', () => {
-            expect(common.validateOptions({ recon: ['./'] })).to.be.rejectedWith(Error);
+        it('invalidated when the expected property name is not passed', async () => {
+            await expect(common.validateOptions({ recon: ['./'] })).to.be.rejectedWith(Error);
         });
-        it('invalidated when the expected property name is empty', () => {
-            expect(common.validateOptions({ recon: ['./'] }), '').to.be.rejectedWith(Error);
+        it('invalidated when the expected property name is empty', async () => {
+            await expect(common.validateOptions({ recon: ['./'] }), '').to.be.rejectedWith(Error);
         });
-        it('invalidates when options are undefined', () => {
-            expect(common.validateOptions(undefined)).to.be.rejectedWith(Error);
+        it('invalidates when options are undefined', async () => {
+            await expect(common.validateOptions(undefined)).to.be.rejectedWith(Error);
         });
         it('returns the passed options when expected property is present and set', () => {
             expect(tamperOptionsResult.command).to.eql(SUPPORTED_COMMANDS.TAMPER);

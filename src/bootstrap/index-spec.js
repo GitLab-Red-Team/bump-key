@@ -234,8 +234,8 @@ Bump-Key
         it('returns the latest version number', () => {
             expect(actualVersion).to.eql(expectedVersion);
         });
-        it('errors when the package-lock file cannot be found', () => {
-            expect(bootstrap.getVersionNumber(fileReaderError)).to.be.rejectedWith('File not found...');
+        it('errors when the package-lock file cannot be found', async () => {
+            await expect(bootstrap.getVersionNumber(fileReaderError)).to.be.rejectedWith('File not found...');
         });
     });
 });
