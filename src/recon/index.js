@@ -5,11 +5,16 @@ import out from '../out/index.js';
 import format from '../format/index.js';
 import { BUMP } from '../constants/index.js';
 
-const doRecon = async (options) => dependencies.executeNpmCheck(options);
+const getNpmCheckDetails = async (command,
+    _executeNpmCheck = dependencies.executeNpmCheck) => _executeNpmCheck(command);
 const augmentWithNpmView = async (allDeps) => {
-    const augmented = await dependencies.augmentWithNpmView(commands.npmView, allDeps.upgradable);
+    const { upgradable } = allDeps;
+    const { npmView } = commands;
+    const augmentedWithNpmView = await dependencies.augmentWithNpmView(
+        npmView, upgradable,
+    );
     const augmentedDeps = Object.assign(allDeps);
-    augmentedDeps.upgradable = augmented;
+    augmentedDeps.upgradable = augmentedWithNpmView;
     return augmentedDeps;
 };
 const showOutput = (allDeps) => {
@@ -27,7 +32,7 @@ const rankUpgradablePackagesByTotalDeps = (allDeps) => {
     });
     return allDeps;
 };
-const ranksUpgradablePackagesByBump = (allDeps) => {
+const rankUpgradablePackagesByBump = (allDeps) => {
     allDeps.upgradable.sort((a, b) => {
         if (a.bump === BUMP.major && b.bump !== BUMP.major) {
             return -1;
@@ -40,15 +45,17 @@ const showFilteredDeps = (allDeps) => out.warn(`Filtered ${Object.entries(allDep
 
 const start = (options) => {
     common.validateOptions(options, 'recon')
-        .then(doRecon)
+        .then(getNpmCheckDetails)
         .then(augmentWithNpmView)
         .then(rankUpgradablePackagesByTotalDeps)
-        .then(ranksUpgradablePackagesByBump)
+        .then(rankUpgradablePackagesByBump)
         .then(showOutput)
         .then(showFilteredDeps)
-        .catch(out.warn);
+        .catch(out.error);
 };
 
 export default {
     start,
+    getNpmCheckDetails,
+    augmentWithNpmView,
 };
