@@ -1,3 +1,13 @@
+## [1.1.3](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/compare/v1.1.2...v1.1.3) (2021-11-09)
+
+
+### Bug Fixes
+
+* **bootstrap:** call the correct function to parse raw options. add debug output depending on function called. ([9db2b7e](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/9db2b7e9006973f47dfe90128b323d1e32ce4035))
+* **common:** undefined requiredCmdName parameter throws properly ([9e7751a](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/9e7751a71daca79d7b6dcb644b5e44e2e58d2fd4))
+* **recon:** improve variable semantics.  add test coverage. ([39f1252](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/39f1252a0122aa11c5c676595b891393133cb984))
+* **recon:** variable naming and test coverage for augment/rankByTotalDeps ([c6da5b0](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/c6da5b09b40d98448fbb4f83df290efe71d3d35d))
+
 ## [1.1.2](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/compare/v1.1.1...v1.1.2) (2021-10-25)
 
 
