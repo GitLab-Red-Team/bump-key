@@ -3,9 +3,12 @@ import sinon from 'sinon';
 import {
     afterEach, beforeEach, describe, it,
 } from 'mocha';
-import { expect } from 'chai';
+import chai, { expect } from 'chai';
+import chaiAsPromised from 'chai-as-promised';
 import { BUMP, DEFAULT_VALUES } from '../constants/index.js';
 import dependencies from './index.js';
+
+chai.use(chaiAsPromised);
 
 describe('dependendencies', () => {
     let fakePackages;
@@ -190,6 +193,12 @@ describe('dependendencies', () => {
             + 'are defined on the source object', () => {
             expect(augmentedBabelDeps[0].devDependencies).to.eql(2);
         });
+        it('rejects when invalid dependency data is passed', async () => {
+            await expect(dependencies.augmentWithNpmView(fakeNpmViewCommandBabel, undefined)).to.be.rejectedWith(Error);
+        });
+        it('rejects when invalid npm view data is passed', async () => {
+            await expect(dependencies.augmentWithNpmView(undefined, [fakePackages[1]])).to.be.rejectedWith(Error);
+        });
     });
     describe('executeNpmCheck', () => {
         let deps;
@@ -204,11 +213,7 @@ describe('dependendencies', () => {
                 get: sinon.stub().returns(fakePackages),
             };
             checkerStub = sinon.stub().resolves(currentStateSpy);
-            deps = await dependencies.executeNpmCheck(options, checkerStub)
-                .then((result) => result)
-                .catch((e) => {
-                    throw e;
-                });
+            deps = await dependencies.executeNpmCheck(options, checkerStub);
         });
         afterEach(() => {
             deps = null;

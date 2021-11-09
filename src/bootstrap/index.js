@@ -66,6 +66,7 @@ const showBanner = (version) => {
 
 const parseRawReconOptions = (cmdOptions) => {
     if (!cmdOptions) throw new Error('Invalid command options provided');
+    out.debug(`Parsing raw recon options: ${JSON.stringify(cmdOptions)}`);
     return {
         command: SUPPORTED_COMMANDS.RECON,
         options: {
@@ -77,6 +78,7 @@ const parseRawReconOptions = (cmdOptions) => {
 
 const parseRawTamperOptions = (cmdOptions) => {
     if (!cmdOptions) throw new Error('Invalid command options provided');
+    out.debug(`Parsing raw tamper options: ${JSON.stringify(cmdOptions)}`);
     return {
         command: SUPPORTED_COMMANDS.TAMPER,
         options: {
@@ -95,7 +97,7 @@ const parseRawOptions = (rawOptions) => (
 );
 
 const start = async (argParser,
-    _rawOptionsParser = parseRawReconOptions,
+    _rawOptionsParser = parseRawOptions,
     shouldShowBanner = true) => {
     if (shouldShowBanner) {
         showBanner(await getVersionNumber(readFile));
