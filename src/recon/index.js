@@ -7,22 +7,22 @@ import { BUMP } from '../constants/index.js';
 
 const getNpmCheckDetails = async (command,
     _executeNpmCheck = dependencies.executeNpmCheck) => _executeNpmCheck(command);
-const augmentWithNpmView = async (allDeps) => {
+const augmentWithNpmView = async (allDeps, _augmentFunc = dependencies.augmentWithNpmView) => {
     const { upgradable } = allDeps;
     const { npmView } = commands;
-    const augmentedWithNpmView = await dependencies.augmentWithNpmView(
+    const augmentedWithNpmView = await _augmentFunc(
         npmView, upgradable,
     );
     const augmentedDeps = Object.assign(allDeps);
     augmentedDeps.upgradable = augmentedWithNpmView;
     return augmentedDeps;
 };
-const showOutput = (allDeps) => {
-    allDeps.upgradable.forEach((dep) => out.info(format.dependency(dep)));
-    return allDeps;
+const showOutput = (augmentedDeps) => {
+    augmentedDeps.upgradable.forEach((dep) => out.info(format.dependency(dep)));
+    return augmentedDeps;
 };
-const rankUpgradablePackagesByTotalDeps = (allDeps) => {
-    allDeps.upgradable.sort((a, b) => {
+const rankUpgradablePackagesByTotalDeps = (augmentedDeps) => {
+    augmentedDeps.upgradable.sort((a, b) => {
         const totalDepsA = a.devDependencies + a.dependencies;
         const totalDepsB = b.devDependencies + a.dependencies;
         if (totalDepsA < totalDepsB) {
@@ -30,18 +30,18 @@ const rankUpgradablePackagesByTotalDeps = (allDeps) => {
         }
         return -1;
     });
-    return allDeps;
+    return augmentedDeps;
 };
-const rankUpgradablePackagesByBump = (allDeps) => {
-    allDeps.upgradable.sort((a, b) => {
+const rankUpgradablePackagesByBump = (augmentedDeps) => {
+    augmentedDeps.upgradable.sort((a, b) => {
         if (a.bump === BUMP.major && b.bump !== BUMP.major) {
             return -1;
         }
         return 1;
     });
-    return allDeps;
+    return augmentedDeps;
 };
-const showFilteredDeps = (allDeps) => out.warn(`Filtered ${Object.entries(allDeps.filtered).length} up-to-date dependencies`);
+const showFilteredDeps = (augmentedDeps) => out.warn(`Filtered ${Object.entries(augmentedDeps.filtered).length} up-to-date dependencies`);
 
 const start = (options) => {
     common.validateOptions(options, 'recon')
@@ -58,4 +58,5 @@ export default {
     start,
     getNpmCheckDetails,
     augmentWithNpmView,
+    rankUpgradablePackagesByTotalDeps,
 };
