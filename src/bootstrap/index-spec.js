@@ -5,7 +5,6 @@ import chai, { expect } from 'chai';
 import sinon from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
 
-import { FILES } from '../constants/index.js';
 import bootstrap from './index.js';
 
 chai.use(chaiAsPromised);
