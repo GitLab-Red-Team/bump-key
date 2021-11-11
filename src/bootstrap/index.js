@@ -1,12 +1,8 @@
 import process from 'process';
 import console from 'console';
 import chalk from 'chalk';
-import util from 'util';
-import fs from 'fs';
-import { BANNER, SUPPORTED_COMMANDS, FILES } from '../constants/index.js';
+import { BANNER, SUPPORTED_COMMANDS } from '../constants/index.js';
 import out from '../out/index.js';
-
-const readFile = util.promisify(fs.readFile);
 
 const defaultRequiredStringOption = {
     required: true,
@@ -55,14 +51,9 @@ const setOptions = (argParser) => argParser(process.argv.slice(2))
     .demandCommand(1)
     .argv;
 
-const getVersionNumber = async (_fileReader = readFile) => {
-    const buffer = await _fileReader(`./${FILES.CHANGELOG}`, 'utf8');
-    return /\[.*\]/.exec(buffer)[0];
-};
-
-const showBanner = (version) => {
+const showBanner = () => {
     console.log(chalk.keyword('purple').bold(BANNER));
-    console.log(`   ${chalk.keyword('purple').bgKeyword('orange')(`   ~~~ bump-key ${version} - GitLab Red Team ~~~   \n\n`)}`);
+    console.log(`   ${chalk.keyword('purple').bgKeyword('orange')('   ~~~ bump-key - GitLab Red Team ~~~   \n')}`);
 };
 
 const parseRawReconOptions = (cmdOptions) => {
@@ -110,7 +101,7 @@ const start = async (argParser,
     _rawOptionsParser = parseRawOptions,
     shouldShowBanner = true) => {
     if (shouldShowBanner) {
-        showBanner(await getVersionNumber(readFile));
+        showBanner();
     }
     const cmdOptions = setOptions(argParser);
     out.init(cmdOptions.debug);
@@ -120,7 +111,6 @@ const start = async (argParser,
 };
 
 export default {
-    getVersionNumber,
     start,
     parseRawReconOptions,
     parseRawTamperOptions,
