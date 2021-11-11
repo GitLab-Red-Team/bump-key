@@ -1,3 +1,16 @@
+## [1.1.4](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/compare/v1.1.3...v1.1.4) (2021-11-11)
+
+
+### Bug Fixes
+
+* **bootstrap:** abandon current version display approach that parses the changelog due to pathing issues ([1df704b](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/1df704bd220b3030894e63426bc26d15a566fb79))
+* **bootstrap:** only output raw options once ([a2d8af5](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/a2d8af51d31d8869e95b5374b59a140637e3ad9e))
+* **bootstrap:** output version number from the package.json ([c26f513](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/c26f5131d375d3267b430611caaa64a63c7b6651))
+* **bootstrap:** raw option parser throws if no supported command provided ([7609cb6](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/7609cb6ce5dcc5ce7a4fb7f70601f4535fb604c1))
+* **bootstrap:** remove unused var (linting error) ([32901c2](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/32901c248a37f04e6ebd610ac08315e14ed91fab))
+* **bootstrap:** show help if no options are provided ([df397ef](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/df397ef5f2d7173007f6eb0a524e5cec05a95811))
+* **build:** use a semantic-release plugin to update version in package.json ([2a79715](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/commit/2a797156ca3cf372fb2ecaad512e9cec284486cc))
+
 ## [1.1.3](https://gitlab.com/gitlab-com/gl-security/security-operations/gl-redteam/bump-key/compare/v1.1.2...v1.1.3) (2021-11-09)
 
 
