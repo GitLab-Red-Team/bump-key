@@ -91,11 +91,20 @@ const parseRawTamperOptions = (cmdOptions) => {
     };
 };
 
-const parseRawOptions = (rawOptions) => (
-    rawOptions._[0] === SUPPORTED_COMMANDS.RECON
-        ? parseRawReconOptions(rawOptions)
-        : parseRawTamperOptions(rawOptions)
-);
+const parseRawOptions = (rawOptions) => {
+    let options;
+    switch (rawOptions._[0]) {
+    case SUPPORTED_COMMANDS.RECON:
+        options = parseRawReconOptions(rawOptions);
+        break;
+    case SUPPORTED_COMMANDS.TAMPER:
+        options = parseRawTamperOptions(rawOptions);
+        break;
+    default:
+        throw new Error('No supported commands provided.  Use --help for usage information.');
+    }
+    return options;
+};
 
 const start = async (argParser,
     _rawOptionsParser = parseRawOptions,

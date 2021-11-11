@@ -112,6 +112,7 @@ describe('bootstrap', () => {
         let parsedReconOptionsWithDebug;
         let rawReconOptionsWithoutDebug;
         let parsedReconOptionsWithoutDebug;
+        let rawOptionsWithoutSupportedCommand;
         beforeEach(() => {
             rawReconOptionsWithoutDebug = {
                 _: [
@@ -131,6 +132,9 @@ describe('bootstrap', () => {
                 debug: true,
                 $0: 'src/index.js',
             };
+            rawOptionsWithoutSupportedCommand = {
+                _: [],
+            };
             parsedReconOptionsWithDebug = bootstrap
                 .parseRawReconOptions(rawReconCommandOptionsWithDebug);
             parsedReconOptionsWithoutDebug = bootstrap
@@ -149,6 +153,9 @@ describe('bootstrap', () => {
             expect(parsedReconOptionsWithoutDebug.command).to.eql('recon');
             expect(parsedReconOptionsWithoutDebug.options.lockfile).to.eql('./');
             expect(parsedReconOptionsWithoutDebug.options.debug).to.eql(false);
+        });
+        it('returns undefined if no supported commands are found', () => {
+            expect(() => bootstrap.parseRawOptions(rawOptionsWithoutSupportedCommand)).to.throw();
         });
     });
     describe('parseRawTamperOptions', () => {
