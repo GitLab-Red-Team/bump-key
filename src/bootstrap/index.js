@@ -48,6 +48,7 @@ const setOptions = (argParser) => argParser(process.argv.slice(2))
             required: false,
         },
     })
+    .version()
     .demandCommand(1)
     .argv;
 
