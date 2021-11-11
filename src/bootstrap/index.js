@@ -52,6 +52,7 @@ const setOptions = (argParser) => argParser(process.argv.slice(2))
             required: false,
         },
     })
+    .demandCommand(1)
     .argv;
 
 const getVersionNumber = async (_fileReader = readFile) => {
