@@ -1,12 +1,8 @@
 import process from 'process';
 import console from 'console';
 import chalk from 'chalk';
-import util from 'util';
-import fs from 'fs';
-import { BANNER, SUPPORTED_COMMANDS, FILES } from '../constants/index.js';
+import { BANNER, SUPPORTED_COMMANDS } from '../constants/index.js';
 import out from '../out/index.js';
-
-const readFile = util.promisify(fs.readFile);
 
 const defaultRequiredStringOption = {
     required: true,
@@ -52,21 +48,17 @@ const setOptions = (argParser) => argParser(process.argv.slice(2))
             required: false,
         },
     })
+    .version()
+    .demandCommand(1)
     .argv;
 
-const getVersionNumber = async (_fileReader = readFile) => {
-    const buffer = await _fileReader(`./${FILES.CHANGELOG}`, 'utf8');
-    return /\[.*\]/.exec(buffer)[0];
-};
-
-const showBanner = (version) => {
+const showBanner = () => {
     console.log(chalk.keyword('purple').bold(BANNER));
-    console.log(`   ${chalk.keyword('purple').bgKeyword('orange')(`   ~~~ bump-key ${version} - GitLab Red Team ~~~   \n\n`)}`);
+    console.log(`   ${chalk.keyword('purple').bgKeyword('orange')('   ~~~ bump-key - GitLab Red Team ~~~   \n')}`);
 };
 
 const parseRawReconOptions = (cmdOptions) => {
     if (!cmdOptions) throw new Error('Invalid command options provided');
-    out.debug(`Parsing raw recon options: ${JSON.stringify(cmdOptions)}`);
     return {
         command: SUPPORTED_COMMANDS.RECON,
         options: {
@@ -78,7 +70,6 @@ const parseRawReconOptions = (cmdOptions) => {
 
 const parseRawTamperOptions = (cmdOptions) => {
     if (!cmdOptions) throw new Error('Invalid command options provided');
-    out.debug(`Parsing raw tamper options: ${JSON.stringify(cmdOptions)}`);
     return {
         command: SUPPORTED_COMMANDS.TAMPER,
         options: {
@@ -90,17 +81,26 @@ const parseRawTamperOptions = (cmdOptions) => {
     };
 };
 
-const parseRawOptions = (rawOptions) => (
-    rawOptions._[0] === SUPPORTED_COMMANDS.RECON
-        ? parseRawReconOptions(rawOptions)
-        : parseRawTamperOptions(rawOptions)
-);
+const parseRawOptions = (rawOptions) => {
+    let options;
+    switch (rawOptions._[0]) {
+    case SUPPORTED_COMMANDS.RECON:
+        options = parseRawReconOptions(rawOptions);
+        break;
+    case SUPPORTED_COMMANDS.TAMPER:
+        options = parseRawTamperOptions(rawOptions);
+        break;
+    default:
+        throw new Error('No supported commands provided.  Use --help for usage information.');
+    }
+    return options;
+};
 
 const start = async (argParser,
     _rawOptionsParser = parseRawOptions,
     shouldShowBanner = true) => {
     if (shouldShowBanner) {
-        showBanner(await getVersionNumber(readFile));
+        showBanner();
     }
     const cmdOptions = setOptions(argParser);
     out.init(cmdOptions.debug);
@@ -110,7 +110,6 @@ const start = async (argParser,
 };
 
 export default {
-    getVersionNumber,
     start,
     parseRawReconOptions,
     parseRawTamperOptions,

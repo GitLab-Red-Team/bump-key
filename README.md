@@ -12,10 +12,8 @@ Installation and execution requires NodeJS version 15 or later.
 ```bash
 # clone the repository
 git clone <repo_uri>
-# build the tooling
-npm run build
 # install the tool globally
-npm run install-global
+npm run install:global
 # output help information
 bumpkey -h
 ```

@@ -7,10 +7,11 @@
   "bin": {
     "bumpkey": "src/index.js"
   },
+  "version": "1.1.3",
   "scripts": {
     "build": "npm install && npm run lint && npm run test",
     "clean": "rm -rf ./node_modules",
-    "install-global": "npm run clean && npm run build && npm i -g .",
+    "install:global": "npm run clean && npm run build && npm i -g .",
     "lint": "npx eslint ./src/**/*.js",
     "test": "npx mocha --recursive ./src/**/*spec.js",
     "test:watch": "npx mocha --recursive ./src/**/*spec.js --watch --parallel"
@@ -35,10 +36,14 @@
           ]
         }
       },
+      ["@semantic-release/npm", {
+        "npmPublish": false
+      }],
       "@semantic-release/git",
       {
         "assets": [
-          "CHANGELOG.md"
+          "CHANGELOG.md",
+          "package.json"
         ]
       },
       "@semantic-release/gitlab"
@@ -58,8 +63,8 @@
   "author": "gitlab.com/codeEmitter",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
-    "@semantic-release/changelog": "^6.0.1",
-    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/changelog": "^6.0.0",
+    "@semantic-release/git": "^10.0.0",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "eslint": "^8.1.0",
