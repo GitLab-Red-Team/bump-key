@@ -17,6 +17,7 @@ describe('bootstrap', () => {
         let demandCommandSpy;
         let argParserSpy;
         let rawOptionsParserSpy;
+        let versionSpy;
         let obj;
 
         beforeEach(async () => {
@@ -26,16 +27,21 @@ describe('bootstrap', () => {
             argParserSpy = sandbox.spy(() => obj);
             rawOptionsParserSpy = sandbox.spy();
             demandCommandSpy = sandbox.spy(() => obj);
+            versionSpy = sandbox.spy(() => obj);
             obj = {
                 command: commandSpy,
                 options: optionSpy,
                 demandCommand: demandCommandSpy,
+                version: versionSpy,
                 argv: [],
             };
             await bootstrap.start(argParserSpy, rawOptionsParserSpy, false);
         });
         afterEach(() => {
             sandbox.restore();
+        });
+        it('should call the version function once', () => {
+            expect(versionSpy.calledOnce).to.eql(true);
         });
         it('should require at least one command', () => {
             expect(demandCommandSpy.calledOnce).to.eql(true);
