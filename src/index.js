@@ -12,12 +12,22 @@ process.on('unhandledRejection', (reason) => {
     process.exit(1);
 });
 
+process.on('SIGINT', () => {
+    out.warn('Received SIGINT. Press Control-D to exit.');
+});
+
+const executeSupportedCommand = (parsedOptions) => {
+    switch (parsedOptions.command) {
+    case SUPPORTED_COMMANDS.RECON:
+        recon.start(parsedOptions);
+        break;
+    case SUPPORTED_COMMANDS.TAMPER:
+        tamper.start(parsedOptions);
+        break;
+    default:
+        out.error('No supported commands provided.  Use --help for usage information.');
+    }
+};
+
 bootstrap.start(yargs)
-    .then((command) => {
-        if (command.command === SUPPORTED_COMMANDS.RECON) {
-            recon.start(command);
-        }
-        if (command.command === SUPPORTED_COMMANDS.TAMPER) {
-            tamper.start(command);
-        }
-    });
+    .then(executeSupportedCommand);
