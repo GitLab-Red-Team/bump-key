@@ -3,7 +3,7 @@
 
 # bump-key
 
-Tamper a lock file replacing a legitimate dependency with a malicious one
+Offensive security tool for tampering nodejs lockfiles and investigating outdated node dependencies to determine targets for an adversarial simulation mimicking one form of supply chain attack.
 
 #### Installation
 
